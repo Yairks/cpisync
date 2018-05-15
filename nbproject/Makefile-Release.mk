@@ -61,7 +61,7 @@ TESTOBJECTFILES= \
 	${TESTDIR}/tests/AuxiliaryTest.o \
 	${TESTDIR}/tests/AuxiliaryTestRunner.o \
 	${TESTDIR}/tests/DataObjectTest.o \
-	${TESTDIR}/tests/DataTestRunner.o \
+	${TESTDIR}/tests/DataObjectTestRunner.o \
 	${TESTDIR}/tests/cpi_system_test.o
 
 # C Compiler Flags
@@ -158,7 +158,7 @@ ${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/cpi_system_test.o ${OBJECTFILES:%.o=%_
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS}   
 
-${TESTDIR}/TestFiles/f3: ${TESTDIR}/tests/DataObjectTest.o ${TESTDIR}/tests/DataTestRunner.o ${OBJECTFILES:%.o=%_nomain.o}
+${TESTDIR}/TestFiles/f3: ${TESTDIR}/tests/DataObjectTest.o ${TESTDIR}/tests/DataObjectTestRunner.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -o ${TESTDIR}/TestFiles/f3 $^ ${LDLIBSOPTIONS}   `cppunit-config --libs`   
 
@@ -187,10 +187,10 @@ ${TESTDIR}/tests/DataObjectTest.o: tests/DataObjectTest.cpp
 	$(COMPILE.cc) -O2 -I/opt/local/include `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/DataObjectTest.o tests/DataObjectTest.cpp
 
 
-${TESTDIR}/tests/DataTestRunner.o: tests/DataTestRunner.cpp 
+${TESTDIR}/tests/DataObjectTestRunner.o: tests/DataObjectTestRunner.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I/opt/local/include `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/DataTestRunner.o tests/DataTestRunner.cpp
+	$(COMPILE.cc) -O2 -I/opt/local/include `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/DataObjectTestRunner.o tests/DataObjectTestRunner.cpp
 
 
 ${OBJECTDIR}/src/CPISync_nomain.o: ${OBJECTDIR}/src/CPISync.o src/CPISync.cpp 

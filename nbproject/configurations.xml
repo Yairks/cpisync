@@ -72,7 +72,7 @@
                      kind="TEST">
         <itemPath>tests/DataObjectTest.cpp</itemPath>
         <itemPath>tests/DataObjectTest.h</itemPath>
-        <itemPath>tests/DataTestRunner.cpp</itemPath>
+        <itemPath>tests/DataObjectTestRunner.cpp</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -247,7 +247,7 @@
       </item>
       <item path="tests/DataObjectTest.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="tests/DataTestRunner.cpp" ex="false" tool="1" flavor2="0">
+      <item path="tests/DataObjectTestRunner.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/cpi_system_test.cpp" ex="false" tool="1" flavor2="9">
         <ccTool>
@@ -415,7 +415,7 @@
       </item>
       <item path="tests/DataObjectTest.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="tests/DataTestRunner.cpp" ex="false" tool="1" flavor2="0">
+      <item path="tests/DataObjectTestRunner.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/cpi_system_test.cpp" ex="false" tool="1" flavor2="0">
       </item>
