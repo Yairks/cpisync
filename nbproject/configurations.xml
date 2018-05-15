@@ -66,6 +66,14 @@
                      kind="TEST">
         <itemPath>tests/cpi_system_test.cpp</itemPath>
       </logicalFolder>
+      <logicalFolder name="f3"
+                     displayName="DataObject Test"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/DataObjectTest.cpp</itemPath>
+        <itemPath>tests/DataObjectTest.h</itemPath>
+        <itemPath>tests/DataTestRunner.cpp</itemPath>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -142,141 +150,7 @@
           </linkerLibItems>
         </linkerTool>
       </folder>
-      <item path="include/Auxiliary.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/CPISync.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/CPISync_ExistingConnection.h"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <item path="include/CPISync_HalfRound.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/CPISync_HalfRound_Hashed.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/CPISync_OneLessRound.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/CommSocket.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/CommString.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/Communicant.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/ConstantsAndTypes.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/DataFileC.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/DataMemC.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/DataObjC.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/DataObject.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/DataPriorityObject.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/Exceptions.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/GenLog.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/GenSync.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/InterCPISync.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/Logger.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/PrioCPISync.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/SyncMethod.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/UID.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="include/probCPISync.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="src/CPISync.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/CommSocket.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/CommString.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Communicant.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/DataObject.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/GenSync.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/InterCPISync.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/Logger.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/SyncMethod.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/UID.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="src/probCPISync.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="tests/AuxiliaryTest.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="tests/AuxiliaryTest.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="tests/AuxiliaryTestRunner.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="tests/cpi_system_test.cpp" ex="false" tool="1" flavor2="9">
-        <ccTool>
-          <architecture>0</architecture>
-          <warningLevel>1</warningLevel>
-        </ccTool>
-      </item>
-    </conf>
-    <conf name="Release" type="2">
-      <toolsSet>
-        <compilerSet>default</compilerSet>
-        <dependencyChecking>true</dependencyChecking>
-        <rebuildPropChanged>false</rebuildPropChanged>
-      </toolsSet>
-      <compileType>
-        <cTool>
-          <developmentMode>5</developmentMode>
-        </cTool>
-        <ccTool>
-          <developmentMode>5</developmentMode>
-          <incDir>
-            <pElem>/opt/local/include</pElem>
-          </incDir>
-        </ccTool>
-        <fortranCompilerTool>
-          <developmentMode>5</developmentMode>
-        </fortranCompilerTool>
-        <asmTool>
-          <developmentMode>5</developmentMode>
-        </asmTool>
-        <linkerTool>
-          <linkerAddLib>
-            <pElem>/opt/local/lib</pElem>
-          </linkerAddLib>
-        </linkerTool>
-      </compileType>
-      <item path="/Users/trachten/Documents/Programming projects/NetBeansProjects/CPISyncLib/README"
-            ex="false"
-            tool="3"
-            flavor2="0">
-      </item>
-      <folder path="TestFiles/f1">
-        <cTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </cTool>
-        <ccTool>
-          <incDir>
-            <pElem>.</pElem>
-          </incDir>
-        </ccTool>
-        <linkerTool>
-          <output>${TESTDIR}/TestFiles/f1</output>
-        </linkerTool>
-      </folder>
-      <folder path="TestFiles/f2">
+      <folder path="TestFiles/f3">
         <cTool>
           <commandLine>`cppunit-config --cflags`</commandLine>
         </cTool>
@@ -284,7 +158,7 @@
           <commandLine>`cppunit-config --cflags`</commandLine>
         </ccTool>
         <linkerTool>
-          <output>${TESTDIR}/TestFiles/f2</output>
+          <output>${TESTDIR}/TestFiles/f3</output>
           <linkerLibItems>
             <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
           </linkerLibItems>
@@ -368,6 +242,180 @@
       <item path="tests/AuxiliaryTest.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tests/AuxiliaryTestRunner.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/DataObjectTest.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/DataObjectTest.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/DataTestRunner.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/cpi_system_test.cpp" ex="false" tool="1" flavor2="9">
+        <ccTool>
+          <architecture>0</architecture>
+          <warningLevel>1</warningLevel>
+        </ccTool>
+      </item>
+    </conf>
+    <conf name="Release" type="2">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <incDir>
+            <pElem>/opt/local/include</pElem>
+          </incDir>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+        <linkerTool>
+          <linkerAddLib>
+            <pElem>/opt/local/lib</pElem>
+          </linkerAddLib>
+        </linkerTool>
+      </compileType>
+      <item path="/Users/trachten/Documents/Programming projects/NetBeansProjects/CPISyncLib/README"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <folder path="TestFiles/f1">
+        <cTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </cTool>
+        <ccTool>
+          <incDir>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f1</output>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f2">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f2</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <folder path="TestFiles/f3">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f3</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
+      <item path="include/Auxiliary.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/CPISync.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/CPISync_ExistingConnection.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="include/CPISync_HalfRound.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/CPISync_HalfRound_Hashed.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/CPISync_OneLessRound.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/CommSocket.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/CommString.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/Communicant.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/ConstantsAndTypes.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/DataFileC.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/DataMemC.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/DataObjC.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/DataObject.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/DataPriorityObject.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/Exceptions.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/GenLog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/GenSync.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/InterCPISync.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/Logger.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/PrioCPISync.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/SyncMethod.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/UID.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="include/probCPISync.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="src/CPISync.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/CommSocket.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/CommString.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Communicant.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/DataObject.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/GenSync.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/InterCPISync.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/Logger.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/SyncMethod.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/UID.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="src/probCPISync.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/AuxiliaryTest.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/AuxiliaryTest.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/AuxiliaryTestRunner.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/DataObjectTest.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/DataObjectTest.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/DataTestRunner.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/cpi_system_test.cpp" ex="false" tool="1" flavor2="0">
       </item>
