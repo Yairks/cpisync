@@ -24,23 +24,7 @@ void DataObjectTest::setUp(){
 
 void DataObjectTest::tearDown(){ 
 }
-/*
-void DataObjectTest::testInitNoArgs(){
-    
-}
 
-void DataObjectTest::testInitZZ(){
-    
-}
-
-void DataObjectTest::testInitString(){
-    
-}
-
-void DataObjectTest::testInitStringable(){
-    
-}
-*/
 void DataObjectTest::testToZZAndInitZZ(){
     const short init = 64;
     const ZZ zz = static_cast<ZZ>(init);
