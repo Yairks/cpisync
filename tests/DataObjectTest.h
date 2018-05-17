@@ -14,23 +14,16 @@
 class DataObjectTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(DataObjectTest);
 
-    CPPUNIT_TEST(testInitNoArgs);
-    CPPUNIT_TEST(testInitZZ);
-    CPPUNIT_TEST(testInitString);
-    CPPUNIT_TEST(testInitStringable);
-    CPPUNIT_TEST(testToZZ);
-    CPPUNIT_TEST(testToString);
-    CPPUNIT_TEST(testToPriorityString);
+    CPPUNIT_TEST(testToZZAndInitZZ);
+    CPPUNIT_TEST(testToStringAndInitString);
+    CPPUNIT_TEST(testToStringAndInitEmpty);
+    CPPUNIT_TEST(testToPriorityStringAndInitStringableAndSetPriority);
     CPPUNIT_TEST(testToCharArray);
     CPPUNIT_TEST(testPrint);
     CPPUNIT_TEST(testStreamInsertion);
     CPPUNIT_TEST(testLessThan);
-    CPPUNIT_TEST(testSetPriority);
-    CPPUNIT_TEST(testGetPriority);
-    CPPUNIT_TEST(testSetTimeStamp);
-    CPPUNIT_TEST(testGetTimeStamp);
-    CPPUNIT_TEST(testPack);
-    CPPUNIT_TEST(testUnpack);
+    CPPUNIT_TEST(testPriority);
+    CPPUNIT_TEST(testTimeStamp);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -41,23 +34,16 @@ public:
     void tearDown();
 
 private:
-    void testInitNoArgs();
-    void testInitZZ();
-    void testInitString();
-    void testInitStringable();
-    void testToZZ();
-    void testToString();
-    void testToPriorityString();
+    void testToZZAndInitZZ();
+    void testToStringAndInitString();
+    void testToStringAndInitEmpty();
+    void testToPriorityStringAndInitStringableAndSetPriority();
     void testToCharArray();
     void testPrint();
     void testStreamInsertion();
     void testLessThan();
-    void testSetPriority();
-    void testGetPriority();
-    void testSetTimeStamp();
-    void testGetTimeStamp();
-    void testPack();
-    void testUnpack();
+    void testPriority();
+    void testTimeStamp();
 };
 
 #endif /* DATAOBJECTTEST_H */
