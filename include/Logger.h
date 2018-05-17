@@ -19,7 +19,7 @@
 #include <cstdio>
 #include <iostream>
 #include <unistd.h>
-
+using namespace std;
 /**
  * A simplified logging class.
  */

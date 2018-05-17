@@ -74,6 +74,14 @@
         <itemPath>tests/DataObjectTest.h</itemPath>
         <itemPath>tests/DataObjectTestRunner.cpp</itemPath>
       </logicalFolder>
+      <logicalFolder name="f4"
+                     displayName="Logger Test"
+                     projectFiles="true"
+                     kind="TEST">
+        <itemPath>tests/LoggerTest.cpp</itemPath>
+        <itemPath>tests/LoggerTest.h</itemPath>
+        <itemPath>tests/LoggerTestRunner.cpp</itemPath>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -164,6 +172,20 @@
           </linkerLibItems>
         </linkerTool>
       </folder>
+      <folder path="TestFiles/f4">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f4</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
       <item path="include/Auxiliary.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/CPISync.h" ex="false" tool="3" flavor2="0">
@@ -248,6 +270,12 @@
       <item path="tests/DataObjectTest.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tests/DataObjectTestRunner.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/LoggerTest.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/LoggerTest.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/LoggerTestRunner.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/cpi_system_test.cpp" ex="false" tool="1" flavor2="9">
         <ccTool>
@@ -332,6 +360,20 @@
           </linkerLibItems>
         </linkerTool>
       </folder>
+      <folder path="TestFiles/f4">
+        <cTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </cTool>
+        <ccTool>
+          <commandLine>`cppunit-config --cflags`</commandLine>
+        </ccTool>
+        <linkerTool>
+          <output>${TESTDIR}/TestFiles/f4</output>
+          <linkerLibItems>
+            <linkerOptionItem>`cppunit-config --libs`</linkerOptionItem>
+          </linkerLibItems>
+        </linkerTool>
+      </folder>
       <item path="include/Auxiliary.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="include/CPISync.h" ex="false" tool="3" flavor2="0">
@@ -416,6 +458,12 @@
       <item path="tests/DataObjectTest.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="tests/DataObjectTestRunner.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/LoggerTest.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/LoggerTest.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/LoggerTestRunner.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="tests/cpi_system_test.cpp" ex="false" tool="1" flavor2="0">
       </item>
