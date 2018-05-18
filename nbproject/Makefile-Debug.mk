@@ -55,12 +55,15 @@ TESTFILES= \
 	${TESTDIR}/TestFiles/f2 \
 	${TESTDIR}/TestFiles/f1 \
 	${TESTDIR}/TestFiles/f3 \
-	${TESTDIR}/TestFiles/f4
+	${TESTDIR}/TestFiles/f4 \
+	${TESTDIR}/TestFiles/f5
 
 # Test Object Files
 TESTOBJECTFILES= \
 	${TESTDIR}/tests/AuxiliaryTest.o \
 	${TESTDIR}/tests/AuxiliaryTestRunner.o \
+	${TESTDIR}/tests/CommStringTest.o \
+	${TESTDIR}/tests/CommStringTestRunner.o \
 	${TESTDIR}/tests/DataObjectTest.o \
 	${TESTDIR}/tests/DataObjectTestRunner.o \
 	${TESTDIR}/tests/LoggerTest.o \
@@ -169,6 +172,10 @@ ${TESTDIR}/TestFiles/f4: ${TESTDIR}/tests/LoggerTest.o ${TESTDIR}/tests/LoggerTe
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -o ${TESTDIR}/TestFiles/f4 $^ ${LDLIBSOPTIONS}   `cppunit-config --libs`   
 
+${TESTDIR}/TestFiles/f5: ${TESTDIR}/tests/CommStringTest.o ${TESTDIR}/tests/CommStringTestRunner.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc} -o ${TESTDIR}/TestFiles/f5 $^ ${LDLIBSOPTIONS}   `cppunit-config --libs`   
+
 
 ${TESTDIR}/tests/AuxiliaryTest.o: tests/AuxiliaryTest.cpp 
 	${MKDIR} -p ${TESTDIR}/tests
@@ -210,6 +217,18 @@ ${TESTDIR}/tests/LoggerTestRunner.o: tests/LoggerTestRunner.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Iinclude -I/opt/local/include -std=c++11 -std=c++11 `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/LoggerTestRunner.o tests/LoggerTestRunner.cpp
+
+
+${TESTDIR}/tests/CommStringTest.o: tests/CommStringTest.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Iinclude -I/opt/local/include -std=c++11 -std=c++11 `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/CommStringTest.o tests/CommStringTest.cpp
+
+
+${TESTDIR}/tests/CommStringTestRunner.o: tests/CommStringTestRunner.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Iinclude -I/opt/local/include -std=c++11 -std=c++11 `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/CommStringTestRunner.o tests/CommStringTestRunner.cpp
 
 
 ${OBJECTDIR}/src/CPISync_nomain.o: ${OBJECTDIR}/src/CPISync.o src/CPISync.cpp 
@@ -363,6 +382,7 @@ ${OBJECTDIR}/src/probCPISync_nomain.o: ${OBJECTDIR}/src/probCPISync.o src/probCP
 	    ${TESTDIR}/TestFiles/f1 || true; \
 	    ${TESTDIR}/TestFiles/f3 || true; \
 	    ${TESTDIR}/TestFiles/f4 || true; \
+	    ${TESTDIR}/TestFiles/f5 || true; \
 	else  \
 	    ./${TEST} || true; \
 	fi
