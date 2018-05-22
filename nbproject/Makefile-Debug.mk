@@ -54,6 +54,7 @@ TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
 TESTFILES= \
 	${TESTDIR}/TestFiles/f2 \
 	${TESTDIR}/TestFiles/f6 \
+	${TESTDIR}/TestFiles/f7 \
 	${TESTDIR}/TestFiles/f1 \
 	${TESTDIR}/TestFiles/f3 \
 	${TESTDIR}/TestFiles/f4 \
@@ -67,6 +68,8 @@ TESTOBJECTFILES= \
 	${TESTDIR}/tests/CommSocketTestRunner.o \
 	${TESTDIR}/tests/CommStringTest.o \
 	${TESTDIR}/tests/CommStringTestRunner.o \
+	${TESTDIR}/tests/CommunicantTest.o \
+	${TESTDIR}/tests/CommunicantTestRunner.o \
 	${TESTDIR}/tests/DataObjectTest.o \
 	${TESTDIR}/tests/DataObjectTestRunner.o \
 	${TESTDIR}/tests/LoggerTest.o \
@@ -167,6 +170,10 @@ ${TESTDIR}/TestFiles/f6: ${TESTDIR}/tests/CommSocketTest.o ${TESTDIR}/tests/Comm
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -o ${TESTDIR}/TestFiles/f6 $^ ${LDLIBSOPTIONS}   `cppunit-config --libs`   
 
+${TESTDIR}/TestFiles/f7: ${TESTDIR}/tests/CommunicantTest.o ${TESTDIR}/tests/CommunicantTestRunner.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc} -o ${TESTDIR}/TestFiles/f7 $^ ${LDLIBSOPTIONS}   `cppunit-config --libs`   
+
 ${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/cpi_system_test.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS}   
@@ -206,6 +213,18 @@ ${TESTDIR}/tests/CommSocketTestRunner.o: tests/CommSocketTestRunner.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -Iinclude -I/opt/local/include -std=c++11 -std=c++11 `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/CommSocketTestRunner.o tests/CommSocketTestRunner.cpp
+
+
+${TESTDIR}/tests/CommunicantTest.o: tests/CommunicantTest.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Iinclude -I/opt/local/include -std=c++11 -std=c++11 `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/CommunicantTest.o tests/CommunicantTest.cpp
+
+
+${TESTDIR}/tests/CommunicantTestRunner.o: tests/CommunicantTestRunner.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -Iinclude -I/opt/local/include -std=c++11 -std=c++11 `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/CommunicantTestRunner.o tests/CommunicantTestRunner.cpp
 
 
 ${TESTDIR}/tests/cpi_system_test.o: tests/cpi_system_test.cpp 
@@ -399,6 +418,7 @@ ${OBJECTDIR}/src/probCPISync_nomain.o: ${OBJECTDIR}/src/probCPISync.o src/probCP
 	then  \
 	    ${TESTDIR}/TestFiles/f2 || true; \
 	    ${TESTDIR}/TestFiles/f6 || true; \
+	    ${TESTDIR}/TestFiles/f7 || true; \
 	    ${TESTDIR}/TestFiles/f1 || true; \
 	    ${TESTDIR}/TestFiles/f3 || true; \
 	    ${TESTDIR}/TestFiles/f4 || true; \

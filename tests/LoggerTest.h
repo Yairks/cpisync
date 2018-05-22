@@ -16,6 +16,7 @@ class LoggerTest : public CPPUNIT_NS::TestFixture {
 
     CPPUNIT_TEST(testError);
     CPPUNIT_TEST(testErrorQuit);
+    CPPUNIT_TEST(testGLog);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -28,6 +29,8 @@ public:
 private:
     void testError();
     void testErrorQuit();
+    void testGLog();
+    
 };
 
 #endif /* LOGGERTEST_H */

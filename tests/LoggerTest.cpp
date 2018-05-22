@@ -24,6 +24,10 @@ void LoggerTest::setUp() {
 void LoggerTest::tearDown() {
 }
 
+void LoggerTest::testGLog() {
+
+}
+
 void LoggerTest::testError() {
     string message = "Error! You messed up.";
     Logger::error(message);

@@ -22,10 +22,11 @@ CommSocketTest::CommSocketTest() {
     connector = new CommSocket(port, host);
 }
 
-CommSocketTest::~CommSocketTest() {
+CommSocketTest::~CommSocketTest(){
     delete listener;
     delete connector;
 }
+
 
 void CommSocketTest::setUp() {
 }
@@ -57,14 +58,7 @@ void CommSocketTest::testCommListenAndConnect() {
     pthread_join(t1, NULL);
     CPPUNIT_ASSERT_MESSAGE("listen and connect completed successfully", true);
 }
-//void CommSocketTest::testCommConnect() {
-//    CommSocket commSocket;
-//    commSocket.commConnect();
-//    if (true /*check result*/) {
-//        CPPUNIT_ASSERT(false);
-//    }
-//}
-//
+
 void CommSocketTest::testCommClose() {
 //    CommSocket commSocket;
 //    commSocket.commClose();
@@ -72,7 +66,7 @@ void CommSocketTest::testCommClose() {
 //        CPPUNIT_ASSERT(false);
 //    }
 }
-//
+
 void CommSocketTest::testCommSendAndRecv() {
 //    const char* toSend;
 //    const int numBytes;
