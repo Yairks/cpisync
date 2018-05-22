@@ -68,10 +68,33 @@ void CommStringTest::testComm(){
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Send and receive worked correctly pt 1...", expected, cs.commRecv(sendLen - 1));
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Send and receive worked correctly pt 2...", expected2, cs.commRecv(sendLen - 3));
     
+    /*
+    const int bufSize = 8192;
+    const int amtB = 500;
+    const int tooLongSize = bufSize + amtB;
+    char tooLong[tooLongSize];
+    const char fillA = 'a';
+    const char fillB = 'b';
+    
+    for(int i = 0; i < tooLongSize; i++){
+        if(i < bufSize - amtB){
+            tooLong[i] = fillA;
+        } else {
+            tooLong[i] = fillB;
+        }
+    }
+    
+    cs.commSend(tooLong, tooLongSize);
     cs.commClose();
+    string j = cs.commRecv(tooLongSize );
+    */
     
-    // Not sure how to test closing...
-    
-    
+    // not so sure how to test commClose()... above is how i'm currently approaching it
+    // essentially, I am trying to send some text that's bigger than the buffer in commString.
+    // this text is 8192 (the size of the buffer) 'a's and 500 'b's.
+    // before cs.commClose() is called, doing cs.commRecv(tooLongSize) should return the entire buffer, which should
+    // just be 'a's, because the 'b's would've exceeded the bounds of the buffer.
+    // evidently, i'm going about this the wrong way because cs.commRecv(tooLongSize) returns the entire tooLong
+    // string, both before and after cs.commClose().
     
 }

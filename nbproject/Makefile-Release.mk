@@ -53,6 +53,7 @@ TESTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tests
 # Test Files
 TESTFILES= \
 	${TESTDIR}/TestFiles/f2 \
+	${TESTDIR}/TestFiles/f6 \
 	${TESTDIR}/TestFiles/f1 \
 	${TESTDIR}/TestFiles/f3 \
 	${TESTDIR}/TestFiles/f4 \
@@ -62,6 +63,8 @@ TESTFILES= \
 TESTOBJECTFILES= \
 	${TESTDIR}/tests/AuxiliaryTest.o \
 	${TESTDIR}/tests/AuxiliaryTestRunner.o \
+	${TESTDIR}/tests/CommSocketTest.o \
+	${TESTDIR}/tests/CommSocketTestRunner.o \
 	${TESTDIR}/tests/CommStringTest.o \
 	${TESTDIR}/tests/CommStringTestRunner.o \
 	${TESTDIR}/tests/DataObjectTest.o \
@@ -160,6 +163,10 @@ ${TESTDIR}/TestFiles/f2: ${TESTDIR}/tests/AuxiliaryTest.o ${TESTDIR}/tests/Auxil
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -o ${TESTDIR}/TestFiles/f2 $^ ${LDLIBSOPTIONS}   `cppunit-config --libs`   
 
+${TESTDIR}/TestFiles/f6: ${TESTDIR}/tests/CommSocketTest.o ${TESTDIR}/tests/CommSocketTestRunner.o ${OBJECTFILES:%.o=%_nomain.o}
+	${MKDIR} -p ${TESTDIR}/TestFiles
+	${LINK.cc} -o ${TESTDIR}/TestFiles/f6 $^ ${LDLIBSOPTIONS}   `cppunit-config --libs`   
+
 ${TESTDIR}/TestFiles/f1: ${TESTDIR}/tests/cpi_system_test.o ${OBJECTFILES:%.o=%_nomain.o}
 	${MKDIR} -p ${TESTDIR}/TestFiles
 	${LINK.cc} -o ${TESTDIR}/TestFiles/f1 $^ ${LDLIBSOPTIONS}   
@@ -187,6 +194,18 @@ ${TESTDIR}/tests/AuxiliaryTestRunner.o: tests/AuxiliaryTestRunner.cpp
 	${MKDIR} -p ${TESTDIR}/tests
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -I/opt/local/include `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/AuxiliaryTestRunner.o tests/AuxiliaryTestRunner.cpp
+
+
+${TESTDIR}/tests/CommSocketTest.o: tests/CommSocketTest.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I/opt/local/include `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/CommSocketTest.o tests/CommSocketTest.cpp
+
+
+${TESTDIR}/tests/CommSocketTestRunner.o: tests/CommSocketTestRunner.cpp 
+	${MKDIR} -p ${TESTDIR}/tests
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I/opt/local/include `cppunit-config --cflags` -MMD -MP -MF "$@.d" -o ${TESTDIR}/tests/CommSocketTestRunner.o tests/CommSocketTestRunner.cpp
 
 
 ${TESTDIR}/tests/cpi_system_test.o: tests/cpi_system_test.cpp 
@@ -379,6 +398,7 @@ ${OBJECTDIR}/src/probCPISync_nomain.o: ${OBJECTDIR}/src/probCPISync.o src/probCP
 	@if [ "${TEST}" = "" ]; \
 	then  \
 	    ${TESTDIR}/TestFiles/f2 || true; \
+	    ${TESTDIR}/TestFiles/f6 || true; \
 	    ${TESTDIR}/TestFiles/f1 || true; \
 	    ${TESTDIR}/TestFiles/f3 || true; \
 	    ${TESTDIR}/TestFiles/f4 || true; \

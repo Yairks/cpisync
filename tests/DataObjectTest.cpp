@@ -175,7 +175,7 @@ void DataObjectTest::testLessThan(){
 
 void DataObjectTest::testPriority(){
     const int _priority = 5;
-    const ZZ priority = static_cast<ZZ>(priority);
+    const ZZ priority = static_cast<ZZ>(_priority);
     DataObject d;
     d.setPriority(priority);
     CPPUNIT_ASSERT(d.getPriority() == priority);
