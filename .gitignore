@@ -44,4 +44,7 @@ nbdist/
 .nb-gradle/
 
 # End of https://www.gitignore.io/api/c++,netbeans
-
+# eliezer local changes that he doesnt want remote pls ignore haha puns
+tests/cpi-system-test.cpp
+include/Logger.h
+nbproject/

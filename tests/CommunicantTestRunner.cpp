@@ -3,7 +3,7 @@
  * File:   CommunicantTestRunner.cpp
  * Author: kaets
  * 
- * Created on May 22, 2018, 2:43:39 PM
+ * Created on May 24, 2018, 10:08:53 AM
  */
 
 // CppUnit site http://sourceforge.net/projects/cppunit/files
