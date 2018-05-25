@@ -14,6 +14,7 @@
 #include <list>
 
 #include "UID.h"
+#include "Auxiliary.h"
 
 // namespaces
 using std::string;
@@ -49,8 +50,10 @@ public:
      * simply converts the object to a string and then does the same as the string constructor.
      * @param item The item to place in the DataObject.
      */
-    template<typename T>
-    DataObject(const T item);
+    template<typename T> 
+    DataObject(const T item){
+        myBuffer = pack(toStr<T>(item));
+    }
     
     // INFORMATION METHODS
 
