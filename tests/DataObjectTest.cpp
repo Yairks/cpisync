@@ -140,18 +140,16 @@ void DataObjectTest::testToCharArray(){
     int result_len;
     const char *result = d.to_char_array(result_len);
     
-    CPPUNIT_ASSERT_EQUAL(expected_len, result_len);
     
     // assert equality of char* arrays by checking equality of
-    // each corresponding element. and since we already asserted
-    // that expected_len == result_len, we shouldn't expect to access
-    // out-of-bounds values.
+    // each corresponding element.
     bool same = true;
     for(int i = 0; i < result_len; i++){
         if(result[i] != expected[i])
             same = false;
     }
     
+    CPPUNIT_ASSERT_EQUAL(expected_len, result_len);
     CPPUNIT_ASSERT(same);
     
 }
