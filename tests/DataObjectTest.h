@@ -46,5 +46,7 @@ private:
     void testTimeStamp();
 };
 
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( DataObjectTest, DataObjectTest );
+
 #endif /* DATAOBJECTTEST_H */
 

@@ -35,5 +35,7 @@ private:
 
 };
 
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( CommSocketTest, CommSocketTest );
+
 #endif /* COMMSOCKETTEST_H */
 

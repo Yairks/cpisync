@@ -33,5 +33,6 @@ private:
     
 };
 
-#endif /* LOGGERTEST_H */
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( LoggerTest, LoggerTest );
 
+#endif /* LOGGERTEST_H */

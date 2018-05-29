@@ -89,5 +89,8 @@ private:
 
 };
 
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( CommunicantTest, CommunicantTest );
+
+
 #endif /* COMMUNICANTTEST_H */
 

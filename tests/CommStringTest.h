@@ -33,5 +33,7 @@ private:
 
 };
 
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION( CommStringTest, CommStringTest );
+
 #endif /* COMMSTRINGTEST_H */
 
