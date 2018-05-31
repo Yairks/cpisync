@@ -19,6 +19,7 @@ set(SOURCE_FILES
         src/probCPISync.cpp
         src/SyncMethod.cpp
         src/UID.cpp
+        tests/CommDummy.cpp
 )
 
 include_directories(include)
