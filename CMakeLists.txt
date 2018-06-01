@@ -45,6 +45,13 @@ ADD_EXECUTABLE(DataObjectTest.exe
 target_link_libraries(DataObjectTest.exe cpisynclib ntl cppunit gmp)
 ADD_TEST(DataObjectTest DataObjectTest.exe)
 
+ADD_EXECUTABLE(CommStringTest.exe
+    ${TEST_DIR}/CommStringTestRunner.cpp
+    ${TEST_DIR}/CommStringTest.cpp
+)
+target_link_libraries(CommStringTest.exe cpisynclib ntl cppunit gmp)
+ADD_TEST(CommStringTest CommStringTest.exe)
+
 # TODO: Add all testa automagically
 # FILE(GLOB UnitTests_SRCS ${TEST_DIR} "*TestRunner.cpp" )
 # FOREACH(test ${UnitTests_SRCS})
