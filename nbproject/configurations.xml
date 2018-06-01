@@ -51,7 +51,13 @@
         <rebuildPropChanged>false</rebuildPropChanged>
       </toolsSet>
       <flagsDictionary>
-        <element flagsID="0" commonFlags="-std=gnu++11"/>
+        <element flagsID="0"
+                 commonFlags="-mtune=generic -march=x86-64 -std=c++11 -fPIC -fstack-protector-strong"/>
+        <element flagsID="1"
+                 commonFlags="-mtune=generic -march=x86-64 -std=c++11 -std=c++11 -fstack-protector-strong"/>
+        <element flagsID="2"
+                 commonFlags="-mtune=generic -march=x86-64 -std=gnu++11 -fstack-protector-strong"/>
+        <element flagsID="3" commonFlags="-std=gnu++11"/>
       </flagsDictionary>
       <codeAssistance>
       </codeAssistance>
@@ -60,14 +66,7 @@
           <buildCommandWorkingDir>.</buildCommandWorkingDir>
           <buildCommand>${MAKE} -f Makefile</buildCommand>
           <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
-          <executablePath></executablePath>
-          <ccTool>
-            <incDir>
-              <pElem>include</pElem>
-              <pElem>/opt/local/include</pElem>
-              <pElem>.</pElem>
-            </incDir>
-          </ccTool>
+          <executablePath>CommunicantTest.exe</executablePath>
         </makeTool>
         <preBuild>
           <preBuildCommandWorkingDir>.</preBuildCommandWorkingDir>
@@ -75,91 +74,226 @@
         </preBuild>
       </makefileType>
       <item path="src/CPISync.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="3">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/local/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/CommSocket.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="3">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/local/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/CommString.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="3">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/local/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/Communicant.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="3">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/local/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/DataObject.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="3">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/local/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/GenSync.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="3">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/local/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/InterCPISync.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="3">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/local/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/Logger.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="3">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/local/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/SyncMethod.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
+          <incDir>
+            <pElem>/usr/include/NTL</pElem>
+            <pElem>include</pElem>
+            <pElem>src</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/UID.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
+          <incDir>
+            <pElem>src</pElem>
+            <pElem>/usr/include/NTL</pElem>
+            <pElem>include</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="src/probCPISync.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="3">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/local/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="tests/CommDummy.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="3">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/local/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="tests/CommSocketTest.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="2">
+          <incDir>
+            <pElem>/usr/include/cppunit</pElem>
+            <pElem>/usr/include/cppunit/extensions</pElem>
+            <pElem>tests</pElem>
+            <pElem>/usr/include/NTL</pElem>
+            <pElem>include</pElem>
+            <pElem>/usr/include/cppunit/config</pElem>
+            <pElem>/usr/include/cppunit/portability</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="tests/CommSocketTestRunner.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="2">
+          <incDir>
+            <pElem>/usr/include/cppunit</pElem>
+            <pElem>/usr/include/cppunit/portability</pElem>
+            <pElem>tests</pElem>
+            <pElem>/usr/include/cppunit/config</pElem>
+            <pElem>/usr/include/cppunit/extensions</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="tests/CommStringTest.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="3">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/local/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="tests/CommStringTestRunner.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="2">
+          <incDir>
+            <pElem>/usr/include/cppunit</pElem>
+            <pElem>/usr/include/cppunit/portability</pElem>
+            <pElem>tests</pElem>
+            <pElem>/usr/include/cppunit/config</pElem>
+            <pElem>/usr/include/cppunit/extensions</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="tests/CommunicantTest.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="3">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/local/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="tests/CommunicantTestRunner.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="2">
+          <incDir>
+            <pElem>/usr/include/cppunit</pElem>
+            <pElem>/usr/include/cppunit/portability</pElem>
+            <pElem>tests</pElem>
+            <pElem>/usr/include/cppunit/config</pElem>
+            <pElem>/usr/include/cppunit/extensions</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="tests/DataObjectTest.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="1">
+          <incDir>
+            <pElem>/usr/include/cppunit</pElem>
+            <pElem>/usr/include/cppunit/extensions</pElem>
+            <pElem>tests</pElem>
+            <pElem>/usr/include/NTL</pElem>
+            <pElem>include</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="tests/DataObjectTestRunner.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="2">
+          <incDir>
+            <pElem>/usr/include/cppunit</pElem>
+            <pElem>/usr/include/cppunit/portability</pElem>
+            <pElem>tests</pElem>
+            <pElem>/usr/include/cppunit/config</pElem>
+            <pElem>/usr/include/cppunit/extensions</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="tests/LoggerTest.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="3">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/local/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
       <item path="tests/LoggerTestRunner.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="0">
+        <ccTool flags="2">
+          <incDir>
+            <pElem>/usr/include/cppunit</pElem>
+            <pElem>/usr/include/cppunit/portability</pElem>
+            <pElem>tests</pElem>
+            <pElem>/usr/include/cppunit/config</pElem>
+            <pElem>/usr/include/cppunit/extensions</pElem>
+            <pElem>.</pElem>
+          </incDir>
         </ccTool>
       </item>
     </conf>

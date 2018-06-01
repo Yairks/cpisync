@@ -83,6 +83,7 @@ void CommunicantTest::testInit(){
 }
 
 void CommunicantTest::testXmitBytesAndResetCommCounters(){
+    CommDummy::output = CommDummy::AA;
     CommDummy c;
     const char *str = "hello world";
     int helloLen = 5;
@@ -110,16 +111,15 @@ void CommunicantTest::testXmitBytesAndResetCommCounters(){
 }
 
 void CommunicantTest::testEstablishModRecv() {
+    CommDummy::output = CommDummy::PRIORITY_OBJECT_REPISINT_TRUE;
     CommDummy c;
     bool oneWay = true;
     
-    //ZZ_p::init(static_cast<ZZ>(4343)); //todo: fix this kinda stuff. basically, u wanna init the zz_p modulus but memory issues look into this.
+    ZZ_p::init(static_cast<ZZ>(4)); // same zz as modulus recieved
     
-    //BELOW CODE CURRENTLY SEGFAULTS BECAUSE ZZ_P::MODULUS IS UNINITIALIZED
-    CommDummy::output = CommDummy::AA;
     bool a = c.establishModRecv(oneWay);
  
-    
+    CPPUNIT_ASSERT(a);
 
 }
 
@@ -176,6 +176,7 @@ void CommunicantTest::testCommSend11() {
 }
 
 void CommunicantTest::testCommRecv_ustring() {
+    CommDummy::output = CommDummy::AA;
     CommDummy c;
     ustring result = c.commRecv_ustring(AA.length() - 1);
     ustring expected = reinterpret_cast<const unsigned char*>("A"); // first character of "AA"
@@ -183,11 +184,13 @@ void CommunicantTest::testCommRecv_ustring() {
 }
 
 void CommunicantTest::testCommRecv_string() {
+    CommDummy::output = CommDummy::AA;
     CommDummy c;
     CPPUNIT_ASSERT_EQUAL(c.commRecv_string(), AA);
 }
 
 void CommunicantTest::testCommRecv_ustring2() {
+    CommDummy::output = CommDummy::AA;
     CommDummy c;
     //ustring result = c.commRecv_ustring();
     ustring result = c.commRecv_ustring(AA.size()); // above doesn't work - this does? oh its cuz it calls commRecv_long
@@ -196,6 +199,7 @@ void CommunicantTest::testCommRecv_ustring2() {
 }
 
 void CommunicantTest::testCommRecv_DataObject() {
+    CommDummy::output = CommDummy::AA;
     CommDummy c;
     DataObject* result = c.commRecv_DataObject(); // why is this a pointer
     DataObject expected(AA);
@@ -203,6 +207,7 @@ void CommunicantTest::testCommRecv_DataObject() {
 }
 
 void CommunicantTest::testCommRecv_DataObject_Priority() {
+    CommDummy::output = CommDummy::AA;
 //    CommDummy c;
 //    DataObject* result = c.commRecv_DataObject_Priority(); // ""
 //    DataObject expected(AA);
@@ -214,14 +219,17 @@ void CommunicantTest::testCommRecv_DataObject_Priority() {
 }
 
 void CommunicantTest::testCommRecv_DoList() {
+    CommDummy::output = CommDummy::AA;
 
 }
 
 void CommunicantTest::testCommRecv_double() {
+    CommDummy::output = CommDummy::AA;
 
 }
 
 void CommunicantTest::testCommRecv_long() {
+    CommDummy::output = CommDummy::AA;
 
 }
 
@@ -247,12 +255,14 @@ void CommunicantTest::testCommRecv_int() {
 }
 
 void CommunicantTest::testCommRecv_byte() {
+    CommDummy::output = CommDummy::AA;
     CommDummy c;
     byte expected = AA[0];
     CPPUNIT_ASSERT_EQUAL(expected, c.commRecv_byte());
 }
 
 void CommunicantTest::testCommRecv_ZZ_p() {
+      CommDummy::output = CommDummy::AA;
 //    CommDummy c;
 //    int aaAsInt = 16705;
 //    ZZ_p zzp = c.commRecv_ZZ_p();
@@ -261,6 +271,7 @@ void CommunicantTest::testCommRecv_ZZ_p() {
 }
 
 void CommunicantTest::testCommRecv_ZZ() {
+    CommDummy::output = CommDummy::AA;
     CommDummy c;
     int sizeofAA = AA.length();
     int aaAsInt = 16705;
