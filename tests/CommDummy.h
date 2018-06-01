@@ -18,7 +18,8 @@ public:
         SIZE_AA = 2,
         PRIORITY_OBJECT_REPISINT_FALSE = 3,
         PRIORITY_OBJECT_REPISINT_TRUE = 4,
-        LONG = 5
+        LONG = 5,
+        DOPRIORITY = 6
     };
     
     static OUTPUTS output;

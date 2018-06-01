@@ -53,8 +53,9 @@ string CommDummy::commRecv(long numBytes){
             break;
         case LONG:
             return string(1, '\x04') + string(sizeof(long)-1, '\0');
-        default:
-            return "E";
+            break;
+        case DOPRIORITY:
+            return "4,AA";
             break;
     }
    // return "AA";

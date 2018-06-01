@@ -214,15 +214,13 @@ void CommunicantTest::testCommRecv_DataObject() {
 }
 
 void CommunicantTest::testCommRecv_DataObject_Priority() {
-    CommDummy::output = CommDummy::AA;
-//    CommDummy c;
-//    DataObject* result = c.commRecv_DataObject_Priority(); // ""
-//    DataObject expected(AA);
-//    ZZ priority = static_cast<ZZ>(0);
-//    expected.setPriority(priority);
-//    CPPUNIT_ASSERT_EQUAL(expected.to_priority_string(), result->to_priority_string());
-    // i can do this but it requires changing the commRecv method in the dummy class :/
-    // will do later
+    CommDummy::output = CommDummy::DOPRIORITY;
+    CommDummy c;
+    DataObject* result = c.commRecv_DataObject_Priority(); // ""
+    DataObject expected(AA);
+    ZZ priority = static_cast<ZZ>(4);
+    expected.setPriority(priority);
+    CPPUNIT_ASSERT_EQUAL(expected.to_priority_string(), result->to_priority_string());
 }
 
 void CommunicantTest::testCommRecv_DoList() {
