@@ -27,6 +27,8 @@
         <in>DataObjectTestRunner.cpp</in>
         <in>LoggerTest.cpp</in>
         <in>LoggerTestRunner.cpp</in>
+        <in>ProbCPISyncTestRunner.cpp</in>
+        <in>probCPISyncTest.cpp</in>
       </df>
     </df>
     <logicalFolder name="ExternalFiles"
@@ -184,10 +186,11 @@
         </ccTool>
       </item>
       <item path="tests/CommDummy.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="2">
           <incDir>
+            <pElem>/usr/include/NTL</pElem>
+            <pElem>tests</pElem>
             <pElem>include</pElem>
-            <pElem>/opt/local/include</pElem>
             <pElem>.</pElem>
           </incDir>
         </ccTool>
@@ -245,10 +248,15 @@
         </ccTool>
       </item>
       <item path="tests/CommunicantTest.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="2">
           <incDir>
+            <pElem>/usr/include/cppunit</pElem>
+            <pElem>/usr/include/cppunit/extensions</pElem>
+            <pElem>tests</pElem>
+            <pElem>/usr/include/NTL</pElem>
             <pElem>include</pElem>
-            <pElem>/opt/local/include</pElem>
+            <pElem>/usr/include/cppunit/portability</pElem>
+            <pElem>/usr/include/cppunit/config</pElem>
             <pElem>.</pElem>
           </incDir>
         </ccTool>
@@ -310,6 +318,24 @@
             <pElem>tests</pElem>
             <pElem>/usr/include/cppunit/config</pElem>
             <pElem>/usr/include/cppunit/extensions</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="tests/ProbCPISyncTestRunner.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/local/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="tests/probCPISyncTest.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/local/include</pElem>
             <pElem>.</pElem>
           </incDir>
         </ccTool>
