@@ -17,7 +17,6 @@ class CommunicantTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testInit);
     CPPUNIT_TEST(testXmitBytesAndResetCommCounters);
     CPPUNIT_TEST(testCommSendAndRecv);
-    CPPUNIT_TEST(testEstablishModRecv);
     CPPUNIT_TEST(testEstablishModSend);
     CPPUNIT_TEST(testCommSend);
     CPPUNIT_TEST(testCommSend2);
@@ -41,7 +40,7 @@ class CommunicantTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testCommRecv_long);
     CPPUNIT_TEST(testCommRecv_int);
     CPPUNIT_TEST(testCommRecv_byte);
-    CPPUNIT_TEST(testCommRecv_ZZ_p);
+    CPPUNIT_TEST(testCommRecv_ZZ_pAndEstablishModRecv);
     CPPUNIT_TEST(testCommRecv_ZZ);
     CPPUNIT_TEST(testCommRecv_ZZNoArgs);
     
@@ -57,7 +56,6 @@ private:
     void testInit();
     void testCommSendAndRecv();
     void testXmitBytesAndResetCommCounters();
-    void testEstablishModRecv();
     void testEstablishModSend();
     void testCommSend();
     void testCommSend2();
@@ -81,7 +79,7 @@ private:
     void testCommRecv_long();
     void testCommRecv_int();
     void testCommRecv_byte();
-    void testCommRecv_ZZ_p();
+    void testCommRecv_ZZ_pAndEstablishModRecv();
     void testCommRecv_ZZ();
     void testCommRecv_ZZNoArgs();
 

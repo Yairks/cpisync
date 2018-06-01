@@ -51,6 +51,8 @@ string CommDummy::commRecv(long numBytes){
         case PRIORITY_OBJECT_REPISINT_TRUE:
             return string(1, '\x04') + string(sizeof(int)-1, '\0');
             break;
+        case LONG:
+            return string(1, '\x04') + string(sizeof(long)-1, '\0');
         default:
             return "E";
             break;

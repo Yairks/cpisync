@@ -110,21 +110,17 @@ void CommunicantTest::testXmitBytesAndResetCommCounters(){
     CPPUNIT_ASSERT_EQUAL(0l, c.getXmitBytes());
 }
 
-void CommunicantTest::testEstablishModRecv() {
+void CommunicantTest::testEstablishModSend() {
     CommDummy::output = CommDummy::PRIORITY_OBJECT_REPISINT_TRUE;
     CommDummy c;
     bool oneWay = true;
     
     ZZ_p::init(static_cast<ZZ>(4)); // same zz as modulus recieved
+     
+    CPPUNIT_ASSERT(c.establishModSend(oneWay));
     
-    bool a = c.establishModRecv(oneWay);
- 
-    CPPUNIT_ASSERT(a);
-
-}
-
-void CommunicantTest::testEstablishModSend() {
-    
+    oneWay = false;
+    CPPUNIT_ASSERT(c.establishModSend(oneWay));
 }
 
 void CommunicantTest::testCommSend() {
@@ -167,13 +163,24 @@ void CommunicantTest::testCommSend10() {
 
 }
 
-void CommunicantTest::testCommRecv_vec_ZZ_p() {
-
-}
-
 void CommunicantTest::testCommSend11() {
 
 }
+
+void CommunicantTest::testCommRecv_vec_ZZ_p() {
+    CommDummy::output = CommDummy::PRIORITY_OBJECT_REPISINT_TRUE;
+    CommDummy c;
+    ZZ_p::init(static_cast<ZZ>(667));
+    
+    vec_ZZ_p res = c.commRecv_vec_ZZ_p();
+   // CPPUNIT_ASSERT_EQUAL(4l, res.length());
+    vec_ZZ_p::iterator iter = res.begin();
+    
+    for(; iter != res.end(); iter++){
+        CPPUNIT_ASSERT_EQUAL(static_cast<ZZ>(4-1), iter->LoopHole());
+    }
+}
+
 
 void CommunicantTest::testCommRecv_ustring() {
     CommDummy::output = CommDummy::AA;
@@ -219,39 +226,43 @@ void CommunicantTest::testCommRecv_DataObject_Priority() {
 }
 
 void CommunicantTest::testCommRecv_DoList() {
-    CommDummy::output = CommDummy::AA;
-
+    CommDummy::output = CommDummy::LONG;
+    CommDummy c;
+    list<DataObject*> res = c.commRecv_DoList();
+    DataObject expected(string("\x04"));
+    long unsigned int expectedLen = 4;
+    CPPUNIT_ASSERT_EQUAL(expectedLen, res.size());
+    list<DataObject*>::iterator iter = res.begin();
+    
+    for(; iter != res.end(); iter++){
+        CPPUNIT_ASSERT_EQUAL(expected.to_ZZ(), (**iter).to_ZZ());
+    }
 }
 
 void CommunicantTest::testCommRecv_double() {
-    CommDummy::output = CommDummy::AA;
-
+    CommDummy::output = CommDummy::LONG;
+    CommDummy c;
+    
+    double res = c.commRecv_double();
+    double expected = 0.25;
+    
+    CPPUNIT_ASSERT_EQUAL(res, expected);
 }
 
 void CommunicantTest::testCommRecv_long() {
-    CommDummy::output = CommDummy::AA;
+    CommDummy::output = CommDummy::LONG;
+    CommDummy c;
+    long int res = c.commRecv_long();
+    long int expected = 4l;
+    CPPUNIT_ASSERT_EQUAL(expected, res);
 
 }
 
 void CommunicantTest::testCommRecv_int() {
+    CommDummy::output = CommDummy::PRIORITY_OBJECT_REPISINT_TRUE;
     CommDummy c;
-    //std::bitset<sizeof(int)> bits;
-//    int sizeofAA = AA.length();
-//    long int bytesToPad = (sizeof(int) - 16) / sizeof(byte);
-//    string aaPadded = AA + string(bytesToPad, '\0');
-//    CPPUNIT_FAIL(stringToBitstring(aaPadded));
-    
-
-    CommDummy::output = CommDummy::PRIORITY_OBJECT_REPISINT_FALSE;
-    int expected = 1094795585; // "AAAA" in ascii as a sequence of 4 bytes in an integer
+    int expected = 4; 
     CPPUNIT_ASSERT_EQUAL(expected, c.commRecv_int());
-    CommDummy::output = CommDummy::AA;
-
-    
-    //CPPUNIT_ASSERT_EQUAL(aaAsInt, c.commRecv_int());
-    // the actual commRecv_int has a problem with pointers!
-    // repro steps: run the commented-out-above test multiple times and find
-    // that c.commRecv_int() is garbage
 }
 
 void CommunicantTest::testCommRecv_byte() {
@@ -261,13 +272,25 @@ void CommunicantTest::testCommRecv_byte() {
     CPPUNIT_ASSERT_EQUAL(expected, c.commRecv_byte());
 }
 
-void CommunicantTest::testCommRecv_ZZ_p() {
-      CommDummy::output = CommDummy::AA;
-//    CommDummy c;
-//    int aaAsInt = 16705;
-//    ZZ_p zzp = c.commRecv_ZZ_p();
-//    ZZ_p expected = static_cast<ZZ_p>(aaAsInt);
-//    CPPUNIT_ASSERT_EQUAL(expected, zzp);
+void CommunicantTest::testCommRecv_ZZ_pAndEstablishModRecv() {
+
+    // establishModRecv
+    CommDummy::output = CommDummy::PRIORITY_OBJECT_REPISINT_TRUE;
+    CommDummy c;
+    ZZ_p::init(static_cast<ZZ>(4));
+    bool oneWay = false;
+
+    bool success = c.establishModRecv(oneWay);
+    CPPUNIT_ASSERT(success);
+    oneWay = true;
+    success = c.establishModRecv(oneWay);
+    CPPUNIT_ASSERT(success);
+
+    // commRecv_ZZ_p
+    ZZ_p res = c.commRecv_ZZ_p();
+    ZZ_p expected = static_cast<ZZ_p>(4 % 4);
+    CPPUNIT_ASSERT_EQUAL(expected, res);
+      
 }
 
 void CommunicantTest::testCommRecv_ZZ() {
