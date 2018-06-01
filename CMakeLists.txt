@@ -19,7 +19,6 @@ set(SOURCE_FILES
         src/probCPISync.cpp
         src/SyncMethod.cpp
         src/UID.cpp
-        tests/CommDummy.cpp
 )
 
 include_directories(include)
@@ -39,40 +38,12 @@ target_link_libraries(cpisynclib ntl cppunit gmp pthread)
 #################
 # Following : https://cmake.org/pipermail/cmake/2007-March/013361.html
 
-ADD_EXECUTABLE(LoggerTest.exe
-        ${TEST_DIR}/LoggerTestRunner.cpp
-        ${TEST_DIR}/LoggerTest.cpp
-)
-target_link_libraries(LoggerTest.exe cpisynclib ntl cppunit gmp)
-ADD_TEST(LoggerTest LoggerTest.exe)
-
 ADD_EXECUTABLE(DataObjectTest.exe
         ${TEST_DIR}/DataObjectTestRunner.cpp
         ${TEST_DIR}/DataObjectTest.cpp
 )
 target_link_libraries(DataObjectTest.exe cpisynclib ntl cppunit gmp)
 ADD_TEST(DataObjectTest DataObjectTest.exe)
-
-ADD_EXECUTABLE(CommunicantTest.exe
-        ${TEST_DIR}/CommunicantTestRunner.cpp
-        ${TEST_DIR}/CommunicantTest.cpp
-)
-target_link_libraries(CommunicantTest.exe cpisynclib ntl cppunit gmp)
-ADD_TEST(CommunicantTest CommunicantTest.exe)
-
-ADD_EXECUTABLE(CommStringTest.exe
-        ${TEST_DIR}/CommStringTestRunner.cpp
-        ${TEST_DIR}/CommStringTest.cpp
-)
-target_link_libraries(CommStringTest.exe cpisynclib ntl cppunit gmp)
-ADD_TEST(CommStringTest CommStringTest.exe)
-
-ADD_EXECUTABLE(CommSocketTest.exe
-        ${TEST_DIR}/CommSocketTestRunner.cpp
-        ${TEST_DIR}/CommSocketTest.cpp
-)
-target_link_libraries(CommSocketTest.exe cpisynclib ntl cppunit gmp)
-ADD_TEST(CommSocketTest CommSocketTest.exe)
 
 # TODO: Add all testa automagically
 # FILE(GLOB UnitTests_SRCS ${TEST_DIR} "*TestRunner.cpp" )

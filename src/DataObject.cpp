@@ -3,6 +3,7 @@
 #include "DataObject.h"
 #include "NTL/mat_ZZ_p.h"
 #include "NTL/ZZ_pXFactoring.h"
+#include "Auxiliary.h"
 
 // namespaces
 using namespace NTL;
@@ -15,6 +16,11 @@ DataObject::DataObject()  : UID()
 DataObject::DataObject(const ZZ &datum)  : UID() {
     myBuffer = datum;
     
+}
+
+template <typename T>
+DataObject::DataObject(T item){
+    myBuffer = pack(toStr<T>(item));
 }
 
 DataObject::DataObject(const string str) : UID() {
