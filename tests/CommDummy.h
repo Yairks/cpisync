@@ -34,8 +34,9 @@ public:
     void commSend(const char* toSend, const int numBytes);
     string commRecv(long numBytes);
     string getName(){ return "dummy"; }
+    string getRecv();
 protected:
-    //string recv;
+    string recv;
 };
 
 #endif /* COMMDUMMY_H */

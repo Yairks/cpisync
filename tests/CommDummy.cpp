@@ -32,10 +32,14 @@ void CommDummy::commClose(){
 //// Stores the first numBytes characters of toSend as a string,
 //// overwriting any previous data
 void CommDummy::commSend(const char* toSend, const int numBytes){
-//    char tmp[numBytes];
-//    strncpy(tmp, toSend, numBytes);
-//    recv = tmp;
+    char tmp[numBytes];
+    memcpy(tmp, toSend, numBytes);
+    recv = tmp;
     addXmitBytes(numBytes);
+}
+
+string CommDummy::getRecv(){
+    return recv;
 }
 //
 //// RETURNS AA

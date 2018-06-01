@@ -123,12 +123,18 @@ void CommunicantTest::testEstablishModSend() {
     CPPUNIT_ASSERT(c.establishModSend(oneWay));
 }
 
-void CommunicantTest::testCommSend() {
-
+void CommunicantTest::testCommSendUstringBytes() {
+    CommDummy c;
+    ustring us = reinterpret_cast<const unsigned char*>(AA.data());
+    const int numBytes = 1;
+    c.Communicant::commSend(us, numBytes);
+    CPPUNIT_ASSERT_EQUAL(string("A"), c.getRecv());
 }
 
-void CommunicantTest::testCommSend2() {
-
+void CommunicantTest::testCommSendString() {
+    CommDummy c;
+    c.Communicant::commSend(AA);
+    CPPUNIT_ASSERT_EQUAL(AA, c.getRecv());
 }
 
 void CommunicantTest::testCommSend3() {

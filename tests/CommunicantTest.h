@@ -18,8 +18,8 @@ class CommunicantTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST(testXmitBytesAndResetCommCounters);
     CPPUNIT_TEST(testCommSendAndRecv);
     CPPUNIT_TEST(testEstablishModSend);
-    CPPUNIT_TEST(testCommSend);
-    CPPUNIT_TEST(testCommSend2);
+    CPPUNIT_TEST(testCommSendUstringBytes);
+    CPPUNIT_TEST(testCommSendString);
     CPPUNIT_TEST(testCommSend3);
     CPPUNIT_TEST(testCommSend4);
     CPPUNIT_TEST(testCommSend5);
@@ -57,8 +57,8 @@ private:
     void testCommSendAndRecv();
     void testXmitBytesAndResetCommCounters();
     void testEstablishModSend();
-    void testCommSend();
-    void testCommSend2();
+    void testCommSendUstringBytes();
+    void testCommSendString();
     void testCommSend3();
     void testCommSend4();
     void testCommSend5();
