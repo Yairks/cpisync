@@ -14,7 +14,6 @@
 #include <list>
 
 #include "UID.h"
-#include "Auxiliary.h"
 
 // namespaces
 using std::string;
@@ -52,7 +51,7 @@ public:
      */
     template<typename T> 
     DataObject(const T item){
-        myBuffer = pack(toStr<T>(item));
+        myBuffer = pack(std::to_string(item));
     }
     
     // INFORMATION METHODS

@@ -3,6 +3,7 @@
 #include "DataObject.h"
 #include "NTL/mat_ZZ_p.h"
 #include "NTL/ZZ_pXFactoring.h"
+#include "Auxiliary.h"
 
 // namespaces
 using namespace NTL;
