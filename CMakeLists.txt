@@ -46,6 +46,13 @@ ADD_EXECUTABLE(LoggerTest.exe
 target_link_libraries(LoggerTest.exe cpisynclib ntl cppunit gmp)
 ADD_TEST(LoggerTest LoggerTest.exe)
 
+ADD_EXECUTABLE(AuxiliaryTest.exe
+        ${TEST_DIR}/AuxiliaryTestRunner.cpp
+        ${TEST_DIR}/AuxiliaryTest.cpp
+)
+target_link_libraries(AuxiliaryTest.exe cpisynclib ntl cppunit gmp)
+ADD_TEST(AuxiliaryTest AuxiliaryTest.exe)
+
 ADD_EXECUTABLE(DataObjectTest.exe
         ${TEST_DIR}/DataObjectTestRunner.cpp
         ${TEST_DIR}/DataObjectTest.cpp
