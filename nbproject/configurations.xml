@@ -16,6 +16,10 @@
         <in>probCPISync.cpp</in>
       </df>
       <df name="tests">
+        <in>AuxiliaryTest.cpp</in>
+        <in>AuxiliaryTestRunner.cpp</in>
+        <in>CPISyncTest.cpp</in>
+        <in>CPISyncTestRunner.cpp</in>
         <in>CommDummy.cpp</in>
         <in>CommSocketTest.cpp</in>
         <in>CommSocketTestRunner.cpp</in>
@@ -27,9 +31,8 @@
         <in>DataObjectTestRunner.cpp</in>
         <in>LoggerTest.cpp</in>
         <in>LoggerTestRunner.cpp</in>
-        <in>ProbCPISyncTestRunner.cpp</in>
-        <in>probCPISyncTest.cpp</in>
       </df>
+      <in>newfile.cpp</in>
     </df>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -68,13 +71,15 @@
           <buildCommandWorkingDir>.</buildCommandWorkingDir>
           <buildCommand>${MAKE} -f Makefile</buildCommand>
           <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
-          <executablePath>CommunicantTest.exe</executablePath>
+          <executablePath>CPISyncTest.exe</executablePath>
         </makeTool>
         <preBuild>
           <preBuildCommandWorkingDir>.</preBuildCommandWorkingDir>
           <preBuildCommand>${CMAKE} -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=${IDE_CC} -DCMAKE_CXX_COMPILER=${IDE_CXX} -DCMAKE_C_FLAGS_DEBUG="-g3 -gdwarf-2" -DCMAKE_CXX_FLAGS_DEBUG="-g3 -gdwarf-2" -DCMAKE_EXPORT_COMPILE_COMMANDS=ON .</preBuildCommand>
         </preBuild>
       </makefileType>
+      <item path="newfile.cpp" ex="false" tool="1" flavor2="4">
+      </item>
       <item path="src/CPISync.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="0">
           <incDir>
@@ -181,6 +186,53 @@
             <pElem>/usr/include/NTL</pElem>
             <pElem>include</pElem>
             <pElem>src</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="tests/AuxiliaryTest.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="2">
+          <incDir>
+            <pElem>/usr/include/cppunit</pElem>
+            <pElem>/usr/include/cppunit/extensions</pElem>
+            <pElem>tests</pElem>
+            <pElem>/usr/include/NTL</pElem>
+            <pElem>include</pElem>
+            <pElem>/usr/include/cppunit/portability</pElem>
+            <pElem>/usr/include/cppunit/config</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="tests/AuxiliaryTestRunner.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="2">
+          <incDir>
+            <pElem>/usr/include/cppunit</pElem>
+            <pElem>/usr/include/cppunit/portability</pElem>
+            <pElem>tests</pElem>
+            <pElem>/usr/include/cppunit/config</pElem>
+            <pElem>/usr/include/cppunit/extensions</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="tests/CPISyncTest.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="3">
+          <incDir>
+            <pElem>include</pElem>
+            <pElem>/opt/local/include</pElem>
+            <pElem>.</pElem>
+          </incDir>
+        </ccTool>
+      </item>
+      <item path="tests/CPISyncTestRunner.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="2">
+          <incDir>
+            <pElem>/usr/include/cppunit</pElem>
+            <pElem>/usr/include/cppunit/portability</pElem>
+            <pElem>tests</pElem>
+            <pElem>/usr/include/cppunit/config</pElem>
+            <pElem>/usr/include/cppunit/extensions</pElem>
             <pElem>.</pElem>
           </incDir>
         </ccTool>
@@ -318,24 +370,6 @@
             <pElem>tests</pElem>
             <pElem>/usr/include/cppunit/config</pElem>
             <pElem>/usr/include/cppunit/extensions</pElem>
-            <pElem>.</pElem>
-          </incDir>
-        </ccTool>
-      </item>
-      <item path="tests/ProbCPISyncTestRunner.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
-          <incDir>
-            <pElem>include</pElem>
-            <pElem>/opt/local/include</pElem>
-            <pElem>.</pElem>
-          </incDir>
-        </ccTool>
-      </item>
-      <item path="tests/probCPISyncTest.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
-          <incDir>
-            <pElem>include</pElem>
-            <pElem>/opt/local/include</pElem>
             <pElem>.</pElem>
           </incDir>
         </ccTool>

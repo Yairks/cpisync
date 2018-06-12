@@ -29,17 +29,17 @@ void CommDummy::commConnect(){
 void CommDummy::commClose(){
 //    
 }
-//// Stores the first numBytes characters of toSend as a string,
-//// overwriting any previous data
+//// adds toSend to a stringstream
 void CommDummy::commSend(const char* toSend, const int numBytes){
-    char tmp[numBytes];
-    memcpy(tmp, toSend, numBytes);
-    recv = tmp;
+    recv << toSend;
+    
     addXmitBytes(numBytes);
 }
-
+void CommDummy::resetRecv(){
+    recv.str("");
+}
 string CommDummy::getRecv(){
-    return recv;
+    return recv.str();
 }
 //
 //// RETURNS AA

@@ -81,12 +81,12 @@ ADD_EXECUTABLE(CommSocketTest.exe
 target_link_libraries(CommSocketTest.exe cpisynclib ntl cppunit gmp)
 ADD_TEST(CommSocketTest CommSocketTest.exe)
 
-ADD_EXECUTABLE(probCPISyncTest.exe
-        ${TEST_DIR}/ProbCPISyncTestRunner.cpp
-        ${TEST_DIR}/probCPISyncTest.cpp
+ADD_EXECUTABLE(CPISyncTest.exe
+        ${TEST_DIR}/CPISyncTestRunner.cpp
+        ${TEST_DIR}/CPISyncTest.cpp
 )
-target_link_libraries(probCPISyncTest.exe cpisynclib ntl cppunit gmp)
-ADD_TEST(probCPISyncTest probCPISyncTest.exe)
+target_link_libraries(CPISyncTest.exe cpisynclib ntl cppunit gmp)
+ADD_TEST(CPISyncTest CPISyncTest.exe)
 
 # TODO: Add all testa automagically
 # FILE(GLOB UnitTests_SRCS ${TEST_DIR} "*TestRunner.cpp" )

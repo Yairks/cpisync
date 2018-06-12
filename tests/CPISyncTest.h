@@ -6,31 +6,31 @@
  * Created on June 1, 2018, 3:41 PM
  */
 
-#ifndef PROBCPISYNCTEST_H
-#define PROBCPISYNCTEST_H
+#ifndef CPISYNCTEST_H
+#define CPISYNCTEST_H
 
 #include <cppunit/extensions/HelperMacros.h>
 
-class probCPISyncTest : public CPPUNIT_NS::TestFixture {
+class CPISyncTest : public CPPUNIT_NS::TestFixture {
 
     
-    CPPUNIT_TEST_SUITE(probCPISyncTest);
+    CPPUNIT_TEST_SUITE(CPISyncTest);
     
-    //CPPUNIT_TEST();
+    CPPUNIT_TEST(testEgg);
     
     CPPUNIT_TEST_SUITE_END();
     
 public:
-    probCPISyncTest();
-    probCPISyncTest(const probCPISyncTest& orig);
-    virtual ~probCPISyncTest();
+    CPISyncTest();
+    virtual ~CPISyncTest();
     void setUp();
     void tearDown();
+    void testEgg();
 private:
 
 };
 
-CPPUNIT_TEST_SUITE_NAMED_REGISTRATION(probCPISyncTest, probCPISyncTest);
+CPPUNIT_TEST_SUITE_NAMED_REGISTRATION(CPISyncTest, CPISyncTest);
 
 #endif /* PROBCPISYNCTEST_H */
 

@@ -10,6 +10,7 @@
 #include "CommDummy.h"
 #include "DataObject.h"
 #include <algorithm>
+#include <math.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(CommunicantTest);
 
@@ -110,17 +111,25 @@ void CommunicantTest::testXmitBytesAndResetCommCounters(){
     CPPUNIT_ASSERT_EQUAL(0l, c.getXmitBytes());
 }
 
-void CommunicantTest::testEstablishModSend() {
+void CommunicantTest::testEstablishModSendAndSendZZ_p() {
     CommDummy::output = CommDummy::PRIORITY_OBJECT_REPISINT_TRUE;
     CommDummy c;
     bool oneWay = true;
+    ZZ init = static_cast<ZZ>(4);
+    ZZ_p::init(init); // same zz as modulus recieved
     
-    ZZ_p::init(static_cast<ZZ>(4)); // same zz as modulus recieved
-     
     CPPUNIT_ASSERT(c.establishModSend(oneWay));
     
     oneWay = false;
     CPPUNIT_ASSERT(c.establishModSend(oneWay));
+    c.resetRecv();
+    ZZ_p toSend = static_cast<ZZ_p>(543);
+
+    c.Communicant::commSend(toSend);
+    
+    string expected = "\x03"; // 543 % 4
+    CPPUNIT_ASSERT_EQUAL(expected,c.getRecv());
+    
 }
 
 void CommunicantTest::testCommSendUstringBytes() {
@@ -128,49 +137,126 @@ void CommunicantTest::testCommSendUstringBytes() {
     ustring us = reinterpret_cast<const unsigned char*>(AA.data());
     const int numBytes = 1;
     c.Communicant::commSend(us, numBytes);
-    CPPUNIT_ASSERT_EQUAL(string("A"), c.getRecv());
+    CPPUNIT_ASSERT_EQUAL(AA, c.getRecv());
 }
 
 void CommunicantTest::testCommSendString() {
     CommDummy c;
     c.Communicant::commSend(AA);
-    CPPUNIT_ASSERT_EQUAL(AA, c.getRecv());
+    string aaLength = "\2";
+    CPPUNIT_ASSERT_EQUAL(aaLength + AA, c.getRecv());
 }
 
-void CommunicantTest::testCommSend3() {
-
+void CommunicantTest::testCommSendLong() {
+    CommDummy c;
+    long int toSend = 65l;
+    c.Communicant::commSend(toSend);
+    string expected = "\x41"; // 65 in hex
+    CPPUNIT_ASSERT_EQUAL(expected, c.getRecv());
 }
 
-void CommunicantTest::testCommSend4() {
-
+void CommunicantTest::testCommSendUstringNoBytes() {
+    CommDummy c;
+    ustring toSend = reinterpret_cast<const unsigned char*>(AA.data());
+    c.Communicant::commSend(toSend);
+    string aaLength = "\2";
+    CPPUNIT_ASSERT_EQUAL(aaLength + AA, c.getRecv());
 }
 
-void CommunicantTest::testCommSend5() {
-
+void CommunicantTest::testCommSendDataObject() {
+    CommDummy c;
+    DataObject toSend(AA);
+    c.Communicant::commSend(AA);
+    string aaLength = "\2";
+    CPPUNIT_ASSERT_EQUAL(aaLength + AA, c.getRecv());
 }
 
-void CommunicantTest::testCommSend6() {
-
+void CommunicantTest::testCommSendDataObjectPriority() {
+    CommDummy c;
+    DataObject::RepIsInt = true;
+    
+    DataObject toSend(string("65"));
+    string expectedLen = "\x04";
+    int _priority = 5;
+    ZZ priority = static_cast<ZZ>(_priority);
+    toSend.setPriority(priority);
+    string expected = expectedLen + std::to_string(_priority) + "," + toSend.to_string();
+    c.Communicant::commSend(toSend, true);
+    
+    DataObject::RepIsInt = false;
+    CPPUNIT_ASSERT_EQUAL(expected, c.getRecv());
 }
 
-void CommunicantTest::testCommSend7() {
-
+void CommunicantTest::testCommSendDataObjectList() {
+    CommDummy c;
+    list<DataObject*> lst;
+    DataObject vals[] = {DataObject(string("abc")), DataObject(string("def")), DataObject(string("ghi")), DataObject(string("jkl"))};
+    int valsLen = 4;
+    char valsLenChar = '\x04'; // length of list is 4 strings long
+    char strLenChar = '\x03'; // each string is 3 characters long
+    stringstream expected;
+    
+    expected << valsLenChar;
+    
+    for(int i = 0; i < valsLen; i++){
+        lst.push_back(&vals[i]);
+        
+        expected << strLenChar << vals[i].to_string();
+    }
+    
+    c.Communicant::commSend(lst);
+    
+    CPPUNIT_ASSERT_EQUAL(expected.str(), c.getRecv());
+    
 }
 
-void CommunicantTest::testCommSend8() {
+void CommunicantTest::testCommSendDouble() {
+    CommDummy c;
+    double toSend = 332343.53125;
+    double mantissa;
+    int exponent;
+    
+    mantissa = frexp(toSend, &exponent);
+    exponent = -exponent;
+    //CPPUNIT_FAIL(std::to_string(mantissa * 2) + "," + std::to_string(exponent - 1));
+    c.Communicant::commSend(toSend);
+    string expected = "\x03\xf1\x46\xa2\x05"; // mantissa is 3 bytes, mantissa is 0xa246f1, exponent is -5
 
+    CPPUNIT_ASSERT_EQUAL(expected, c.getRecv());
 }
 
-void CommunicantTest::testCommSend9() {
-
+void CommunicantTest::testCommSendByte() {
+    CommDummy c;
+    byte toSend = '\xff';
+    string expected = "\xff\x7f"; //  why?
+    c.Communicant::commSend(toSend);
+ 
+    CPPUNIT_ASSERT_EQUAL(expected, c.getRecv());
 }
 
-void CommunicantTest::testCommSend10() {
-
+void CommunicantTest::testCommSendInt() {
+    CommDummy c;
+    int toSend = 23456;
+    string expected = "\xa0\x5b"; // 23456 is 0x5ba0
+    c.Communicant::commSend(toSend);
+    
+    CPPUNIT_ASSERT_EQUAL(expected, c.getRecv());
 }
 
-void CommunicantTest::testCommSend11() {
-
+void CommunicantTest::testCommSendVec_ZZ_p() {
+    CommDummy c;
+    ZZ_p vals[] = {static_cast<ZZ_p>(123), static_cast<ZZ_p>(456), static_cast<ZZ_p>(789)};
+    int valsLen = 3;
+    vec_ZZ_p toSend;
+    
+    for(int i = 0; i < valsLen; i++)
+        toSend.append(vals[i]);
+    
+    c.Communicant::commSend(toSend);
+    string expected = "\x04\xa8\x25\x4a\x03"; // length 4, 
+    string res = c.getRecv();
+    CPPUNIT_ASSERT_EQUAL(expected, c.getRecv());
+    
 }
 
 void CommunicantTest::testCommRecv_vec_ZZ_p() {

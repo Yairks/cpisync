@@ -10,7 +10,7 @@
 #define COMMDUMMY_H
 
 #include "Communicant.h"
-
+#include <sstream>
 class CommDummy : public Communicant {
 public:
     enum OUTPUTS {
@@ -35,8 +35,9 @@ public:
     string commRecv(long numBytes);
     string getName(){ return "dummy"; }
     string getRecv();
+    void resetRecv();
 protected:
-    string recv;
+    stringstream recv;
 };
 
 #endif /* COMMDUMMY_H */
