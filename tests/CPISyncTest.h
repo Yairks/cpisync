@@ -17,6 +17,9 @@ class CPISyncTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(CPISyncTest);
     
     CPPUNIT_TEST(testEgg);
+    CPPUNIT_TEST(testHalfRoundSimple);
+    CPPUNIT_TEST(testHalfRoundData);
+    CPPUNIT_TEST(testHalfRoundConnect);
     
     CPPUNIT_TEST_SUITE_END();
     
@@ -26,6 +29,9 @@ public:
     void setUp();
     void tearDown();
     void testEgg();
+    void testHalfRoundSimple();
+    void testHalfRoundData();
+    void testHalfRoundConnect();
 private:
 
 };

@@ -35,11 +35,11 @@ long Communicant::getRecvBytes() {
 }
 
 long Communicant::getXmitBytesTot() {
-    return xferBytes;
+    return xferBytesTot;
 }
 
 long Communicant::getRecvBytesTot() {
-    return recvBytes;
+    return recvBytesTot;
 }
 
 clock_t Communicant::getResetTime() {
@@ -65,8 +65,9 @@ bool Communicant::establishModRecv(bool oneWay /* = false */) {
 
     if (otherModulus != ZZ_p::modulus()) {
         Logger::gLog(Logger::COMM, "ZZ_p moduli do not match: " + toStr(ZZ_p::modulus) + " (mine) vs " + toStr(otherModulus) + " (other).");
-        if (!oneWay) // one way reconciliation does not send any data
+        if (!oneWay) {// one way reconciliation does not send any data
             commSend(SYNC_FAIL_FLAG);
+        }
         return false;
     }
     MOD_SIZE = NumBytes(ZZ_p::modulus()); // record the modulus size

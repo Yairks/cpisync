@@ -249,6 +249,8 @@ Logger::gLog(Logger::METHOD,"Entering CPISync::find_roots");
             }
 
     dd = SFBerlekamp(Q_poly);
+    //Logger::gLog(Logger::METHOD, "q_poly..." + toStr(dd));
+    //Logger::gLog(Logger::METHOD, "p_poly..." + toStr(nn));
     if (dd.length() > 0)
         for (long jj = 0; jj < dd.length(); jj++)
             if (deg(dd[jj]) > 1) { // ended with a non-linear factor
@@ -376,7 +378,8 @@ void CPISync::RecvSyncParam(Communicant* commSync, bool oneWay /* = false */) {
     // take care of parent sync method
     SyncMethod::RecvSyncParam(commSync, oneWay);
 
-    // ... sync ID, mbar, bits, and epsilon        
+    // ... sync ID, mbar, bits, and epsilon 
+//    string s = commSync->commRecv(1 + (sizeof(long)) + (sizeof(long)) + (sizeof(int)));
     byte theSyncID = commSync->commRecv_byte();
     long mbarClient = commSync->commRecv_long();
     long bitsClient = commSync->commRecv_long();
@@ -511,7 +514,7 @@ bool CPISync::SyncServer(Communicant* commSync, list<DataObject*>& selfMinusOthe
     // Perform synchronization
     // .. listen for data
     otherSetSize = commSync->commRecv_long();
-    recv_meta = commSync->commRecv_vec_ZZ_p();
+    recv_meta = commSync->commRecv_vec_ZZ_p(); // im guessing this is the characteristic polynomial evals for the client?
 
     bool result = true; // continues looping while result is true
     do {
@@ -520,10 +523,10 @@ bool CPISync::SyncServer(Communicant* commSync, list<DataObject*>& selfMinusOthe
 
         vec_ZZ_p meta_other, meta_self;
         for (long ii = 0; ii < redundant_k; ii++) {
-                append(meta_other, recv_meta[currDiff + ii]);
-                append(meta_self, CPI_evals[currDiff + ii]);
+            append(meta_other, recv_meta[currDiff + ii]); //yeah it is
+            append(meta_self, CPI_evals[currDiff + ii]);
         }
-        
+
         // attempt to reconcile with the presumed number of differences
         bool succeed = set_reconcile(otherSetSize, recv_meta, delta_self, delta_other);
         if (succeed) { // the node reconciliation might have been successful
@@ -535,7 +538,7 @@ bool CPISync::SyncServer(Communicant* commSync, list<DataObject*>& selfMinusOthe
             for (long jj = 0; jj < redundant_k; jj++) {
                 for (long ii = 0; ii < delta_other.length(); ii++) {
                     //value_self[jj] *= (sampleLoc[maxDiff + jj] - delta_other[ii]);
-                     value_self[jj] *= (sampleLoc[currDiff + jj] - delta_other[ii]);
+                    value_self[jj] *= (sampleLoc[currDiff + jj] - delta_other[ii]);
                 }
             }
 
@@ -545,7 +548,9 @@ bool CPISync::SyncServer(Communicant* commSync, list<DataObject*>& selfMinusOthe
                     value_other[jj] *= (sampleLoc[currDiff + jj] - delta_self[ii]);
                 }
             }
-
+            
+            Logger::gLog(Logger::METHOD, "stuff" + toStr(value_other) + "," + toStr(value_self));
+            
             for (long jj = 0; jj < redundant_k; jj++) {
                 if (value_self[jj] != value_other[jj]) {
                     succeed = false;
