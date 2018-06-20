@@ -238,3 +238,26 @@ void CPISyncTest::testHalfRoundData() {
     //CPPUNIT_ASSERT_EQUAL_MESSAGE("selfMinusOther for the client is correct...", selfMinusOtherC, expectedSelfMinusOtherC);
     
 }
+
+void CPISyncTest::testSendAllElem() {
+    CPISync client(5, 8, 16);
+    CPISync server(5, 8, 16);
+    
+    CommString comm;
+    
+    list<DataObject*> selfMinusOther;
+
+    DataObject clientSet[] = {DataObject(string("\x92")),
+                  DataObject(string("\x6F")),
+                  DataObject(string("\x7A")),
+                  DataObject(string("\x79")),
+                  DataObject(string("\x78")),
+                  DataObject(string("\x77")),
+                  DataObject(string("\x76")),
+                  DataObject(string("\x75"))};
+    
+    for(DataObject d : clientSet)
+        client.addElem(&d);
+    
+    client.sendAllElem(comm, selfMinusOther);
+}
