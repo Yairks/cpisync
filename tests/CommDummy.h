@@ -11,15 +11,18 @@
 
 #include "Communicant.h"
 #include <sstream>
+#include "ConstantsAndTypes.h"
+
 class CommDummy : public Communicant {
 public:
     enum OUTPUTS {
         AA = 1,
-        SIZE_AA = 2,
-        PRIORITY_OBJECT_REPISINT_FALSE = 3,
-        PRIORITY_OBJECT_REPISINT_TRUE = 4,
-        LONG = 5,
-        DOPRIORITY = 6
+        INT_FOUR = 2,
+        INT_FIVE = 3,
+        LONG_FOUR = 4,
+        DOPRIORITY_FOUR_AA = 5,
+        SYNC_OK = 6,
+        SYNC_FAIL = 7
     };
     
     static OUTPUTS output;

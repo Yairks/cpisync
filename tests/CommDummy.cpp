@@ -29,11 +29,15 @@ void CommDummy::commConnect(){
 void CommDummy::commClose(){
 //    
 }
-//// adds toSend to a stringstream
+// adds toSend to a stringstream. Note that the size of toSend is usually
+// represented some way in some data structure for Communicants. To simplify
+// things, we merely increment the amount of sent bytes. This behavior lets us
+// test that commSend(const char*, int) is called by other functions.
 void CommDummy::commSend(const char* toSend, const int numBytes){
+    const int calcLen = 0;
     recv << toSend;
     
-    addXmitBytes(numBytes);
+    addXmitBytes(numBytes == calcLen ? strlen(toSend) : numBytes);
 }
 void CommDummy::resetRecv(){
     recv.str("");
@@ -41,25 +45,30 @@ void CommDummy::resetRecv(){
 string CommDummy::getRecv(){
     return recv.str();
 }
-//
+
 //// RETURNS AA
 string CommDummy::commRecv(long numBytes){
     addRecvBytes(numBytes);
     switch(output){
         case AA:
-            return "AA";
+            return string(2, '\x41'); // AA in hexadecimal
             break;
-        case PRIORITY_OBJECT_REPISINT_FALSE: // change this lol or wait no maybe dont idk but come back to this s
-            return "AAAA";
-            break;
-        case PRIORITY_OBJECT_REPISINT_TRUE:
+        case INT_FOUR:
             return string(1, '\x04') + string(sizeof(int)-1, '\0');
             break;
-        case LONG:
+        case INT_FIVE:
+            return string(1, '\x05') + string(sizeof(int)-1, '\0');
+        case LONG_FOUR:
             return string(1, '\x04') + string(sizeof(long)-1, '\0');
             break;
-        case DOPRIORITY:
-            return "4,AA";
+        case DOPRIORITY_FOUR_AA:
+            return "4," + string(2, '\x41');
+            break;
+        case SYNC_OK:
+            return string(1, (char) SYNC_OK_FLAG);
+            break;
+        case SYNC_FAIL:
+            return string(1, (char) SYNC_FAIL_FLAG);
             break;
     }
    // return "AA";
