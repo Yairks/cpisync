@@ -14,12 +14,16 @@
         <in>feature_tests.c</in>
         <in>feature_tests.cxx</in>
       </df>
+      <df name="include">
+        <in>FullSync.h</in>
+      </df>
       <df name="src">
         <in>CPISync.cpp</in>
         <in>CommSocket.cpp</in>
         <in>CommString.cpp</in>
         <in>Communicant.cpp</in>
         <in>DataObject.cpp</in>
+        <in>FullSync.cpp</in>
         <in>GenSync.cpp</in>
         <in>InterCPISync.cpp</in>
         <in>Logger.cpp</in>
@@ -32,9 +36,10 @@
         <in>CommStringTestRunner.cpp</in>
         <in>DataObjectTest.cpp</in>
         <in>DataObjectTestRunner.cpp</in>
+        <in>FullSyncTest.cpp</in>
+        <in>FullSyncTest.h</in>
+        <in>FullSyncTestRunner.cpp</in>
       </df>
-      <in>FullSync.cpp</in>
-      <in>FullSync.h</in>
     </df>
     <logicalFolder name="Modules"
                    displayName="Modules"
@@ -118,10 +123,6 @@
           </incDir>
         </ccTool>
       </item>
-      <item path="FullSync.cpp" ex="false" tool="1" flavor2="0">
-      </item>
-      <item path="FullSync.h" ex="false" tool="3" flavor2="0">
-      </item>
       <folder path="0/src">
         <ccTool>
           <incDir>
@@ -152,6 +153,8 @@
           </incDir>
         </ccTool>
       </folder>
+      <item path="include/FullSync.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="src/CPISync.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="2">
         </ccTool>
@@ -171,6 +174,8 @@
       <item path="src/DataObject.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="2">
         </ccTool>
+      </item>
+      <item path="src/FullSync.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="src/GenSync.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="2">
@@ -209,6 +214,14 @@
         </ccTool>
       </item>
       <item path="tests/DataObjectTestRunner.cpp" ex="false" tool="1" flavor2="8">
+        <ccTool flags="2">
+        </ccTool>
+      </item>
+      <item path="tests/FullSyncTest.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="tests/FullSyncTest.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="tests/FullSyncTestRunner.cpp" ex="false" tool="1" flavor2="8">
         <ccTool flags="2">
         </ccTool>
       </item>
