@@ -464,7 +464,6 @@ bool CPISync::SyncClient(Communicant* commSync, list<DataObject*> &selfMinusOthe
                         + "   self - other =  " + toStr<vec_ZZ_p > (delta_self) + "\n"
                         + "   other - self =  " + toStr<vec_ZZ_p > (delta_other) + "\n"
                         + "\n";
-		//cout<<results;
 
         }
 
@@ -575,7 +574,6 @@ bool CPISync::SyncServer(Communicant* commSync, list<DataObject*>& selfMinusOthe
                         + "   self - other =  " + toStr<vec_ZZ_p > (delta_self) + "\n"
                         + "   other - self =  " + toStr<vec_ZZ_p > (delta_other) + "\n"
                         + "\n";
-		//cout<<results;
 		
                 // create selfMinusOther and otherMinusSelf structures to report the result of reconciliation
                 try {
