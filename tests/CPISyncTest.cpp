@@ -246,18 +246,30 @@ void CPISyncTest::testSendAllElem() {
     CommString comm;
     
     list<DataObject*> selfMinusOther;
+    list<DataObject*> expected;
 
-    DataObject clientSet[] = {DataObject(string("\x92")),
-                  DataObject(string("\x6F")),
-                  DataObject(string("\x7A")),
-                  DataObject(string("\x79")),
-                  DataObject(string("\x78")),
-                  DataObject(string("\x77")),
-                  DataObject(string("\x76")),
-                  DataObject(string("\x75"))};
+    DataObject clientSet[] = {DataObject(string("A")),
+                  DataObject(string("B")),
+                  DataObject(string("C")),
+                  DataObject(string("D")),
+                  DataObject(string("E")),
+                  DataObject(string("F")),
+                  DataObject(string("G")),
+                  DataObject(string("H"))};
     
-    for(DataObject d : clientSet)
+    
+    
+    for(DataObject d : clientSet) {
         client.addElem(&d);
+        expected.push_back(&d);
+    }
     
-    client.sendAllElem(comm, selfMinusOther);
+    client.sendAllElem(&comm, selfMinusOther);
+    
+    list<DataObject*> recv = comm.commRecv_DoList();
+    
+    for(DataObject* d : recv) {
+        Logger::gLog(Logger::COMM, to_string((int) (d->print()[0])));
+    }
+    
 }

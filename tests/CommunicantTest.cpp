@@ -590,7 +590,7 @@ void CommunicantTest::testCommRecv_ZZ_pAndEstablishModRecv() {
     success = c.establishModRecv(oneWay);
     CPPUNIT_ASSERT(success);
     expected = string(1, (char) SYNC_OK_FLAG);// + string(1, (char) '\x7f'); // unexpected behavior as mentioned above
-    string res = c.getRecv();
+    res = c.getRecv();
     CPPUNIT_ASSERT_EQUAL(expected, res);
     
     // try with oneWay = true
