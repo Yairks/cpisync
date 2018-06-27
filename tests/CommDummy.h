@@ -10,24 +10,24 @@
 #define COMMDUMMY_H
 
 #include "Communicant.h"
+#include <string>
 #include <sstream>
-#include "ConstantsAndTypes.h"
+#include <queue>
 
 class CommDummy : public Communicant {
 public:
-    enum OUTPUTS {
-        AA = 1,
-        INT_FOUR = 2,
-        INT_FIVE = 3,
-        LONG_FOUR = 4,
-        DOPRIORITY_FOUR_AA = 5,
-        SYNC_OK = 6,
-        SYNC_FAIL = 7
-    };
     
-    static OUTPUTS output;
+    /** 
+    * Constructs a CommDummy that sends to, and receives from, a given queue of 
+    * characters.
+    * 
+    * @param intermediate A pointer to a queue of characters where information 
+    * will be exchanged. This is a pointer since intermediate will be modified
+    * in memory by CommDummy functions.
+    */
+    CommDummy(queue<char>* intermediate);
     
-    CommDummy();
+    // Destructor
     ~CommDummy();
     
     // Inherited Communicant methods
@@ -36,11 +36,11 @@ public:
     void commClose();
     void commSend(const char* toSend, const int numBytes);
     string commRecv(long numBytes);
-    string getName(){ return "dummy"; }
-    string getRecv();
-    void resetRecv();
+    inline string getName(){ return "dummy"; }
 protected:
-    stringstream recv;
+    
+    // Instance variable that stores a pointer to intermediate.
+    queue<char>* intermediate;
 };
 
 #endif /* COMMDUMMY_H */

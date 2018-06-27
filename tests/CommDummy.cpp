@@ -7,69 +7,54 @@
  */
 
 #include "CommDummy.h"
-#include <string.h>
 
-CommDummy::OUTPUTS CommDummy::output = CommDummy::AA;
-//// init the string to an empty string
-CommDummy::CommDummy() {
-//    recv = "";
+// namespaces
+using namespace std;
+
+CommDummy::CommDummy(queue<char> *intermediate) {
+    this->intermediate = intermediate;
 }
-//
+
 CommDummy::~CommDummy() {
 }
-//// Does nothing
+
+// No action needed to listen to the intermediate.
 void CommDummy::commListen(){
-//    
-}
-//// ""
-void CommDummy::commConnect(){
-//    
-}
-//// ""
-void CommDummy::commClose(){
-//    
-}
-// adds toSend to a stringstream. Note that the size of toSend is usually
-// represented some way in some data structure for Communicants. To simplify
-// things, we merely increment the amount of sent bytes. This behavior lets us
-// test that commSend(const char*, int) is called by other functions.
-void CommDummy::commSend(const char* toSend, const int numBytes){
-    const int calcLen = 0;
-    recv << toSend;
-    
-    addXmitBytes(numBytes == calcLen ? strlen(toSend) : numBytes);
-}
-void CommDummy::resetRecv(){
-    recv.str("");
-}
-string CommDummy::getRecv(){
-    return recv.str();
+    return;
 }
 
-//// RETURNS AA
+// No action needed to connect to the intermediate.
+void CommDummy::commConnect(){
+    return;
+}
+
+// No action needed to close connection with intermediate.
+void CommDummy::commClose(){
+    return;
+}
+
+void CommDummy::commSend(const char* toSend, const int numBytes){
+    
+    // If numBytes is zero, then toSend's length must be calculated.
+    const int calcLen = 0;
+    intermediate->push(toSend);
+    
+    // Update transmitted-bytes-counter.
+    addXmitBytes(numBytes == calcLen ? strlen(toSend) : numBytes);
+}
+
 string CommDummy::commRecv(long numBytes){
-    addRecvBytes(numBytes);
-    switch(output){
-        case AA:
-            return string(2, '\x41'); // AA in hexadecimal
-            break;
-        case INT_FOUR:
-            return string(1, '\x04') + string(sizeof(int)-1, '\0');
-            break;
-        case INT_FIVE:
-            return string(1, '\x05') + string(sizeof(int)-1, '\0');
-        case LONG_FOUR:
-            return string(1, '\x04') + string(sizeof(long)-1, '\0');
-            break;
-        case DOPRIORITY_FOUR_AA:
-            return "4," + string(2, '\x41');
-            break;
-        case SYNC_OK:
-            return string(1, (char) SYNC_OK_FLAG);
-            break;
-        case SYNC_FAIL:
-            return string(1, (char) SYNC_FAIL_FLAG);
-            break;
+
+    // Create a stringstream to store the first numBytes characters.
+    stringstream recv;
+    
+    // Get the first numBytes characters.
+    for(int i = 0; i < numBytes; i++) {
+        recv << intermediate->front();
+        intermediate->pop();
     }
-   // return "AA";
+
+    // Update received-bytes-counter.
+    addRecvBytes(numBytes);
+    return recv.str();
 }

@@ -15,9 +15,6 @@
 
 CPPUNIT_TEST_SUITE_REGISTRATION(CommunicantTest);
 
-// A constant used frequently throughout the testing suite
-const string AA = "AA";
-
 CommunicantTest::CommunicantTest() {
 }
 
@@ -30,156 +27,75 @@ void CommunicantTest::setUp() {
 void CommunicantTest::tearDown() {
 }
 
-// Make sure the simple dummy functions work
-void CommunicantTest::testCommSendAndRecv() {
-    CommDummy c;
-    CommDummy::OUTPUTS options[] = {CommDummy::AA,
-                                    CommDummy::INT_FOUR,
-                                    CommDummy::INT_FIVE,
-                                    CommDummy::LONG_FOUR,
-                                    CommDummy::DOPRIORITY_FOUR_AA,
-                                    CommDummy::SYNC_OK,
-                                    CommDummy::SYNC_FAIL};
-    
-    for(CommDummy::OUTPUTS o : options) {
-        CommDummy::output = o;
-        string expected;
-        
-        switch(o) {
-            case CommDummy::AA:
-                expected = string(2, '\x41');
-                break;
-            case CommDummy::INT_FOUR:
-                expected = string(1, '\x04') + string(sizeof(int) - 1, '\0');
-                break;
-            case CommDummy::INT_FIVE:
-                expected = string(1, '\x05') + string(sizeof(int) - 1, '\0');
-                break;
-            case CommDummy::LONG_FOUR:
-                expected = string(1, '\x04') + string(sizeof(long) - 1, '\0');
-                break;
-            case CommDummy::DOPRIORITY_FOUR_AA:
-                expected = "4," + string(2, '\x41');
-                break;
-            case CommDummy::SYNC_OK:
-                expected = string(1, (char) SYNC_OK_FLAG);
-                break;
-            case CommDummy::SYNC_FAIL:
-                expected = string(1, (char) SYNC_FAIL_FLAG);
-                break;
-        }
-                
-        // For this particular communicant, commRecv(int numBytes) always
-        // returns a fixed string, regardless of what numBytes is set to.
-        // This is arguably the simplest way of implementing a communicant.
-        // Nevertheless, recvBytes is still incremented by numBytes, which
-        // is the expected behavior for a communicant. The below tests
-        // acknowledge these behaviors.
-        string result = c.commRecv(0);
-        CPPUNIT_ASSERT_EQUAL(expected, result);
+void CommunicantTest::testConstruct() {
+    try {
+        CommDummy c;
+    } catch(...) {
+        CPPUNIT_FAIL("Expected no exceptions.");
     }
     
-    string str = "hello world";
-    
-    // Similar to commRecv, commSend is designed to be as simple as possible.
-    // commSend simply appends str to a stringstream, which can be retrieved
-    // using getRecv. getRecv simply returns the stringstream.str(). It is
-    // impossible to just set a string to the most recent commSend, since many
-    // other commSend functions are expected to call the standard commSend
-    // function multiple times, so the next simplest way to implement the
-    // standard commSend is with a stringstream.
-    c.commSend(str.data(), 0);
-    
-    string result = c.getRecv();
-    CPPUNIT_ASSERT_EQUAL(str, result);
+    // no exceptions thrown
+    CPPUNIT_ASSERT(true);
 }
 
-void CommunicantTest::testInitAndTotalTime() {
-    const long int none = 0;
-        
-    // We expect that the createTime variable is set to the time of the object's
-    // creation. Since we cannot record the exact time we expect the object to
-    // be created, we do the next best thing: record the time immediately before
-    // and after the communicant's creation and assert that the creation time
-    // reported by the communicant is in between these two values.
-    clock_t before = clock();
-    CommDummy c;
-    clock_t after = clock();
-    clock_t actualInit = c.getTotalTime();
+void CommunicantTest::testBytesAndResetCommCounters() {
+    queue<char> q;
     
-    CPPUNIT_ASSERT(before <= actualInit && actualInit <= after);
-    
-    // We expect the initialization to call resetCommCounters, so we check to
-    // make sure that resetTime, xferBytes, and recvBytes are set appropriately.
-    clock_t actualReset = c.getResetTime();
-
-    CPPUNIT_ASSERT_EQUAL(none, c.getRecvBytes());
-    CPPUNIT_ASSERT_EQUAL(none, c.getXmitBytes());
-    CPPUNIT_ASSERT(before <= actualReset && actualReset <= after);
-    
-    // We also expect the initialization to set xferBytesTot and recvBytesTot
-    // to zero as well.
-    CPPUNIT_ASSERT_EQUAL(none, c.getRecvBytesTot());
-    CPPUNIT_ASSERT_EQUAL(none, c.getXmitBytesTot());
-}
-
-void CommunicantTest::testBytesAndResetTimeAndResetCommCounters() {
-    CommDummy c;
+    // set up two communicants to either send or receive
+    CommDummy cSend(*q);
+    CommDummy cRecv(*q);
+    long int none = 0;
     string str = "hello world";
-    int strLength = str.size();
-    const long int none = 0;
     
-    // Record original bytes-communicated values. While these should be set to
-    // zero, this requirement is to be tested with the init test. We are just
-    // checking that the getter methods correctly report the changes in
-    // transmitted bytes.
-    long int totXmit = c.getXmitBytesTot();
-    long int totRecv = c.getRecvBytesTot();
-    long int xmit = c.getXmitBytes();
-    long int recv = c.getRecvBytes();
+    CPPUNIT_ASSERT_EQUAL(none, cSend.getXmitBytesTot());
+    CPPUNIT_ASSERT_EQUAL(none, cRecv.getRecvBytesTot());
     
-    c.commSend(str.data(), strLength);
+    cSend.resetCommCounters();
+    cRecv.resetCommCounters();
     
-    // Check that the send values incremented correctly.
-    CPPUNIT_ASSERT_EQUAL(xmit + strLength, c.getXmitBytes());
-    CPPUNIT_ASSERT_EQUAL(totXmit + strLength, c.getXmitBytesTot());
+    CPPUNIT_ASSERT_EQUAL(none, cSend.getXmitBytes());
+    CPPUNIT_ASSERT_EQUAL(none, cRecv.getRecvBytes());
+            
+    cSend.commSend(str.data(), str.length());
     
-    c.commRecv(strLength);
+    CPPUNIT_ASSERT_EQUAL(strLength, cSend.getXmitBytes());
+    CPPUNIT_ASSERT_EQUAL(strLength, cSend.getXmitBytesTot());
     
-    // Check that the receive values incremented correctly.
-    CPPUNIT_ASSERT_EQUAL(recv + strLength, c.getRecvBytes());
-    CPPUNIT_ASSERT_EQUAL(totRecv + strLength, c.getRecvBytesTot());
+    cRecv.commRecv(str.length());
     
-    // Check that the reset worked accordingly.
-    clock_t before = clock();
-    c.resetCommCounters();
-    clock_t after = clock();
-    clock_t resetTime = c.getResetTime();
+    CPPUNIT_ASSERT_EQUAL(strLength, cRecv.getRecvBytes());
+    CPPUNIT_ASSERT_EQUAL(strLength, cRecv.getRecvBytesTot());
     
-    CPPUNIT_ASSERT(before <= resetTime && resetTime <= after);
+    cSend.resetCommCounters();
+    cRecv.resetCommCounters();
     
     CPPUNIT_ASSERT_EQUAL(none, c.getRecvBytes());
     CPPUNIT_ASSERT_EQUAL(none, c.getXmitBytes());
 }
 
 void CommunicantTest::testEstablishModSendAndSendZZ_p() {
-    CommDummy c;
+    queue<char> q;
     
-    // Set the ZZ_p modulus to 4;
-    int mod = 4;
-    ZZ init = static_cast<ZZ>(mod);
-    ZZ_p::init(init);
+    CommDummy cSend(*q);
+    CommDummy cRecv(*q);
+    
+    int _mod = 4;
+    ZZ mod = static_cast<ZZ>(_mod);
+    ZZ_p::init(mod);
     
     // Tests that everything works with oneWay set to true.
     bool oneWay = true;
-    bool succ = c.establishModSend(oneWay);
+    bool succ = cSend.establishModSend(oneWay);
     CPPUNIT_ASSERT(succ);
-    string res = c.getRecv();
-    string expected = string(1, '\x01') + string(1, '\x04');
-    CPPUNIT_ASSERT_EQUAL(expected, res);
+    succ = cRecv.establishModRecv(oneWay);
+    CPPUNIT_ASSERT(succ);
     
-    // Resets the recv stringstream.
-    c.resetRecv();
+    int n = 9;
+    ZZ_p exp = n % _mod;
+    cSend.Communicant::commSend(exp);
+    ZZ_p res = cRecv.commRecv_ZZ_p();
+    
+    CPPUNIT_ASSERT_EQUAL(exp, res);
     
     // Tests that everything works with oneWay set to false.
     oneWay = false;

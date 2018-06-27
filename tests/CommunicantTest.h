@@ -14,9 +14,8 @@
 class CommunicantTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(CommunicantTest);
     
-    CPPUNIT_TEST(testInitAndTotalTime);
-    CPPUNIT_TEST(testBytesAndResetTimeAndResetCommCounters);
-    CPPUNIT_TEST(testCommSendAndRecv);
+    CPPUNIT_TEST(testConstruct);
+    CPPUNIT_TEST(testBytesAndResetCommCounters);
     CPPUNIT_TEST(testEstablishModSendAndSendZZ_p);
     CPPUNIT_TEST(testCommSendUstringBytes);
     CPPUNIT_TEST(testCommSendString);
@@ -53,19 +52,11 @@ public:
     void tearDown();
 
 private:
-    // If this fails, there is a problem with the CommDummy class. This test
-    // especially shouldn't fail, as the majority of tests depend on these
-    // functions.
-    void testCommSendAndRecv();
+    // Tests argument-free construction.
+    void testConstruct();
     
-    // Requires bytes-communicated and reset-time getters to work as well.
-    // If this test fails in conjunction with testBytesAndResetCommCounters,
-    // check the getter functions for bytes-communicated and reset-time.
-    void testInitAndTotalTime();
-    
-    // Tests bytes-communicated getters, reset-time getters, and
-    // resetCommCounters.
-    void testBytesAndResetTimeAndResetCommCounters();
+    // Tests bytes-communicated-counter getters and resetCommCounters.
+    void testBytesAndResetCommCounters();
     
     // Tests that establishModSend and commSend(ZZ_p) work correctly.
     void testEstablishModSendAndSendZZ_p();
