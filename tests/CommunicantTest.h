@@ -46,21 +46,46 @@ private:
     // Tests bytes-communicated-counter getters and resetCommCounters.
     void testBytesAndResetCommCounters();
     
-    // Tests that establishMod functions, commSend for ZZ_p, and commRecv for ZZ_p work correctly.
+    // Tests establishMod functions, commSend for ZZ_p, and commRecv for ZZ_p.
     void testEstablishModAndCommZZ_p();
+    
+    // Tests commSend and Recv for ustring, passing the size of the ustring in bytes as an argument.
     void testCommUstringBytes();
+    
+    // Tests commSend and Recv for string
     void testCommString();
+    
+    // Tests commSend and Recv for long int
     void testCommLong();
+    
+    // Tests commSend and Recv for ustring without passing size as an argument
     void testCommUstringNoBytes();
+    
+    // Tests commSend and Recv for normal DataObject
     void testCommDataObject();
+    
+    // Tests commSend and Recv for DataObject with priority
     void testCommDataObjectPriority();
+    
+    // Tests commSend and Recv for a list of DataObject
     void testCommDataObjectList();
+    
+    // Tests commSend and Recv for double
     void testCommDouble();
+    
+    // Tests commSend and Recv for byte
     void testCommByte();
+    
+    // Tests commSend and Recv for int
     void testCommInt();
+    
+    // Tests commSend and Recv for vec_ZZ_p. Requires establishModSend and Recv
     void testCommVec_ZZ_p();
-    void testCommZZ_p();
+    
+    // Tests commSend and Recv for ZZ, passing the size of the ZZ as an argument
     void testCommZZ();
+    
+    // Tests commSend and Recv for ZZ without passing any arguments
     void testCommZZNoArgs();
 
     
