@@ -12,8 +12,10 @@
 #include "Communicant.h"
 #include <string>
 #include <sstream>
+#include <cstring>
 #include <queue>
 
+using namespace std;
 class CommDummy : public Communicant {
 public:
     
