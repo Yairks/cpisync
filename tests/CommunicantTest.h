@@ -14,35 +14,22 @@
 class CommunicantTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(CommunicantTest);
     
-    CPPUNIT_TEST(testInitAndTotalTime);
-    CPPUNIT_TEST(testBytesAndResetTimeAndResetCommCounters);
-    CPPUNIT_TEST(testCommSendAndRecv);
-    CPPUNIT_TEST(testEstablishModSendAndSendZZ_p);
-    CPPUNIT_TEST(testCommSendUstringBytes);
-    CPPUNIT_TEST(testCommSendString);
-    CPPUNIT_TEST(testCommSendLong);
-    CPPUNIT_TEST(testCommSendUstringNoBytes);
-    CPPUNIT_TEST(testCommSendDataObject);
-    CPPUNIT_TEST(testCommSendDataObjectPriority);
-    CPPUNIT_TEST(testCommSendDataObjectList);
-    CPPUNIT_TEST(testCommSendDouble);
-    CPPUNIT_TEST(testCommSendByte);
-    CPPUNIT_TEST(testCommSendInt);
-    CPPUNIT_TEST(testCommRecv_vec_ZZ_p);
-    CPPUNIT_TEST(testCommSendVec_ZZ_p);
-    CPPUNIT_TEST(testCommRecv_ustring);
-    CPPUNIT_TEST(testCommRecv_string);
-    CPPUNIT_TEST(testCommRecv_ustring2);
-    CPPUNIT_TEST(testCommRecv_DataObject);
-    CPPUNIT_TEST(testCommRecv_DataObject_Priority);
-    CPPUNIT_TEST(testCommRecv_DoList);
-    CPPUNIT_TEST(testCommRecv_double);
-    CPPUNIT_TEST(testCommRecv_long);
-    CPPUNIT_TEST(testCommRecv_int);
-    CPPUNIT_TEST(testCommRecv_byte);
-    CPPUNIT_TEST(testCommRecv_ZZ_pAndEstablishModRecv);
-    CPPUNIT_TEST(testCommRecv_ZZ);
-    CPPUNIT_TEST(testCommRecv_ZZNoArgs);
+    CPPUNIT_TEST(testConstruct);
+    CPPUNIT_TEST(testBytesAndResetCommCounters);
+    CPPUNIT_TEST(testEstablishModAndCommZZ_p);
+    CPPUNIT_TEST(testCommUstringBytes);
+    CPPUNIT_TEST(testCommString);
+    CPPUNIT_TEST(testCommLong);
+    CPPUNIT_TEST(testCommUstringNoBytes);
+    CPPUNIT_TEST(testCommDataObject);
+    CPPUNIT_TEST(testCommDataObjectPriority);
+    CPPUNIT_TEST(testCommDataObjectList);
+    CPPUNIT_TEST(testCommDouble);
+    CPPUNIT_TEST(testCommByte);
+    CPPUNIT_TEST(testCommInt);
+    CPPUNIT_TEST(testCommVec_ZZ_p);
+    CPPUNIT_TEST(testCommZZ);
+    CPPUNIT_TEST(testCommZZNoArgs);
     
     CPPUNIT_TEST_SUITE_END();
 
@@ -53,47 +40,53 @@ public:
     void tearDown();
 
 private:
-    // If this fails, there is a problem with the CommDummy class. This test
-    // especially shouldn't fail, as the majority of tests depend on these
-    // functions.
-    void testCommSendAndRecv();
+    // Tests argument-free construction.
+    void testConstruct();
     
-    // Requires bytes-communicated and reset-time getters to work as well.
-    // If this test fails in conjunction with testBytesAndResetCommCounters,
-    // check the getter functions for bytes-communicated and reset-time.
-    void testInitAndTotalTime();
+    // Tests bytes-communicated-counter getters and resetCommCounters.
+    void testBytesAndResetCommCounters();
     
-    // Tests bytes-communicated getters, reset-time getters, and
-    // resetCommCounters.
-    void testBytesAndResetTimeAndResetCommCounters();
+    // Tests establishMod functions, commSend for ZZ_p, and commRecv for ZZ_p.
+    void testEstablishModAndCommZZ_p();
     
-    // Tests that establishModSend and commSend(ZZ_p) work correctly.
-    void testEstablishModSendAndSendZZ_p();
-    void testCommSendUstringBytes();
-    void testCommSendString();
-    void testCommSendLong();
-    void testCommSendUstringNoBytes();
-    void testCommSendDataObject();
-    void testCommSendDataObjectPriority();
-    void testCommSendDataObjectList();
-    void testCommSendDouble();
-    void testCommSendByte();
-    void testCommSendInt();
-    void testCommRecv_vec_ZZ_p();
-    void testCommSendVec_ZZ_p();
-    void testCommRecv_ustring();
-    void testCommRecv_string();
-    void testCommRecv_ustring2();
-    void testCommRecv_DataObject();
-    void testCommRecv_DataObject_Priority();
-    void testCommRecv_DoList();
-    void testCommRecv_double();
-    void testCommRecv_long();
-    void testCommRecv_int();
-    void testCommRecv_byte();
-    void testCommRecv_ZZ_pAndEstablishModRecv();
-    void testCommRecv_ZZ();
-    void testCommRecv_ZZNoArgs();
+    // Tests commSend and Recv for ustring, passing the size of the ustring in bytes as an argument.
+    void testCommUstringBytes();
+    
+    // Tests commSend and Recv for string
+    void testCommString();
+    
+    // Tests commSend and Recv for long int
+    void testCommLong();
+    
+    // Tests commSend and Recv for ustring without passing size as an argument
+    void testCommUstringNoBytes();
+    
+    // Tests commSend and Recv for normal DataObject
+    void testCommDataObject();
+    
+    // Tests commSend and Recv for DataObject with priority
+    void testCommDataObjectPriority();
+    
+    // Tests commSend and Recv for a list of DataObject
+    void testCommDataObjectList();
+    
+    // Tests commSend and Recv for double
+    void testCommDouble();
+    
+    // Tests commSend and Recv for byte
+    void testCommByte();
+    
+    // Tests commSend and Recv for int
+    void testCommInt();
+    
+    // Tests commSend and Recv for vec_ZZ_p. Requires establishModSend and Recv
+    void testCommVec_ZZ_p();
+    
+    // Tests commSend and Recv for ZZ, passing the size of the ZZ as an argument
+    void testCommZZ();
+    
+    // Tests commSend and Recv for ZZ without passing any arguments
+    void testCommZZNoArgs();
 
     
 
