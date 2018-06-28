@@ -84,29 +84,29 @@ public:
   string printElem();
 protected:
   // internal data
-  bool oneWay; /** Enables one-way FullSync when set to true.  Otherwise, both client and server are synced.*/
-  bool hashQ; /** Typically CPISync syncs hashes of elements (hashQ == true), then exchange the differing elements.
-                  * With hashQ == false, trivial hashes are used (that are in one-to-one correspondence with data)
-                  * so that actual element differences are computed in CPISync, and
-                  * one round of communication is saved.  Under this situation, all elements, must comfortably
-                  *  fit within the prescribed bit-length for internal storage, and no element duplicates are permitted.
-                  *
-                  * With hashQ == true, element duplicates are permitted (handled through hashing) and, potentially,
-                 * element  representations are smaller.
-                 */
-  bool keepAlive; /** If this is true, the CPISync does not setup or close the communicant connection - these
-                     *  can be handled manually.
-                     */
-
-  long bitNum; /** Number of bits used to represent an element of the set that is being synchronized. */
-  ZZ fieldSize; /** The size of the finite field used to represent set elements. */
-
-  map< ZZ, DataObject * > fullHash; /** list of pairs, one for each element in the set (to be synchronized).
-                                           *  The first item in the pair is a hash (a long integer) 
-                                           *  of the second item, which is the set element.
-                                           *  All operations are done on the hashes, and this look-up table can be used to retrieve
-                                           *  the actual element once the hashes have been synchronized.
-                                           */
+//  bool oneWay; /** Enables one-way FullSync when set to true.  Otherwise, both client and server are synced.*/
+//  bool hashQ; /** Typically CPISync syncs hashes of elements (hashQ == true), then exchange the differing elements.
+//                  * With hashQ == false, trivial hashes are used (that are in one-to-one correspondence with data)
+//                  * so that actual element differences are computed in CPISync, and
+//                  * one round of communication is saved.  Under this situation, all elements, must comfortably
+//                  *  fit within the prescribed bit-length for internal storage, and no element duplicates are permitted.
+//                  *
+//                  * With hashQ == true, element duplicates are permitted (handled through hashing) and, potentially,
+//                 * element  representations are smaller.
+//                 */
+//  bool keepAlive; /** If this is true, the CPISync does not setup or close the communicant connection - these
+//                     *  can be handled manually.
+//                     */
+//
+//  long bitNum; /** Number of bits used to represent an element of the set that is being synchronized. */
+//  ZZ fieldSize; /** The size of the finite field used to represent set elements. */
+//
+//  map< ZZ, DataObject * > fullHash; /** list of pairs, one for each element in the set (to be synchronized).
+//                                           *  The first item in the pair is a hash (a long integer) 
+//                                           *  of the second item, which is the set element.
+//                                           *  All operations are done on the hashes, and this look-up table can be used to retrieve
+//                                           *  the actual element once the hashes have been synchronized.
+//                                           */
 
   // helper functions
   /**
