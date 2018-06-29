@@ -71,7 +71,7 @@
           <buildCommandWorkingDir>.</buildCommandWorkingDir>
           <buildCommand>${MAKE} -f Makefile</buildCommand>
           <cleanCommand>${MAKE} -f Makefile clean</cleanCommand>
-          <executablePath>CPISyncTest.exe</executablePath>
+          <executablePath>CommunicantTest.exe</executablePath>
         </makeTool>
         <preBuild>
           <preBuildCommandWorkingDir>.</preBuildCommandWorkingDir>
@@ -217,10 +217,15 @@
         </ccTool>
       </item>
       <item path="tests/CPISyncTest.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="3">
+        <ccTool flags="2">
           <incDir>
+            <pElem>/usr/include/cppunit</pElem>
+            <pElem>/usr/include/cppunit/extensions</pElem>
+            <pElem>tests</pElem>
+            <pElem>/usr/include/NTL</pElem>
             <pElem>include</pElem>
-            <pElem>/opt/local/include</pElem>
+            <pElem>/usr/include/cppunit/portability</pElem>
+            <pElem>/usr/include/cppunit/config</pElem>
             <pElem>.</pElem>
           </incDir>
         </ccTool>
@@ -300,15 +305,10 @@
         </ccTool>
       </item>
       <item path="tests/CommunicantTest.cpp" ex="false" tool="1" flavor2="8">
-        <ccTool flags="2">
+        <ccTool flags="3">
           <incDir>
-            <pElem>/usr/include/cppunit</pElem>
-            <pElem>/usr/include/cppunit/extensions</pElem>
-            <pElem>tests</pElem>
-            <pElem>/usr/include/NTL</pElem>
             <pElem>include</pElem>
-            <pElem>/usr/include/cppunit/portability</pElem>
-            <pElem>/usr/include/cppunit/config</pElem>
+            <pElem>/opt/local/include</pElem>
             <pElem>.</pElem>
           </incDir>
         </ccTool>

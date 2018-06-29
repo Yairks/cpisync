@@ -13,10 +13,39 @@
 #include <algorithm>
 #include <math.h>
 #include <stdlib.h>
+#include <limits.h>
 
 CPPUNIT_TEST_SUITE_REGISTRATION(CommunicantTest);
 
-const int MY_SEED = 123456; // a preset seed for pseudorandom number generation
+// Generates `amt` random integers from the seeded prng
+vector<int> genRandInt(int amt) {
+    vector<int> vals;
+    
+    for(int ii = 0; ii < amt; ii++)
+        vals.push_back(rand());
+    
+    return vals;
+}
+
+// Generates `amt` random strings with length chosen random s.t. `lower` <= length <= `upper`
+vector<string> genRandString(int amt, int lower, int upper) {
+    vector <string> vals;
+    
+    for(int ii = 0; ii < amt; ii++) {
+        stringstream str;
+        
+        // pick a length in between lower and upper, inclusive
+        int length = (rand() % (upper + 1));
+        if(length < lower) length = lower;
+        
+        for(int jj = 0; jj < length; jj++)
+            str << (char) (rand() % (int) ((pow(2, CHAR_BIT)-1))); // generate a random character and add to stringstream
+        
+        vals.push_back(str.str());
+    }
+    
+    return vals;
+}
 
 CommunicantTest::CommunicantTest() {
 }
@@ -25,6 +54,8 @@ CommunicantTest::~CommunicantTest() {
 }
 
 void CommunicantTest::setUp() {
+    const int MY_SEED = 123456; // a preset seed for pseudorandom number generation
+    srand(MY_SEED); // seed the prng predictably so that the random numbers generated are predictable and reproducible
 }
 
 void CommunicantTest::tearDown() {
@@ -50,7 +81,7 @@ void CommunicantTest::testBytesAndResetCommCounters() {
     CommDummy cRecv(&qq);
     const long int NONE = 0;
     const string STR = "hello world";
-    const long int STR_LENGTH = str.length();
+    const long int STR_LENGTH = STR.length();
     
     CPPUNIT_ASSERT_EQUAL(NONE, cSend.getXmitBytesTot());
     CPPUNIT_ASSERT_EQUAL(NONE, cRecv.getRecvBytesTot());
@@ -84,20 +115,26 @@ void CommunicantTest::testEstablishModAndCommZZ_p() {
     CommDummy cSend(&qq);
     CommDummy cRecv(&qq);
     
-    const ZZ MOD(4l);
-    ZZ_p::init(MOD);
+    // Generate two sets of 100 random mods and ZZ_p values
+    const int SIZE = 100;
+    const vector<int> TEST_VALUES = genRandInt(SIZE);
+    const vector<int> TEST_MODS = genRandInt(SIZE);
     
-    // Tests that everything works with oneWay set to true.
-    const bool ONE_WAY = true;
-    CPPUNIT_ASSERT(cSend.establishModSend(ONE_WAY)); 
-    CPPUNIT_ASSERT(cRecv.establishModRecv(ONE_WAY));
+    for(int ii = 0; ii < SIZE; ii++) {
+        const ZZ MOD(TEST_MODS[ii]);
+        ZZ_p::init(MOD);
     
-    long int n = 9; // todo: test with multiple seeded numbers
-    ZZ_p exp(n % MOD); // ** 
-    cSend.Communicant::commSend(exp);
-    ZZ_p res = cRecv.commRecv_ZZ_p();
-    
-    CPPUNIT_ASSERT_EQUAL(exp, res);
+        // Tests that establishMod works with oneWay set to true.
+        const bool ONE_WAY = true;
+        CPPUNIT_ASSERT(cSend.establishModSend(ONE_WAY)); 
+        CPPUNIT_ASSERT(cRecv.establishModRecv(ONE_WAY));
+        
+        const ZZ_p EXP(TEST_VALUES[ii]);
+        cSend.Communicant::commSend(EXP);
+        const ZZ_p RES = cRecv.commRecv_ZZ_p();
+        
+        CPPUNIT_ASSERT_EQUAL(EXP, RES);
+    }
 }
 
 void CommunicantTest::testCommUstringBytes() {
@@ -105,18 +142,26 @@ void CommunicantTest::testCommUstringBytes() {
     CommDummy cSend(&qq);
     CommDummy cRecv(&qq);
     
-    const ustring EXP("abcdef");
-    const int EXP_LEN = EXP.size();
-   
-    // check that transmitted bytes are successfully incremented 
-    const long int BEFORE = cSend.getXmitBytes();
-    cSend.Communicant::commSend(EXP, EXP_LEN);
-    const long int AFTER = cSend.getXmitBytes();
+    const int SIZE = 100;
+    const int LOWER_BOUND = 1;
+    const int UPPER_BOUND = 250; // arbitrary upper bound
     
-    const ustring RES = cRecv.commRecv_ustring(EXP_LEN);
+    const vector<string> TEST_VALUES = genRandString(SIZE, LOWER_BOUND, UPPER_BOUND);
+    
+    for(int ii = 0; ii < SIZE; ii++) {
+        const ustring EXP = (const unsigned char *) (TEST_VALUES[ii].data());
+        const int EXP_LEN = EXP.size();
 
-    CPPUNIT_ASSERT_EQUAL(EXP.compare(RES), 0);
-    CPPUNIT_ASSERT_EQUAL(BEFORE + EXP_LEN, AFTER);
+        // check that transmitted bytes are successfully incremented 
+        const long int BEFORE = cSend.getXmitBytes();
+        cSend.Communicant::commSend(EXP, EXP_LEN);
+        const long int AFTER = cSend.getXmitBytes();
+
+        const ustring RES = cRecv.commRecv_ustring(EXP_LEN);
+
+        CPPUNIT_ASSERT_EQUAL(EXP.compare(RES), 0);
+        CPPUNIT_ASSERT_EQUAL(BEFORE + EXP_LEN, AFTER);
+    }
 }
 
 void CommunicantTest::testCommUstringNoBytes() {
@@ -124,13 +169,19 @@ void CommunicantTest::testCommUstringNoBytes() {
     CommDummy cSend(&qq);
     CommDummy cRecv(&qq);
     
-    const ustring EXP("abcdef");
+    const int SIZE = 100;
+    const int LOWER_BOUND = 1;
+    const int UPPER_BOUND = 25; // arbitrary upper bound
     
-    cSend.Communicant::commSend(EXP);
-    const ustring RES = cRecv.commRecv_ustring();
+    const vector<string> TEST_VALUES = genRandString(SIZE, LOWER_BOUND, UPPER_BOUND);
     
-    CPPUNIT_ASSERT_EQUAL(EXP.compare(RES), 0);
-   
+    for(int ii = 0; ii < SIZE; ii++) {
+        const ustring EXP = (const unsigned char *) (TEST_VALUES[ii].data());
+        cSend.Communicant::commSend(EXP);
+        const ustring RES = cRecv.commRecv_ustring();
+    
+        CPPUNIT_ASSERT_EQUAL(EXP.compare(RES), 0);
+    }
 }
 
 void CommunicantTest::testCommString() {
@@ -164,13 +215,13 @@ void CommunicantTest::testCommDataObject() {
     CommDummy cSend(&qq);
     CommDummy cRecv(&qq);
 
-    const DataObject EXP(string("abcdef"));
-    cSend.Communicant::commSend(EXP);
-    const DataObject* RES = cRecv.commRecv_DataObject();
+    DataObject exp(string("abcdef"));
+    cSend.Communicant::commSend(exp);
+    DataObject* res = cRecv.commRecv_DataObject();
 
     // same as testing for equality.
-    CPPUNIT_ASSERT(!(EXP < *RES || *RES < EXP));
-    CPPUNIT_ASSERT_EQUAL(EXP.getPriority(), RES->getPriority());
+    CPPUNIT_ASSERT(!(exp < *res || *res < exp));
+    CPPUNIT_ASSERT_EQUAL(exp.getPriority(), res->getPriority());
 }
 
 void CommunicantTest::testCommDataObjectPriority() { // fix this test so that the repisint doesnt need to be changed
@@ -188,11 +239,11 @@ void CommunicantTest::testCommDataObjectPriority() { // fix this test so that th
     expA.setPriority(PRIORITY);
    
     cSend.Communicant::commSend(expA, SEND_PRIORITY);
-    const DataObject* RES_A = cRecv.commRecv_DataObject_Priority();
+    DataObject* resA = cRecv.commRecv_DataObject_Priority();
 
     // same as testing for equality.
-    CPPUNIT_ASSERT(!(expA < *RES_A || *RES_A < expA));
-    CPPUNIT_ASSERT_EQUAL(expA.getPriority(), RES_A->getPriority());
+    CPPUNIT_ASSERT(!(expA < *resA || *resA < expA));
+    CPPUNIT_ASSERT_EQUAL(expA.getPriority(), resA->getPriority());
             
     // Test case where RepIsInt is false
     DataObject::RepIsInt = false;
@@ -200,10 +251,10 @@ void CommunicantTest::testCommDataObjectPriority() { // fix this test so that th
     expB.setPriority(PRIORITY);
     cSend.Communicant::commSend(expB, SEND_PRIORITY);
 
-    const DataObject* RES_B = cRecv.commRecv_DataObject_Priority();
+    DataObject* resB = cRecv.commRecv_DataObject_Priority();
 
-    CPPUNIT_ASSERT(!(expB < *RES_B || *RES_B < expB));
-    CPPUNIT_ASSERT_EQUAL(expB.getPriority(), RES_B->getPriority());
+    CPPUNIT_ASSERT(!(expB < *resB || *resB < expB));
+    CPPUNIT_ASSERT_EQUAL(expB.getPriority(), resB->getPriority());
 }
 
 void CommunicantTest::testCommDataObjectList() {
@@ -229,14 +280,14 @@ void CommunicantTest::testCommDataObjectList() {
     // assert same length before iterating to check their equality
     CPPUNIT_ASSERT_EQUAL(exp.size(), RES.size());
     
-    list<DataObject*>::iterator expI = exp.begin();
-    list<DataObject*>::iterator resI = RES.begin();
+    list<DataObject*>::const_iterator expI = exp.begin();
+    list<DataObject*>::const_iterator resI = RES.begin();
     
     for(int i = 0; i < exp.size(); i++) {
-        const DataObject CURR_EXP = **expI;
-        const DataObject CURR_RES = **resI;
-        CPPUNIT_ASSERT(!(CURR_EXP < CURR_RES || CURR_RES < CURR_EXP)); // equality test for each DataObject
-        CPPUNIT_ASSERT_EQUAL(CURR_EXP.getPriority(), CURR_RES.getPriority());
+        DataObject currExp = **expI;
+        DataObject currRes = **resI;
+        CPPUNIT_ASSERT(!(currExp < currRes || currRes < currExp)); // equality test for each DataObject
+        CPPUNIT_ASSERT_EQUAL(currExp.getPriority(), currRes.getPriority());
         // increment both iterators
         advance(expI, 1);
         advance(resI, 1);
@@ -291,7 +342,7 @@ void CommunicantTest::testCommVec_ZZ_p() {
     // Set moduli
     const bool ONE_WAY = true;
     const ZZ MODULUS(667l);
-    ZZ_p::init(modulus);
+    ZZ_p::init(MODULUS);
     cSend.establishModSend(ONE_WAY);
     cRecv.establishModRecv(ONE_WAY);
     
@@ -330,7 +381,7 @@ void CommunicantTest::testCommZZNoArgs(){
     CommDummy cSend(&qq);
     CommDummy cRecv(&qq);
 
-    const ZZ EXP = static_cast<ZZ>(123456l);
+    const ZZ EXP(123456l);
     cSend.Communicant::commSend(EXP);
     const ZZ RES = cRecv.commRecv_ZZ();
 
