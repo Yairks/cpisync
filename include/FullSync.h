@@ -29,12 +29,8 @@ using namespace NTL;
 class FullSync : public SyncMethod {
 public:
     
-    /**
-     *  Specific class constructor.
-     * 
-     * @param hashes Should data be stored as is, or first reduced via a hash.
-    */
-    FullSync(bool hashes = false);
+    // General class constructor
+    FullSync();
     
     // General class destructor
     ~FullSync();
@@ -107,13 +103,15 @@ protected:
 //                                           *  All operations are done on the hashes, and this look-up table can be used to retrieve
 //                                           *  the actual element once the hashes have been synchronized.
 //                                           */
-    set<DataObject *> mySet; /** set of DataObject pointers representing our set */
+    list<DataObject *> myList; /** set of DataObject pointers representing our set */
   // helper functions
   /**
-   * Sends all hashes through a Communicant.
-   * @param commSync The Communicant to connect to.
+   * Reconciles differences between myList and a given clientList
+   * @param clientList The list with which to reconcile differences
+   * @param selfMinusOther Objects that I have that the other doesn't
+   * @param otherMinusSelf Objects that the other has that I don't
    */
-  void sendHashes(Communicant* commSync);
+  void calcDiff(list<DataObject *> clientList, list<DataObject *>& selfMinusOther, list<DataObject *>& otherMinusSelf);
 };
 
 #endif /* FULLSYNC_H */

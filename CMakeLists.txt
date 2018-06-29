@@ -13,6 +13,7 @@ set(SOURCE_FILES
         src/Communicant.cpp
         src/CPISync.cpp
         src/DataObject.cpp
+        src/FullSync.cpp
         src/GenSync.cpp
         src/InterCPISync.cpp
         src/Logger.cpp
