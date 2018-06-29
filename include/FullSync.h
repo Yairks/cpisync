@@ -84,7 +84,7 @@ public:
   string printElem();
 protected:
   // internal data
-//  bool oneWay; /** Enables one-way FullSync when set to true.  Otherwise, both client and server are synced.*/
+  bool oneWay; /** Enables one-way FullSync when set to true.  Otherwise, both client and server are synced.*/
 //  bool hashQ; /** Typically CPISync syncs hashes of elements (hashQ == true), then exchange the differing elements.
 //                  * With hashQ == false, trivial hashes are used (that are in one-to-one correspondence with data)
 //                  * so that actual element differences are computed in CPISync, and
@@ -94,7 +94,7 @@ protected:
 //                  * With hashQ == true, element duplicates are permitted (handled through hashing) and, potentially,
 //                 * element  representations are smaller.
 //                 */
-//  bool keepAlive; /** If this is true, the CPISync does not setup or close the communicant connection - these
+  bool keepAlive; /** If this is true, the CPISync does not setup or close the communicant connection - these
 //                     *  can be handled manually.
 //                     */
 //
@@ -107,7 +107,7 @@ protected:
 //                                           *  All operations are done on the hashes, and this look-up table can be used to retrieve
 //                                           *  the actual element once the hashes have been synchronized.
 //                                           */
-
+    set<DataObject *> mySet; /** set of DataObject pointers representing our set */
   // helper functions
   /**
    * Sends all hashes through a Communicant.

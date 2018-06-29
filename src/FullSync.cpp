@@ -39,32 +39,23 @@ bool FullSync::SyncClient(Communicant* commSync, list<DataObject*> &selfMinusOth
     
     // 1. Send all hashes
     vec_ZZ_p hashes;
-    map<ZZ, DataObject*>::const_iterator iter = fullHash.begin();
-    for (; iter != fullHash.end(); iter++) {
+    map<ZZ, DataObject*>::const_iterator iter = mySet.begin();
+    for (; iter != mySet.end(); iter++)
         hashes.append(iter->first);
-    }
+
     commSync->commSend(hashes);
     
     if(!oneWay) {
         // receive response from server with delta
-        delta_other = commSync->commRecv_vec_ZZ_p();
-        delta_self = commSync->commRecv_vec_ZZ_p();
+        selfMinusOther = commSync->commRecv_vec_ZZ_p();
+        otherMinusSelf = commSync->commRecv_vec_ZZ_p();
 
         Logger::gLog(Logger::METHOD, string("CPISync succeeded.\n")
                 + "   self - other =  " + toStr<vec_ZZ_p > (delta_self) + "\n"
                 + "   other - self =  " + toStr<vec_ZZ_p > (delta_other) + "\n"
                 + "\n");
-        string results= string("... results:\n")
-                    + "   self - other =  " + toStr<vec_ZZ_p > (delta_self) + "\n"
-                    + "   other - self =  " + toStr<vec_ZZ_p > (delta_other) + "\n"
-                    + "\n";
-        
-        selfMinusOther = delta_other;
-        otherMinusSelf = delta_self;
     }
     
-    
-    // TODO: report the results of reconciliation; handle exceptions
     return true;
     
 }
