@@ -8,6 +8,8 @@
  */
 
 #include "FullSync.h"
+#include "Exceptions.h"
+
 #include <algorithm>
 FullSync::FullSync() {
 }
@@ -17,97 +19,114 @@ FullSync::~FullSync() {
 }
 
 bool FullSync::SyncClient(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf){
-    Logger::gLog(Logger::METHOD, "Entering FullSync::SyncClient");
-    // local variables
-    list<DataObject *> delta_self, /** items I have that the other does not, based on the last synchronization. */
-            delta_other; /** items the other has that I do not, based on the last synchronization. */
+    try{
+        Logger::gLog(Logger::METHOD, "Entering FullSync::SyncClient");
+        // local variables
 
-    // 0. Initialization;
+        // connect to the other party
+        commSync->commConnect();
 
-    SyncMethod::SyncClient(commSync, selfMinusOther, otherMinusSelf); // call the base method - sets some fields to 0
-    clock_t commStart = clock();
+        // send all dataObjects
 
-    // 0.5  verify commonality initial parameters
-    // ... connect to the other party
-    commSync->commConnect();
+        commSync->commSend(setToDOList(mySet));
 
-    // ... check that the other side is doing the same synchronization
-    SendSyncParam(commSync);
+        // receive response from server with delta
+        selfMinusOther = commSync->commRecv_DoList();
+        otherMinusSelf = commSync->commRecv_DoList();
 
-    
-    // 1. Send all dataObjects
-
-    commSync->commSend(myList);
-    
-    // receive response from server with delta
-    selfMinusOther = commSync->commRecv_DoList();
-    otherMinusSelf = commSync->commRecv_DoList();
-
-    Logger::gLog(Logger::METHOD, string("CPISync succeeded.\n")
-            + "   self - other =  " + toStr<list<DataObject *> > (delta_self) + "\n"
-            + "   other - self =  " + toStr<list<DataObject *> > (delta_other) + "\n"
-            + "\n");
-    
-    
-    return true;
+        Logger::gLog(Logger::METHOD, string("CPISync succeeded.\n"));
+        return true;
+    } catch(SyncFailureException s) {
+        Logger::gLog(Logger::METHOD_DETAILS, s.what());
+        throw (s);
+    }
     
 }
 bool FullSync::SyncServer(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf){
-    Logger::gLog(Logger::METHOD, "Entering FullSync::SyncServer");
-    // local variables
-    list<DataObject *> delta_self,
-            delta_other;
-    
-    SyncMethod::SyncServer(commSync, selfMinusOther, otherMinusSelf);
-    
-    commSync->commConnect();
-    SendSyncParam(commSync);
-    
-    // Wait for client's DataObject list to be sent.
-    list<DataObject *> client_list = commSync->commRecv_DoList();
-    
-    // Calculate differences between two lists
-    calcDiff(client_list, selfMinusOther, otherMinusSelf);
-    
-    // Send back differences
-    commSync->commSend(selfMinusOther);
-    commSync->commSend(otherMinusSelf);
-    
-    Logger::gLog(Logger::METHOD, string("CPISync succeeded.\n")
-        + "   self - other =  " + toStr<list<DataObject *> > (delta_self) + "\n"
-        + "   other - self =  " + toStr<list<DataObject *> > (delta_other) + "\n"
-        + "\n");
-    
-    return true;
+    try {
+        Logger::gLog(Logger::METHOD, "Entering FullSync::SyncServer");
+
+        // listen for other party
+        commSync->commListen();
+
+        // receive client list once it is sent
+        list<DataObject *> clientList = commSync->commRecv_DoList();
+
+        // Calculate differences between two lists
+        calcDiff(clientList, selfMinusOther, otherMinusSelf);
+
+        // send back differences. keep in mind that our otherMinusSelf is their selfMinusOther and v.v.
+        commSync->commSend(otherMinusSelf);
+        commSync->commSend(selfMinusOther);
+
+        Logger::gLog(Logger::METHOD, string("CPISync succeeded.\n"));
+        return true;
+    } catch (SyncFailureException s) {
+        Logger::gLog(Logger::METHOD_DETAILS, s.what());
+        throw (s);
+    }
     
 }
+
 bool FullSync::addElem(DataObject* newDatum){
     Logger::gLog(Logger::METHOD,"Entering FullSync::addElem");
-    // TODO: implement
-
+    mySet.insert(newDatum);
+    return true;
 }
+
 template <typename T>
 bool FullSync::addElem(T* newDatum){
-    //TODO: implement
-    
+    Logger::gLog(Logger::METHOD, "Entering FullSync::addElem");
+    DataObject* d = new DataObject(newDatum);
+    mySet.insert(d);
+    return true;
 }
+
 bool FullSync::delElem(DataObject* newDatum){
-    //TODO: implement
+    Logger::gLog(Logger::METHOD, "Entering FullSync::delElem");
+    std::set<DataObject*>::iterator locErase = mySet.find(newDatum);
+    if(locErase == mySet.end()) return false; // couldn't find element in set
+    mySet.erase(locErase);
+    return true; // successfully found and erased element in set
     
 }
 string FullSync::getName(){
     Logger::gLog(Logger::METHOD,"Entering FullSync::getName");
-    // TODO: implement
+    return "I am a FullSync object.";
 }
 string FullSync::printElem(){
-    
+    stringstream ss;
+    ss << "[";
+            
+    // use an iterator so we can detect the last element in the list and add commas correctly
+    std::set<DataObject*>::iterator iter = mySet.begin();
+    for(; iter != mySet.end(); iter++)
+        ss << **iter << (iter != --mySet.end() ? ", " : "]");
+    return ss.str();
 }
-// could likely be improved since selfMinusOther and otherMinusSelf don't necessarily have to be cleared and maybe shouldn't
-// rough draft atm
+
+// Helper function for comparing DataObject pointers. Simply dereferences them and compares them normally
+bool cmp(DataObject* a, DataObject* b) {
+    return (*a < *b);
+}
+
 void FullSync::calcDiff(list<DataObject*> clientList, list<DataObject*>& selfMinusOther, list<DataObject*>& otherMinusSelf) {
     selfMinusOther.clear();
     otherMinusSelf.clear();
     
-    set_difference(clientList.begin(), clientList.end(), myList.begin(), myList.end(), otherMinusSelf.begin());
-    set_difference(myList.begin(), myList.end(), clientList.begin(), clientList.end(), selfMinusOther.begin());
+    clientList.sort(cmp);
+    
+    set_difference(clientList.begin(), clientList.end(), mySet.begin(), mySet.end(), std::inserter(otherMinusSelf, otherMinusSelf.end()), cmp);
+    set_difference(mySet.begin(), mySet.end(), clientList.begin(), clientList.end(), std::inserter(selfMinusOther, selfMinusOther.end()), cmp);
+
+}
+
+list<DataObject*> FullSync::setToDOList(std::set<DataObject *> dataSet) {
+    list<DataObject*> dataList;
+    
+    std::set<DataObject*>::iterator ii = dataSet.begin();
+    for(; ii != dataSet.end(); ii++)
+        dataList.push_back(*ii);
+    
+    return dataList;
 }

@@ -53,6 +53,13 @@ ADD_EXECUTABLE(CommStringTest.exe
 target_link_libraries(CommStringTest.exe cpisynclib ntl cppunit gmp)
 ADD_TEST(CommStringTest CommStringTest.exe)
 
+ADD_EXECUTABLE(FullSyncTest.exe
+    ${TEST_DIR}/FullSyncTestRunner.cpp
+    ${TEST_DIR}/FullSyncTest.cpp
+)
+target_link_libraries(FullSyncTest.exe cpisynclib ntl cppunit gmp)
+ADD_TEST(FullSyncTest FullSyncTest.exe)
+
 # TODO: Add all testa automagically
 # FILE(GLOB UnitTests_SRCS ${TEST_DIR} "*TestRunner.cpp" )
 # FOREACH(test ${UnitTests_SRCS})

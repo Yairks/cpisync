@@ -80,7 +80,7 @@ public:
   string printElem();
 protected:
   // internal data
-  bool oneWay; /** Enables one-way FullSync when set to true.  Otherwise, both client and server are synced.*/
+//  bool oneWay; /** Enables one-way FullSync when set to true.  Otherwise, both client and server are synced.*/
 //  bool hashQ; /** Typically CPISync syncs hashes of elements (hashQ == true), then exchange the differing elements.
 //                  * With hashQ == false, trivial hashes are used (that are in one-to-one correspondence with data)
 //                  * so that actual element differences are computed in CPISync, and
@@ -90,7 +90,7 @@ protected:
 //                  * With hashQ == true, element duplicates are permitted (handled through hashing) and, potentially,
 //                 * element  representations are smaller.
 //                 */
-  bool keepAlive; /** If this is true, the CPISync does not setup or close the communicant connection - these
+//  bool keepAlive; /** If this is true, the CPISync does not setup or close the communicant connection - these
 //                     *  can be handled manually.
 //                     */
 //
@@ -103,15 +103,21 @@ protected:
 //                                           *  All operations are done on the hashes, and this look-up table can be used to retrieve
 //                                           *  the actual element once the hashes have been synchronized.
 //                                           */
-    list<DataObject *> myList; /** set of DataObject pointers representing our set */
+    std::set<DataObject *> mySet; /** set of DataObject pointers representing our set */
   // helper functions
   /**
    * Reconciles differences between myList and a given clientList
    * @param clientList The list with which to reconcile differences
    * @param selfMinusOther Objects that I have that the other doesn't
    * @param otherMinusSelf Objects that the other has that I don't
+   * @require clientList is a set, i.e. it has no duplicate elements
    */
   void calcDiff(list<DataObject *> clientList, list<DataObject *>& selfMinusOther, list<DataObject *>& otherMinusSelf);
+  /**
+   * Converts a set into a DataObject list for sending using Communicant::commSend
+   * @param dataSet The set of DataObjects to be converted
+   */
+  list<DataObject *> setToDOList(std::set<DataObject *> dataSet);
 };
 
 #endif /* FULLSYNC_H */

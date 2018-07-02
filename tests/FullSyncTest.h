@@ -15,12 +15,15 @@
 class FullSyncTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(FullSyncTest);
     
+    CPPUNIT_TEST(testAll);
+            
     CPPUNIT_TEST_SUITE_END();
 public:
     FullSyncTest();
     virtual ~FullSyncTest();
     void setUp();
     void tearDown();
+    void testAll();
 private:
 
 };
