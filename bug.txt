@@ -1,0 +1,39 @@
+Bug that I noticed with SyncMethod::delElem - 
+
+code:
+
+vector<DataObject*>::iterator ii = elements.begin();
+for(; ii != elements.end(); ii++)
+  if(*ii == datum)
+    elements.erase(ii);
+
+return true;
+
+problem:
+
+whenever I try to delete an element, I get a segmentation fault.
+
+reprod (FullSync is a child class of SyncMethod; FullSync::delElem(DataObject*) simply calls parent method):
+
+FullSync ff;
+DataObject e("abc");
+ff.addElem(&e); // works fine
+ff.removeElem(&e); // segmentation fault
+
+source of issue:
+
+I think that the segmentation fault here is coming from what happens to ii after an element is deleted.
+Consider the case where *ii = datum. Then, elements.erase(ii) is called. The for loop proceeds, as there
+could be more occurences of datum in elements.
+
+However, consider the case where ii points to the last
+element in elements, namely prev(elements.end()). If *ii == datum, the last element of elements is erased.
+Before ending the current iteration of the for loop, ii currently points to elements.end(), since elements
+has now decreased by one element. Ending the current iteration of the for loop increments ii by 1, so ii now
+points to next(elements.end()). This location is out-of-bounds. The for loop continues since ii != elements.end().
+ii is dereferenced in the if statement's conditional, causing the segfault since ii is out-of-bounds.
+
+proposal to fix:
+
+use functions already in the STL. see updated code in the changes proposed on this branch. 
+
