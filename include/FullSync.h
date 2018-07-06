@@ -35,29 +35,6 @@ public:
     
     // General class destructor
     ~FullSync();
-    
-   /**
-   * Connect as a client to a specific communicant and computes differences between the two (without actually updating them).
-   * All results are *added* to the selfMinusOther and otherMinusSelf parameters (passed by reference).
-   * 
-   * @require SyncServer must have been called at that communicant.
-   * @param commSync The communicant to whom to connect.
-   * @param selfMinusOther A result of reconciliation.  Elements that I have that the other Communicant does not.
-   * @param otherMinusSelf A result of reconciliation.  Elements that the other Communicant has that I do not.
-   * @return true iff the connection and subsequent synchronization appear to be successful.
-   */
-  bool SyncClient(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf);
-
-  /**
-   * Waits for a client to connect from a specific communicant and computes differences between the two (without actually updating them).
-   * All results are *added* to the selfMinusOther and otherMinusSelf parameters (passed by reference).
-   * 
-   * @param commSync The Communicant to whom to connect.
-   * @param selfMinusOther A result of reconciliation.  Elements that I have that the other Communicant does not.
-   * @param otherMinusSelf A result of reconciliation.  Elements that the other Communicant has that I do not.
-   * @return true iff the connection and subsequent synchronization appear to be successful.
-   */
-  bool SyncServer(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf);
   
    /** 
     * Add an element.
@@ -85,14 +62,6 @@ public:
   string printElem();
 protected:
   // helper functions
-  /**
-   * Calculates differences between myList and a given clientList, updating selfMinusOther and otherMinusSelf accordingly
-   * @param clientList The list with which to reconcile differences
-   * @param selfMinusOther Objects that I have that the other doesn't
-   * @param otherMinusSelf Objects that the other has that I don't
-   * @require clientList is a set, i.e. it has no duplicate elements
-   */
-  void calcDiff(list<DataObject *> clientList, list<DataObject *>& selfMinusOther, list<DataObject *>& otherMinusSelf);
   
   /**
    * Returns a representation of the FullSync set as a DataObject* list.
