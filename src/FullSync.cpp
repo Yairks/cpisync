@@ -15,15 +15,15 @@ FullSync::FullSync() {
 FullSync::~FullSync() {
 }
 
-template <typename Iterator> 
-string FullSync::printElem(const Iterator begin, const Iterator end) {
-    Iterator iter = Iterator(begin);
-    
+string FullSync::printElem() {
+    vector<DataObject *>::const_iterator iter = SyncMethod::beginElements();
+
     stringstream ss;
     ss << '[';
     
-    for(;  iter != end; iter++)
-        ss << **iter << (iter == prev(end) ? "]" : ", ");
+    for(;  iter != SyncMethod::endElements(); iter++)
+        ss << **iter << (iter == prev(SyncMethod::endElements()) ? "]" : " ");
+    
     return ss.str();
 
 }
@@ -39,7 +39,14 @@ bool FullSync::SyncClient(Communicant* commSync, list<DataObject*> &selfMinusOth
         commSync->commConnect();
 
         // send my set
-        commSync->commSend(repDOList());
+        
+        // first send the amount of DataObjects...
+        commSync->commSend(SyncMethod::getNumElem());
+        
+        // then send each DataObject.
+        vector<DataObject *>::const_iterator iter = SyncMethod::beginElements();
+        for(; iter != SyncMethod::endElements(); iter++)
+            commSync->commSend(**iter);
 
         // receive response from server with differences
         selfMinusOther = commSync->commRecv_DoList();
@@ -47,8 +54,8 @@ bool FullSync::SyncClient(Communicant* commSync, list<DataObject*> &selfMinusOth
 
         stringstream msg;
         msg << "FullSync succeeded." << endl;
-        msg << "self - other = " << printElem(selfMinusOther.begin(), selfMinusOther.end()) << endl;
-        msg << "other - self = " << printElem(otherMinusSelf.begin(), otherMinusSelf.end()) << endl;
+        msg << "self - other = " << printListOfPtrs(selfMinusOther) << endl;
+        msg << "other - self = " << printListOfPtrs(otherMinusSelf) << endl;
         Logger::gLog(Logger::METHOD, msg.str());
         
         return true;
@@ -69,19 +76,26 @@ bool FullSync::SyncServer(Communicant* commSync, list<DataObject*> &selfMinusOth
         commSync->commListen();
 
         // receive client list once it is sent
-        list<DataObject *> clientList = commSync->commRecv_DoList();
-
+        
+        // first, receive how many DataObjects have been sent...
+        const long SIZE = commSync->commRecv_long();
+        
+        // then receive each DataObject and store to a list
+        multiset<DataObject *> clientSet;
+        for(int ii = 0; ii < SIZE; ii++)
+            clientSet.insert(commSync->commRecv_DataObject());
+            
         // Calculate differences between two lists
-        calcDiff(clientList, selfMinusOther, otherMinusSelf);
-
+        calcDiff(clientSet, selfMinusOther, otherMinusSelf);
+        
         // send back differences. keep in mind that our otherMinusSelf is their selfMinusOther and v.v.
         commSync->commSend(otherMinusSelf);
         commSync->commSend(selfMinusOther);
         
         stringstream msg;
         msg << "FullSync succeeded." << endl;
-        msg << "self - other = " << printElem(selfMinusOther.begin(), selfMinusOther.end()) << endl;
-        msg << "other - self = " << printElem(otherMinusSelf.begin(), otherMinusSelf.end()) << endl;
+        msg << "self - other = " << printListOfPtrs(selfMinusOther) << endl;
+        msg << "other - self = " << printListOfPtrs(otherMinusSelf) << endl;
         Logger::gLog(Logger::METHOD, msg.str());
         
         return true;
@@ -95,14 +109,6 @@ bool FullSync::SyncServer(Communicant* commSync, list<DataObject*> &selfMinusOth
 bool FullSync::addElem(DataObject* newDatum){
     Logger::gLog(Logger::METHOD,"Entering FullSync::addElem");
     
-    /* first, check that the vector in SyncMethod doesn't contain the element being inserted.
-     * if it does, return false and don't add the element */
-    vector<DataObject*>::const_iterator iter = SyncMethod::beginElements();
-    for(; iter != SyncMethod::endElements(); iter++)
-        if(!(**iter < *newDatum || *newDatum < **iter)) return false;
-    
-    /* since adding this element to our vector wouldn't invalidate its set invariant,
-     * call the parent addElem method */
     bool success = SyncMethod::addElem(newDatum);
     if(success) Logger::gLog(Logger::METHOD, "Successfully added DataObject* {" + newDatum->print() + "}");
     return success;
@@ -117,35 +123,14 @@ bool FullSync::delElem(DataObject* newDatum){
     return success;
 }
 
-string FullSync::printElem(){
-    Logger::gLog(Logger::METHOD,"Entering CPISync::printElem");
-    return printElem(SyncMethod::beginElements(), SyncMethod::endElements());
-}
-
-// Helper function for comparing DataObject pointers. Simply dereferences them and compares them normally
+// Helper function for comparing DataObject pointers. Simply dereferences b and compares them normally
 bool cmp(const DataObject* a, const DataObject* b) {
-    return (*a < *b);
+    return (a->operator <(*b));
 }
 
-void FullSync::calcDiff(list<DataObject*> clientList, list<DataObject*>& selfMinusOther, list<DataObject*>& otherMinusSelf) {
+void FullSync::calcDiff(multiset<DataObject*> clientSet, list<DataObject*>& selfMinusOther, list<DataObject*>& otherMinusSelf) {
     Logger::gLog(Logger::METHOD,"Entering CPISync::calcDiff");
-    selfMinusOther.clear();
-    otherMinusSelf.clear();
     
-    clientList.sort(cmp);
-    
-    std::set_difference(clientList.begin(), clientList.end(), SyncMethod::beginElements(), SyncMethod::endElements(), std::inserter(otherMinusSelf, otherMinusSelf.end()), cmp);
-    std::set_difference(SyncMethod::beginElements(), SyncMethod::endElements(), clientList.begin(), clientList.end(), std::inserter(selfMinusOther, selfMinusOther.end()), cmp);
-
-}
-
-list<DataObject*> FullSync::repDOList() {
-    Logger::gLog(Logger::METHOD,"Entering CPISync::repDOList");
-    list<DataObject*> dataList;
-    
-    vector<DataObject*>::const_iterator iter = SyncMethod::beginElements();
-    for(; iter != SyncMethod::endElements(); iter++)
-        dataList.push_back(*iter);
-    
-    return dataList;
+    set_difference(clientSet.begin(), clientSet.end(), SyncMethod::beginElements(), SyncMethod::endElements(), back_inserter(otherMinusSelf), cmp);
+    set_difference(SyncMethod::beginElements(), SyncMethod::endElements(), clientSet.begin(), clientSet.end(), back_inserter(selfMinusOther), cmp);
 }

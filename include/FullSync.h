@@ -36,46 +36,27 @@ public:
     // General class destructor
     ~FullSync();
   
-   /** 
-    * Add an element.
-    * @param newDatum A pointer to the DataObject to be added
-    * @return true iff the element has been successfully added
-    */
-  bool addElem(DataObject* newDatum);
+    
+    // parent methods to override
+    bool SyncClient(Communicant* commSync, list<DataObject *> &selfMinusOther, list<DataObject *> &otherMinusSelf);
+    bool SyncServer(Communicant* commSync, list<DataObject *> &selfMinusOther, list<DataObject *> &otherMinusSelf);
+    bool addElem(DataObject* newDatum);
+    bool delElem(DataObject* newDatum);
+    inline string getName() { return "I am a FullSync object."; }
 
-  /**
-   * Remove an element.
-   * @require newDatum must point to a DataObject that has been added using addElem and has not been deleted using delElem
-   * @param newDatum A pointer to DataObject
-   * @return true iff the element is in the set and has been successfully removed
-   */
-  bool delElem(DataObject* newDatum);
-
-  /**
-   * @return A string detailing this object.
-   */
-  inline string getName() { return "I am a FullSync object."; }
-
-  /**
-   * @return A string representing the elements stored in the FullSync object.
-   */
-  string printElem();
+    /**
+     * @return A string representing the elements stored in the FullSync object.
+     */
+    string printElem();
 protected:
   // helper functions
-  
   /**
-   * Returns a representation of the FullSync set as a DataObject* list.
+   * Calculates differences between the data represented by this FullSync and a given clientSet, adding to selfMinusOther and otherMinusSelf accordingly
+   * @param clientList The list with which to reconcile differences
+   * @param selfMinusOther Objects that I have that the other doesn't
+   * @param otherMinusSelf Objects that the other has that I don't
    */
-  list<DataObject *> repDOList();
-  
-  /**
-   * Prints out a string representing all DataObjects from begin until end
-   * @param begin An iterator representing the beginning of a DataObject collection
-   * @param end An iterator representing the end of the same collection as begin
-   * @require there must be some finite integer n s.t. begin + n = end
-   */
-  template <typename Iterator>
-  string printElem(const Iterator begin, const Iterator end);
+  void calcDiff(multiset<DataObject *> clientSet, list<DataObject *>& selfMinusOther, list<DataObject *>& otherMinusSelf);
 };
 
 #endif /* FULLSYNC_H */
