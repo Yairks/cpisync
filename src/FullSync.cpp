@@ -81,12 +81,16 @@ bool FullSync::SyncServer(Communicant* commSync, list<DataObject*> &selfMinusOth
         const long SIZE = commSync->commRecv_long();
         
         // then receive each DataObject and store to a list
-        multiset<DataObject *> clientSet;
+        multiset<DataObject*> other;
         for(int ii = 0; ii < SIZE; ii++)
-            clientSet.insert(commSync->commRecv_DataObject());
+            other.insert(commSync->commRecv_DataObject());
             
-        // Calculate differences between two lists
-        calcDiff(clientSet, selfMinusOther, otherMinusSelf);
+        // Calculate differences between two lists and splice onto respective lists
+        multiset<DataObject*> self(SyncMethod::beginElements(), SyncMethod::endElements());
+        multiset<DataObject*> currSMO = multisetDiff(self, other);
+        multiset<DataObject*> currOMS = multisetDiff(other, self);
+        selfMinusOther.insert(selfMinusOther.end(), currSMO.begin(), currSMO.end());
+        otherMinusSelf.insert(otherMinusSelf.end(), currOMS.begin(), currOMS.end());
         
         // send back differences. keep in mind that our otherMinusSelf is their selfMinusOther and v.v.
         commSync->commSend(otherMinusSelf);
@@ -121,16 +125,4 @@ bool FullSync::delElem(DataObject* newDatum){
     bool success = SyncMethod::delElem(newDatum);
     if(success) Logger::gLog(Logger::METHOD, "Successfully removed DataObject* {" + newDatum->print() + "}");
     return success;
-}
-
-// Helper function for comparing DataObject pointers. Simply dereferences b and compares them normally
-bool cmp(const DataObject* a, const DataObject* b) {
-    return (a->operator <(*b));
-}
-
-void FullSync::calcDiff(multiset<DataObject*> clientSet, list<DataObject*>& selfMinusOther, list<DataObject*>& otherMinusSelf) {
-    Logger::gLog(Logger::METHOD,"Entering CPISync::calcDiff");
-    
-    set_difference(clientSet.begin(), clientSet.end(), SyncMethod::beginElements(), SyncMethod::endElements(), back_inserter(otherMinusSelf), cmp);
-    set_difference(SyncMethod::beginElements(), SyncMethod::endElements(), clientSet.begin(), clientSet.end(), back_inserter(selfMinusOther), cmp);
 }

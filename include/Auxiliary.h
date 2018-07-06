@@ -259,6 +259,25 @@ multiset<T> multisetDiff(const multiset<T> first, const multiset<T> second) {
 }
 
 /**
+ * Returns the multiset difference <first> - <second> of multisets containing pointers
+ * @param first A multiset of pointers
+ * @param second A multiset of the same type of pointers as <first>
+ * @return the resulting multiset
+ */
+template <class T>
+multiset<T*> multisetDiff(const multiset<T*> first, const multiset<T*> second) {
+    vector<T*> resultVec;
+    set_difference(first.begin(), first.end(), second.begin(), second.end(), back_inserter(resultVec), 
+        // comparison lambda expression; compares a and b as dereferenced objects
+        [](T* a, T* b) { return (a-> operator<(*b)); }
+    );
+    // convert the result to a multiset
+    multiset<T*> result(resultVec.begin(), resultVec.end());
+    return result;
+}
+
+
+/**
  * Returns the multi-set union <first> U <second>.
  * Not particularly efficient ... but it works.
  * @param first A multiset of objects

@@ -48,15 +48,6 @@ public:
      * @return A string representing the elements stored in the FullSync object.
      */
     string printElem();
-protected:
-  // helper functions
-  /**
-   * Calculates differences between the data represented by this FullSync and a given clientSet, adding to selfMinusOther and otherMinusSelf accordingly
-   * @param clientList The list with which to reconcile differences
-   * @param selfMinusOther Objects that I have that the other doesn't
-   * @param otherMinusSelf Objects that the other has that I don't
-   */
-  void calcDiff(multiset<DataObject *> clientSet, list<DataObject *>& selfMinusOther, list<DataObject *>& otherMinusSelf);
 };
 
 #endif /* FULLSYNC_H */
