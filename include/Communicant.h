@@ -94,15 +94,17 @@ public:
      * Sends a data object over the line
      * @param do The data object to send
      */
-    void commSend(DataObject& dob);
-    void commSend(DataObject& dob, bool priority);
+    
+    // restructured for non-pointers
+    void commSend(DataObject dob);
+    void commSend(DataObject dob, bool priority);
     
     /**
      * Sends a list of data object pointers over the line.
      * @param lst The list to be transmitted.
      */
     void commSend(const list<DataObject*> &lst);
-    
+    void commSend(const list<DataObject> lst);
     /**
      * Sends a string over the line.
      * @param str The string to send.

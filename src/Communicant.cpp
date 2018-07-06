@@ -102,19 +102,19 @@ void Communicant::commSend(const ustring ustr) {
 
     Logger::gLog(Logger::COMM, "... attempting to send: ustring " + ustrToStr(ustr));
     commSend((long) ustr.length());
-    commSend(ustr.data(), ustr.length());
+    commSend(ustr.data(), (int) ustr.length());
 }
 
-void Communicant::commSend(DataObject& dob) {
-
+void Communicant::commSend(DataObject dob) {
+    
     Logger::gLog(Logger::COMM, "... attempting to send: DataObject " + dob.to_string());
 
     // for now, just send the data object as a string ... this can be optimized
     commSend(dob.to_string());
 }
 
-void Communicant::commSend(DataObject& dob,bool prio) {
-
+void Communicant::commSend(DataObject dob, bool prio) {
+    
     Logger::gLog(Logger::COMM, "... attempting to send: DataObject " + dob.to_priority_string());
 
     // for now, just send the data object as a string ... this can be optimized
@@ -122,13 +122,20 @@ void Communicant::commSend(DataObject& dob,bool prio) {
 }
 
 void Communicant::commSend(const list<DataObject*> &lst) {
+    list<DataObject> newLst;
+    for(DataObject* dop : lst)
+        newLst.push_back(*dop);
+    commSend(newLst);
+}
+
+void Communicant::commSend(const list<DataObject> lst) {
     Logger::gLog(Logger::COMM, "... attempting to send: DataObject list ...");
-
-    list<DataObject*>::const_iterator it;
+    
+    list<DataObject>::const_iterator it;
     commSend((long) lst.size()); // the number of elements in the list
-
-    for (it = lst.begin(); it != lst.end(); it++)
-        commSend(**it);
+    
+    for(it = lst.begin(); it != lst.end(); it++)
+        commSend(*it);
 }
 
 void Communicant::commSend(double num) {
