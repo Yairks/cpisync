@@ -31,34 +31,13 @@ link_directories(/opt/local/lib)
 add_library(cpisynclib ${SOURCE_FILES})
 target_link_libraries(cpisynclib ntl cppunit gmp pthread)
 
-# add_executable(systemTest tests/cpi_system_test.cpp)
-# target_link_libraries(systemTest cpisynclib ntl cppunit gmp pthread)
+add_executable(systemTest tests/cpi_system_test.cpp)
+target_link_libraries(systemTest cpisynclib ntl cppunit gmp pthread)
 
 #################
 ### Add tests ###
 #################
 # Following : https://cmake.org/pipermail/cmake/2007-March/013361.html
-
-ADD_EXECUTABLE(LoggerTest.exe
-        ${TEST_DIR}/LoggerTestRunner.cpp
-        ${TEST_DIR}/LoggerTest.cpp
-)
-target_link_libraries(LoggerTest.exe cpisynclib ntl cppunit gmp)
-ADD_TEST(LoggerTest LoggerTest.exe)
-
-ADD_EXECUTABLE(AuxiliaryTest.exe
-        ${TEST_DIR}/AuxiliaryTestRunner.cpp
-        ${TEST_DIR}/AuxiliaryTest.cpp
-)
-target_link_libraries(AuxiliaryTest.exe cpisynclib ntl cppunit gmp)
-ADD_TEST(AuxiliaryTest AuxiliaryTest.exe)
-
-ADD_EXECUTABLE(DataObjectTest.exe
-        ${TEST_DIR}/DataObjectTestRunner.cpp
-        ${TEST_DIR}/DataObjectTest.cpp
-)
-target_link_libraries(DataObjectTest.exe cpisynclib ntl cppunit gmp)
-ADD_TEST(DataObjectTest DataObjectTest.exe)
 
 ADD_EXECUTABLE(CommunicantTest.exe
         ${TEST_DIR}/CommunicantTestRunner.cpp
@@ -67,26 +46,12 @@ ADD_EXECUTABLE(CommunicantTest.exe
 target_link_libraries(CommunicantTest.exe cpisynclib ntl cppunit gmp)
 ADD_TEST(CommunicantTest CommunicantTest.exe)
 
-ADD_EXECUTABLE(CommStringTest.exe
-        ${TEST_DIR}/CommStringTestRunner.cpp
-        ${TEST_DIR}/CommStringTest.cpp
+ADD_EXECUTABLE(AuxiliaryTest.exe
+        ${TEST_DIR}/AuxiliaryTestRunner.cpp
+        ${TEST_DIR}/AuxiliaryTest.cpp
 )
-target_link_libraries(CommStringTest.exe cpisynclib ntl cppunit gmp)
-ADD_TEST(CommStringTest CommStringTest.exe)
-
-ADD_EXECUTABLE(CommSocketTest.exe
-        ${TEST_DIR}/CommSocketTestRunner.cpp
-        ${TEST_DIR}/CommSocketTest.cpp
-)
-target_link_libraries(CommSocketTest.exe cpisynclib ntl cppunit gmp)
-ADD_TEST(CommSocketTest CommSocketTest.exe)
-
-ADD_EXECUTABLE(CPISyncTest.exe
-        ${TEST_DIR}/CPISyncTestRunner.cpp
-        ${TEST_DIR}/CPISyncTest.cpp
-)
-target_link_libraries(CPISyncTest.exe cpisynclib ntl cppunit gmp)
-ADD_TEST(CPISyncTest CPISyncTest.exe)
+target_link_libraries(AuxiliaryTest.exe cpisynclib ntl cppunit gmp)
+ADD_TEST(AuxiliaryTest AuxiliaryTest.exe)
 
 # TODO: Add all testa automagically
 # FILE(GLOB UnitTests_SRCS ${TEST_DIR} "*TestRunner.cpp" )

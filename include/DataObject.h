@@ -50,7 +50,9 @@ public:
      * @param item The item to place in the DataObject.
      */
     template<typename T>
-    DataObject(const T item);
+    DataObject(const T item) {
+        myBuffer = pack(std::to_string(item));
+    }
     
     // INFORMATION METHODS
 

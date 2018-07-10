@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/AuxiliaryTest.exe.dir/tests/AuxiliaryTestRunner.cpp.o CMakeFiles/AuxiliaryTest.exe.dir/tests/AuxiliaryTest.cpp.o  -o AuxiliaryTest.exe  -L/opt/local/lib -Wl,-rpath,/opt/local/lib libcpisynclib.a -lntl -lcppunit -lgmp -lpthread 
