@@ -111,30 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named AuxiliaryTest.exe
+# Target rules for targets named IBLTTester.exe
 
 # Build rule for target.
-AuxiliaryTest.exe: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 AuxiliaryTest.exe
-.PHONY : AuxiliaryTest.exe
+IBLTTester.exe: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 IBLTTester.exe
+.PHONY : IBLTTester.exe
 
 # fast build rule for target.
-AuxiliaryTest.exe/fast:
-	$(MAKE) -f CMakeFiles/AuxiliaryTest.exe.dir/build.make CMakeFiles/AuxiliaryTest.exe.dir/build
-.PHONY : AuxiliaryTest.exe/fast
-
-#=============================================================================
-# Target rules for targets named CommunicantTest.exe
-
-# Build rule for target.
-CommunicantTest.exe: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 CommunicantTest.exe
-.PHONY : CommunicantTest.exe
-
-# fast build rule for target.
-CommunicantTest.exe/fast:
-	$(MAKE) -f CMakeFiles/CommunicantTest.exe.dir/build.make CMakeFiles/CommunicantTest.exe.dir/build
-.PHONY : CommunicantTest.exe/fast
+IBLTTester.exe/fast:
+	$(MAKE) -f CMakeFiles/IBLTTester.exe.dir/build.make CMakeFiles/IBLTTester.exe.dir/build
+.PHONY : IBLTTester.exe/fast
 
 #=============================================================================
 # Target rules for targets named cpisynclib
@@ -324,6 +311,33 @@ src/GenSync.cpp.s:
 	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/GenSync.cpp.s
 .PHONY : src/GenSync.cpp.s
 
+src/IBLTSync.o: src/IBLTSync.cpp.o
+
+.PHONY : src/IBLTSync.o
+
+# target to build an object file
+src/IBLTSync.cpp.o:
+	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/IBLTSync.cpp.o
+.PHONY : src/IBLTSync.cpp.o
+
+src/IBLTSync.i: src/IBLTSync.cpp.i
+
+.PHONY : src/IBLTSync.i
+
+# target to preprocess a source file
+src/IBLTSync.cpp.i:
+	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/IBLTSync.cpp.i
+.PHONY : src/IBLTSync.cpp.i
+
+src/IBLTSync.s: src/IBLTSync.cpp.s
+
+.PHONY : src/IBLTSync.s
+
+# target to generate assembly for a file
+src/IBLTSync.cpp.s:
+	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/IBLTSync.cpp.s
+.PHONY : src/IBLTSync.cpp.s
+
 src/InterCPISync.o: src/InterCPISync.cpp.o
 
 .PHONY : src/InterCPISync.o
@@ -432,6 +446,60 @@ src/UID.cpp.s:
 	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/UID.cpp.s
 .PHONY : src/UID.cpp.s
 
+src/iblt.o: src/iblt.cpp.o
+
+.PHONY : src/iblt.o
+
+# target to build an object file
+src/iblt.cpp.o:
+	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/iblt.cpp.o
+.PHONY : src/iblt.cpp.o
+
+src/iblt.i: src/iblt.cpp.i
+
+.PHONY : src/iblt.i
+
+# target to preprocess a source file
+src/iblt.cpp.i:
+	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/iblt.cpp.i
+.PHONY : src/iblt.cpp.i
+
+src/iblt.s: src/iblt.cpp.s
+
+.PHONY : src/iblt.s
+
+# target to generate assembly for a file
+src/iblt.cpp.s:
+	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/iblt.cpp.s
+.PHONY : src/iblt.cpp.s
+
+src/murmurhash3.o: src/murmurhash3.cpp.o
+
+.PHONY : src/murmurhash3.o
+
+# target to build an object file
+src/murmurhash3.cpp.o:
+	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/murmurhash3.cpp.o
+.PHONY : src/murmurhash3.cpp.o
+
+src/murmurhash3.i: src/murmurhash3.cpp.i
+
+.PHONY : src/murmurhash3.i
+
+# target to preprocess a source file
+src/murmurhash3.cpp.i:
+	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/murmurhash3.cpp.i
+.PHONY : src/murmurhash3.cpp.i
+
+src/murmurhash3.s: src/murmurhash3.cpp.s
+
+.PHONY : src/murmurhash3.s
+
+# target to generate assembly for a file
+src/murmurhash3.cpp.s:
+	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/murmurhash3.cpp.s
+.PHONY : src/murmurhash3.cpp.s
+
 src/probCPISync.o: src/probCPISync.cpp.o
 
 .PHONY : src/probCPISync.o
@@ -459,140 +527,59 @@ src/probCPISync.cpp.s:
 	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/probCPISync.cpp.s
 .PHONY : src/probCPISync.cpp.s
 
-tests/AuxiliaryTest.o: tests/AuxiliaryTest.cpp.o
+src/utilstrencodings.o: src/utilstrencodings.cpp.o
 
-.PHONY : tests/AuxiliaryTest.o
-
-# target to build an object file
-tests/AuxiliaryTest.cpp.o:
-	$(MAKE) -f CMakeFiles/AuxiliaryTest.exe.dir/build.make CMakeFiles/AuxiliaryTest.exe.dir/tests/AuxiliaryTest.cpp.o
-.PHONY : tests/AuxiliaryTest.cpp.o
-
-tests/AuxiliaryTest.i: tests/AuxiliaryTest.cpp.i
-
-.PHONY : tests/AuxiliaryTest.i
-
-# target to preprocess a source file
-tests/AuxiliaryTest.cpp.i:
-	$(MAKE) -f CMakeFiles/AuxiliaryTest.exe.dir/build.make CMakeFiles/AuxiliaryTest.exe.dir/tests/AuxiliaryTest.cpp.i
-.PHONY : tests/AuxiliaryTest.cpp.i
-
-tests/AuxiliaryTest.s: tests/AuxiliaryTest.cpp.s
-
-.PHONY : tests/AuxiliaryTest.s
-
-# target to generate assembly for a file
-tests/AuxiliaryTest.cpp.s:
-	$(MAKE) -f CMakeFiles/AuxiliaryTest.exe.dir/build.make CMakeFiles/AuxiliaryTest.exe.dir/tests/AuxiliaryTest.cpp.s
-.PHONY : tests/AuxiliaryTest.cpp.s
-
-tests/AuxiliaryTestRunner.o: tests/AuxiliaryTestRunner.cpp.o
-
-.PHONY : tests/AuxiliaryTestRunner.o
+.PHONY : src/utilstrencodings.o
 
 # target to build an object file
-tests/AuxiliaryTestRunner.cpp.o:
-	$(MAKE) -f CMakeFiles/AuxiliaryTest.exe.dir/build.make CMakeFiles/AuxiliaryTest.exe.dir/tests/AuxiliaryTestRunner.cpp.o
-.PHONY : tests/AuxiliaryTestRunner.cpp.o
+src/utilstrencodings.cpp.o:
+	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/utilstrencodings.cpp.o
+.PHONY : src/utilstrencodings.cpp.o
 
-tests/AuxiliaryTestRunner.i: tests/AuxiliaryTestRunner.cpp.i
+src/utilstrencodings.i: src/utilstrencodings.cpp.i
 
-.PHONY : tests/AuxiliaryTestRunner.i
+.PHONY : src/utilstrencodings.i
 
 # target to preprocess a source file
-tests/AuxiliaryTestRunner.cpp.i:
-	$(MAKE) -f CMakeFiles/AuxiliaryTest.exe.dir/build.make CMakeFiles/AuxiliaryTest.exe.dir/tests/AuxiliaryTestRunner.cpp.i
-.PHONY : tests/AuxiliaryTestRunner.cpp.i
+src/utilstrencodings.cpp.i:
+	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/utilstrencodings.cpp.i
+.PHONY : src/utilstrencodings.cpp.i
 
-tests/AuxiliaryTestRunner.s: tests/AuxiliaryTestRunner.cpp.s
+src/utilstrencodings.s: src/utilstrencodings.cpp.s
 
-.PHONY : tests/AuxiliaryTestRunner.s
+.PHONY : src/utilstrencodings.s
 
 # target to generate assembly for a file
-tests/AuxiliaryTestRunner.cpp.s:
-	$(MAKE) -f CMakeFiles/AuxiliaryTest.exe.dir/build.make CMakeFiles/AuxiliaryTest.exe.dir/tests/AuxiliaryTestRunner.cpp.s
-.PHONY : tests/AuxiliaryTestRunner.cpp.s
+src/utilstrencodings.cpp.s:
+	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/utilstrencodings.cpp.s
+.PHONY : src/utilstrencodings.cpp.s
 
-tests/CommDummy.o: tests/CommDummy.cpp.o
+tests/IBLTTester.o: tests/IBLTTester.cpp.o
 
-.PHONY : tests/CommDummy.o
+.PHONY : tests/IBLTTester.o
 
 # target to build an object file
-tests/CommDummy.cpp.o:
-	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/tests/CommDummy.cpp.o
-.PHONY : tests/CommDummy.cpp.o
+tests/IBLTTester.cpp.o:
+	$(MAKE) -f CMakeFiles/IBLTTester.exe.dir/build.make CMakeFiles/IBLTTester.exe.dir/tests/IBLTTester.cpp.o
+.PHONY : tests/IBLTTester.cpp.o
 
-tests/CommDummy.i: tests/CommDummy.cpp.i
+tests/IBLTTester.i: tests/IBLTTester.cpp.i
 
-.PHONY : tests/CommDummy.i
-
-# target to preprocess a source file
-tests/CommDummy.cpp.i:
-	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/tests/CommDummy.cpp.i
-.PHONY : tests/CommDummy.cpp.i
-
-tests/CommDummy.s: tests/CommDummy.cpp.s
-
-.PHONY : tests/CommDummy.s
-
-# target to generate assembly for a file
-tests/CommDummy.cpp.s:
-	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/tests/CommDummy.cpp.s
-.PHONY : tests/CommDummy.cpp.s
-
-tests/CommunicantTest.o: tests/CommunicantTest.cpp.o
-
-.PHONY : tests/CommunicantTest.o
-
-# target to build an object file
-tests/CommunicantTest.cpp.o:
-	$(MAKE) -f CMakeFiles/CommunicantTest.exe.dir/build.make CMakeFiles/CommunicantTest.exe.dir/tests/CommunicantTest.cpp.o
-.PHONY : tests/CommunicantTest.cpp.o
-
-tests/CommunicantTest.i: tests/CommunicantTest.cpp.i
-
-.PHONY : tests/CommunicantTest.i
+.PHONY : tests/IBLTTester.i
 
 # target to preprocess a source file
-tests/CommunicantTest.cpp.i:
-	$(MAKE) -f CMakeFiles/CommunicantTest.exe.dir/build.make CMakeFiles/CommunicantTest.exe.dir/tests/CommunicantTest.cpp.i
-.PHONY : tests/CommunicantTest.cpp.i
+tests/IBLTTester.cpp.i:
+	$(MAKE) -f CMakeFiles/IBLTTester.exe.dir/build.make CMakeFiles/IBLTTester.exe.dir/tests/IBLTTester.cpp.i
+.PHONY : tests/IBLTTester.cpp.i
 
-tests/CommunicantTest.s: tests/CommunicantTest.cpp.s
+tests/IBLTTester.s: tests/IBLTTester.cpp.s
 
-.PHONY : tests/CommunicantTest.s
-
-# target to generate assembly for a file
-tests/CommunicantTest.cpp.s:
-	$(MAKE) -f CMakeFiles/CommunicantTest.exe.dir/build.make CMakeFiles/CommunicantTest.exe.dir/tests/CommunicantTest.cpp.s
-.PHONY : tests/CommunicantTest.cpp.s
-
-tests/CommunicantTestRunner.o: tests/CommunicantTestRunner.cpp.o
-
-.PHONY : tests/CommunicantTestRunner.o
-
-# target to build an object file
-tests/CommunicantTestRunner.cpp.o:
-	$(MAKE) -f CMakeFiles/CommunicantTest.exe.dir/build.make CMakeFiles/CommunicantTest.exe.dir/tests/CommunicantTestRunner.cpp.o
-.PHONY : tests/CommunicantTestRunner.cpp.o
-
-tests/CommunicantTestRunner.i: tests/CommunicantTestRunner.cpp.i
-
-.PHONY : tests/CommunicantTestRunner.i
-
-# target to preprocess a source file
-tests/CommunicantTestRunner.cpp.i:
-	$(MAKE) -f CMakeFiles/CommunicantTest.exe.dir/build.make CMakeFiles/CommunicantTest.exe.dir/tests/CommunicantTestRunner.cpp.i
-.PHONY : tests/CommunicantTestRunner.cpp.i
-
-tests/CommunicantTestRunner.s: tests/CommunicantTestRunner.cpp.s
-
-.PHONY : tests/CommunicantTestRunner.s
+.PHONY : tests/IBLTTester.s
 
 # target to generate assembly for a file
-tests/CommunicantTestRunner.cpp.s:
-	$(MAKE) -f CMakeFiles/CommunicantTest.exe.dir/build.make CMakeFiles/CommunicantTest.exe.dir/tests/CommunicantTestRunner.cpp.s
-.PHONY : tests/CommunicantTestRunner.cpp.s
+tests/IBLTTester.cpp.s:
+	$(MAKE) -f CMakeFiles/IBLTTester.exe.dir/build.make CMakeFiles/IBLTTester.exe.dir/tests/IBLTTester.cpp.s
+.PHONY : tests/IBLTTester.cpp.s
 
 tests/cpi_system_test.o: tests/cpi_system_test.cpp.o
 
@@ -627,9 +614,8 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... AuxiliaryTest.exe"
 	@echo "... edit_cache"
-	@echo "... CommunicantTest.exe"
+	@echo "... IBLTTester.exe"
 	@echo "... rebuild_cache"
 	@echo "... cpisynclib"
 	@echo "... systemTest"
@@ -651,6 +637,9 @@ help:
 	@echo "... src/GenSync.o"
 	@echo "... src/GenSync.i"
 	@echo "... src/GenSync.s"
+	@echo "... src/IBLTSync.o"
+	@echo "... src/IBLTSync.i"
+	@echo "... src/IBLTSync.s"
 	@echo "... src/InterCPISync.o"
 	@echo "... src/InterCPISync.i"
 	@echo "... src/InterCPISync.s"
@@ -663,24 +652,21 @@ help:
 	@echo "... src/UID.o"
 	@echo "... src/UID.i"
 	@echo "... src/UID.s"
+	@echo "... src/iblt.o"
+	@echo "... src/iblt.i"
+	@echo "... src/iblt.s"
+	@echo "... src/murmurhash3.o"
+	@echo "... src/murmurhash3.i"
+	@echo "... src/murmurhash3.s"
 	@echo "... src/probCPISync.o"
 	@echo "... src/probCPISync.i"
 	@echo "... src/probCPISync.s"
-	@echo "... tests/AuxiliaryTest.o"
-	@echo "... tests/AuxiliaryTest.i"
-	@echo "... tests/AuxiliaryTest.s"
-	@echo "... tests/AuxiliaryTestRunner.o"
-	@echo "... tests/AuxiliaryTestRunner.i"
-	@echo "... tests/AuxiliaryTestRunner.s"
-	@echo "... tests/CommDummy.o"
-	@echo "... tests/CommDummy.i"
-	@echo "... tests/CommDummy.s"
-	@echo "... tests/CommunicantTest.o"
-	@echo "... tests/CommunicantTest.i"
-	@echo "... tests/CommunicantTest.s"
-	@echo "... tests/CommunicantTestRunner.o"
-	@echo "... tests/CommunicantTestRunner.i"
-	@echo "... tests/CommunicantTestRunner.s"
+	@echo "... src/utilstrencodings.o"
+	@echo "... src/utilstrencodings.i"
+	@echo "... src/utilstrencodings.s"
+	@echo "... tests/IBLTTester.o"
+	@echo "... tests/IBLTTester.i"
+	@echo "... tests/IBLTTester.s"
 	@echo "... tests/cpi_system_test.o"
 	@echo "... tests/cpi_system_test.i"
 	@echo "... tests/cpi_system_test.s"

@@ -69,9 +69,8 @@ public:
      * @return true iff the removal was successful
      */
     virtual bool delElem(DataObject* datum) { 
-        long int before = elements.size();
         elements.erase(std::remove(elements.begin(), elements.end(), datum), elements.end());
-        return before > elements.size(); // true iff there were more elements before removal than after
+        return true; // true iff there were more elements before removal than after
     };
 
     // INFORMATIONAL

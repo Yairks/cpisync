@@ -19,7 +19,10 @@ set(SOURCE_FILES
         src/probCPISync.cpp
         src/SyncMethod.cpp
         src/UID.cpp
-        tests/CommDummy.cpp
+        src/murmurhash3.cpp
+        src/utilstrencodings.cpp
+        src/iblt.cpp
+        src/IBLTSync.cpp
 )
 
 include_directories(include)
@@ -39,20 +42,25 @@ target_link_libraries(systemTest cpisynclib ntl cppunit gmp pthread)
 #################
 # Following : https://cmake.org/pipermail/cmake/2007-March/013361.html
 
-ADD_EXECUTABLE(CommunicantTest.exe
-        ${TEST_DIR}/CommunicantTestRunner.cpp
-        ${TEST_DIR}/CommunicantTest.cpp
-)
-target_link_libraries(CommunicantTest.exe cpisynclib ntl cppunit gmp)
-ADD_TEST(CommunicantTest CommunicantTest.exe)
+#ADD_EXECUTABLE(CommunicantTest.exe
+#        ${TEST_DIR}/CommunicantTestRunner.cpp
+#        ${TEST_DIR}/CommunicantTest.cpp
+#)
+#target_link_libraries(CommunicantTest.exe cpisynclib ntl cppunit gmp)
+#ADD_TEST(CommunicantTest CommunicantTest.exe)
 
-ADD_EXECUTABLE(AuxiliaryTest.exe
-        ${TEST_DIR}/AuxiliaryTestRunner.cpp
-        ${TEST_DIR}/AuxiliaryTest.cpp
-)
-target_link_libraries(AuxiliaryTest.exe cpisynclib ntl cppunit gmp)
-ADD_TEST(AuxiliaryTest AuxiliaryTest.exe)
+#ADD_EXECUTABLE(AuxiliaryTest.exe
+#        ${TEST_DIR}/AuxiliaryTestRunner.cpp
+#        ${TEST_DIR}/AuxiliaryTest.cpp
+#)
+#target_link_libraries(AuxiliaryTest.exe cpisynclib ntl cppunit gmp)
+#ADD_TEST(AuxiliaryTest AuxiliaryTest.exe)
 
+ADD_EXECUTABLE(IBLTTester.exe
+        ${TEST_DIR}/IBLTTester.cpp
+)
+target_link_libraries(IBLTTester.exe cpisynclib ntl cppunit gmp)
+ADD_TEST(IBLTTester IBLTTester.exe)
 # TODO: Add all testa automagically
 # FILE(GLOB UnitTests_SRCS ${TEST_DIR} "*TestRunner.cpp" )
 # FOREACH(test ${UnitTests_SRCS})

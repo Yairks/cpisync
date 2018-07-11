@@ -1,1 +1,0 @@
-/usr/bin/c++     CMakeFiles/CommunicantTest.exe.dir/tests/CommunicantTestRunner.cpp.o CMakeFiles/CommunicantTest.exe.dir/tests/CommunicantTest.cpp.o  -o CommunicantTest.exe  -L/opt/local/lib -Wl,-rpath,/opt/local/lib libcpisynclib.a -lntl -lcppunit -lgmp -lpthread 

@@ -1,6 +1,5 @@
-/home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles/AuxiliaryTest.exe.dir
 /home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles/edit_cache.dir
-/home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles/CommunicantTest.exe.dir
+/home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles/IBLTTester.exe.dir
 /home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles/rebuild_cache.dir
 /home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles/cpisynclib.dir
 /home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles/systemTest.dir
