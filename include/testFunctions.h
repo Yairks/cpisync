@@ -17,14 +17,9 @@ using namespace std;
 //input: number = numeric value to be converted
 //output: vector of bytes of the value
 template<typename T>
-std::vector<uint8_t> ToVec(T number)
-{
-    std::vector<uint8_t> v(sizeof(T));
-    for (size_t i = 0; i < sizeof(T); i++) {
-        v.at(i) = (number >> i*8) & 0xff;
-    }
-    return v;
-}
+std::vector<uint8_t> ToVec(T number);
+
+uint64_t FromVec(std::vector<uint8_t> v);
 
 //creates an array of pointers to arrays of key value pairs (keys = unique)
 //input numEntries = number of key-value pairs to be created

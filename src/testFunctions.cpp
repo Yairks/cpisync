@@ -2,6 +2,28 @@
 #include "testFunctions.h"
 using namespace std;
 
+template<typename T>
+std::vector<uint8_t> ToVec(T number)
+{
+    std::vector<uint8_t> v(sizeof(T));
+    for (size_t i = 0; i < sizeof(T); i++) {
+        v.at(i) = (number >> i*8) & 0xff;
+    }
+    return v;
+}
+
+uint64_t FromVec(std::vector<uint8_t> v) {
+    uint64_t number = 0;
+    if(v.size() == 0)
+        return number;
+    
+    for(size_t i = 0; i < v.size(); i++) {
+        number << i*8;
+        number += v.at(i);
+    }
+    
+    return number;
+}
 
 //creates an array of pointers to arrays of key value pairs
 //input numEntries = number of key-value pairs to be created

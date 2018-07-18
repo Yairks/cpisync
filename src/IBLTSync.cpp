@@ -6,17 +6,15 @@
  */
 using namespace std;
 
-#include "/home/regular/Documents/BU_2018/falafels/IBLT-Research/iblt.h"
 #include "IBLTSync.h"
 #include "DataObject.h"
 #include "testFunctions.h"
 #include "iblt.h"
 
-IBLTSync::IBLTSync(size_t _expectedNumEntries, size_t _ValueSize) :
-    iblt(size_t(_expectedNumEntries), sizeof(_ValueSize))
+IBLTSync::IBLTSync(size_t _expectedNumEntries, size_t _valueSize) :
+    iblt(size_t(_expectedNumEntries), _valueSize)
 {
     key = 0;
-    cout << "Hiya there! You've created an IBLT object." << endl;
 }
 
 bool IBLTSync::SyncClient(Communicant* commSync, list<DataObject*>& selfMinusOther, list<DataObject*>& otherMinusSelf) {
@@ -28,7 +26,43 @@ bool IBLTSync::SyncClient(Communicant* commSync, list<DataObject*>& selfMinusOth
 
 bool IBLTSync::SyncServer(Communicant* commSync, list<DataObject*>& selfMinusOther, list<DataObject*>& otherMinusSelf) {
     commSync->resetCommCounters();
-    return true;
+    commSync->commListen();
+    
+    std::string str, read;
+    int entries = 0;
+    
+    bool keepReading = true;
+    while(keepReading) {
+        read = commSync->commRecv(1);
+        str += read;
+        
+        //Check if we're done here
+        if(read.compare("]") == 0) {
+            read = commSync->commRecv(1);
+            
+            //If it's good, append this read thing, otherwise mark that we're done.
+            keepReading = (read.compare("[") == 0);
+            
+            if(keepReading) str+=read; 
+            
+            entries++;
+        }
+    }
+    
+    IBLT received(str);
+    
+    std::set<std::pair<uint64_t,std::vector<uint8_t> > > negativeValues;
+    std::set<std::pair<uint64_t,std::vector<uint8_t> > > positiveValues;
+    
+    IBLT diff = iblt - received;
+    
+    bool successful = diff.listEntries(positiveValues, negativeValues);
+    std::cout << "Size of positiveValues: " << positiveValues.size() << endl;
+    std::cout << "Size of negativeValues: " << negativeValues.size() << endl;
+    
+    fromIBLTtoGenSync(positiveValues, negativeValues, selfMinusOther, otherMinusSelf);
+    std::cout << "Converted them from IBLT to Data Objects" << std::endl;
+    return successful;
 }
 
 bool IBLTSync::addElem(DataObject* datum) {
@@ -36,13 +70,14 @@ bool IBLTSync::addElem(DataObject* datum) {
     ss << std::hex << datum->to_string();
     uint64_t x;
     ss >> x;
-    iblt.insert(datum->getObjectID(), ToVec<uint64_t>(x));
-    if(datum->getObjectID() == 19) {
-        iblt.serializeEntries(1);
+    
+    std::vector<uint8_t> vec = ToVec(x);
+    //Make sure vector is long enough
+    /*while(iblt.valueSize > vec.size()) {
+        vec.push_back('0');
     }
-    
-    iblt.YairIsAwesome();
-    
+    iblt.insert(x, vec);
+    */
     return SyncMethod::delElem(datum);
 }
 
@@ -52,7 +87,7 @@ bool IBLTSync::delElem(DataObject* datum) {
     ss << std::hex << datum->to_string();
     uint64_t x;
     ss >> x;
-    iblt.erase(key++, ToVec<uint64_t>(x));
+    iblt.erase(x, ToVec(x));
     return SyncMethod::delElem(datum);
 }
 
@@ -62,10 +97,38 @@ string IBLTSync::getName() {
 
 
 bool IBLTSync::fromGenSynctoIBLT(std::set<std::pair<uint64_t, std::vector<uint8_t> > >& positive, std::set<std::pair<uint64_t, std::vector<uint8_t> > >& negative, list<DataObject*>& selfMinusOther, list<DataObject*>& otherMinusSelf) {
+    std::set<std::pair<uint64_t, std::vector<uint8_t> > >::iterator entry = positive.begin();
+    
+    for(; entry != positive.end(); entry++) {
+        DataObject* datum = new DataObject(std::to_string(FromVec(entry->second)));
+        
+        selfMinusOther.push_back(datum);
+    }
+    
+    entry = negative.begin();
+    for(; entry != negative.end(); entry++) {
+        DataObject* datum = new DataObject(std::to_string(FromVec(entry->second)));
+        
+        otherMinusSelf.push_back(datum);
+    }
     return true;
 }
 
 bool IBLTSync::fromIBLTtoGenSync(std::set<std::pair<uint64_t, std::vector<uint8_t> > >& positive, std::set<std::pair<uint64_t, std::vector<uint8_t> > >& negative, list<DataObject*>& selfMinusOther, list<DataObject*>& otherMinusSelf) {
+    std::set<std::pair<uint64_t, std::vector<uint8_t> > >::iterator entry = positive.begin();
+    
+    for(; entry != positive.end(); entry++) {
+        DataObject* datum = new DataObject(std::to_string(FromVec(entry->second)));
+        
+        selfMinusOther.push_back(datum);
+    }
+    
+    entry = negative.begin();
+    for(; entry != negative.end(); entry++) {
+        DataObject* datum = new DataObject(std::to_string(FromVec(entry->second)));
+        
+        otherMinusSelf.push_back(datum);
+    }
     return true;
 }
 

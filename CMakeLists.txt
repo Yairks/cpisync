@@ -19,6 +19,7 @@ set(SOURCE_FILES
         src/probCPISync.cpp
         src/SyncMethod.cpp
         src/UID.cpp
+        src/testFunctions.cpp
         src/murmurhash3.cpp
         src/utilstrencodings.cpp
         src/iblt.cpp

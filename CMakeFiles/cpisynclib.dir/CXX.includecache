@@ -6,16 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/regular/Documents/BU_2018/falafels/IBLT-Research/iblt.h
-inttypes.h
--
-set
--
-vector
--
-string
--
-
 /home/regular/Documents/BU_2018/falafels/cpisync/src/CPISync.cpp
 vector
 -
@@ -135,8 +125,6 @@ CPISync_HalfRound.h
 /home/regular/Documents/BU_2018/falafels/cpisync/src/CPISync_HalfRound.h
 
 /home/regular/Documents/BU_2018/falafels/cpisync/src/IBLTSync.cpp
-/home/regular/Documents/BU_2018/falafels/IBLT-Research/iblt.h
--
 IBLTSync.h
 /home/regular/Documents/BU_2018/falafels/cpisync/src/IBLTSync.h
 DataObject.h
@@ -199,10 +187,14 @@ sstream
 -
 utility
 -
+string
+-
 iblt.h
 /home/regular/Documents/BU_2018/falafels/cpisync/src/iblt.h
 murmurhash3.h
 /home/regular/Documents/BU_2018/falafels/cpisync/src/murmurhash3.h
+testFunctions.h
+/home/regular/Documents/BU_2018/falafels/cpisync/src/testFunctions.h
 
 /home/regular/Documents/BU_2018/falafels/cpisync/src/murmurhash3.cpp
 murmurhash3.h
@@ -231,6 +223,12 @@ Exceptions.h
 /home/regular/Documents/BU_2018/falafels/cpisync/src/Exceptions.h
 ProbCPISync.h
 /home/regular/Documents/BU_2018/falafels/cpisync/src/ProbCPISync.h
+
+/home/regular/Documents/BU_2018/falafels/cpisync/src/testFunctions.cpp
+iostream
+-
+testFunctions.h
+/home/regular/Documents/BU_2018/falafels/cpisync/src/testFunctions.h
 
 /home/regular/Documents/BU_2018/falafels/cpisync/src/utilstrencodings.cpp
 utilstrencodings.h
@@ -395,8 +393,8 @@ Auxiliary.h
 include/Auxiliary.h
 SyncMethod.h
 include/SyncMethod.h
-/home/regular/Documents/BU_2018/falafels/IBLT-Research/iblt.h
--
+iblt.h
+include/iblt.h
 
 include/InterCPISync.h
 Auxiliary.h

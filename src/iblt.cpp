@@ -9,8 +9,10 @@
 #include <list>
 #include <sstream>
 #include <utility>
+#include <string>
 #include "iblt.h"
 #include "murmurhash3.h"
+#include "testFunctions.h"
 
 static const size_t N_HASH = 4;
 static const size_t N_HASHCHECK = 11;
@@ -24,7 +26,6 @@ std::vector<uint8_t> ToVec(T number)
     }
     return v;
 }
-
 
 bool IBLT::HashTableEntry::isPure() const
 {
@@ -70,12 +71,53 @@ IBLT::IBLT(const IBLT& other)
     hashTable = other.hashTable;
 }
 
+IBLT::IBLT(std::string serial) :
+    valueSize(std::stoull(serial.substr(0, serial.find(',')))) {
+    hashTable.resize(std::stoull(serial.substr(serial.find(',') + 1, serial.find('['))));
+    
+    int hash;
+    int32_t value, count;
+    uint32_t keyCheck;
+    uint64_t keySum;
+    
+        
+    while(serial.find('[') != std::string::npos) {
+        serial = serial.substr(serial.find('[', 1));
+        
+        std::stringstream stringHash(serial.substr(1, serial.find(',') - 1));
+        stringHash >> hash;
+        serial = serial.substr(serial.find(',', 1));
+                
+        std::stringstream stringCount(serial.substr(1, serial.find(',', 1) - 1));
+        stringCount >> count;
+        serial = serial.substr(serial.find(',', 1));
+        
+        std::stringstream stringValue(serial.substr(1, serial.find(',', 1) - 1));
+        stringValue >> value;
+        serial = serial.substr(serial.find(',', 1));
+        
+        std::stringstream stringKeyCheck(serial.substr(1, serial.find(',', 1) - 1));
+        stringKeyCheck >> keyCheck;
+        serial = serial.substr(serial.find(',', 1));
+        
+        std::stringstream stringKeySum(serial.substr(1, serial.find(']') - 1));
+        stringKeySum >> keySum;
+        
+        hashTable.at(hash).count = count;
+        hashTable.at(hash).valueSum = ToVec(value);
+        hashTable.at(hash).valueCheck = 0;
+        hashTable.at(hash).keyCheck = keyCheck;
+        hashTable.at(hash).keySum = keySum;
+    }
+}
+
+
 IBLT::~IBLT()
 {
 }
 
 void IBLT::_insert(int plusOrMinus, uint64_t k, const std::vector<uint8_t> v)
-{
+{   
     assert(v.size() == valueSize);
 
     std::vector<uint8_t> kvec = ToVec(k);
@@ -100,7 +142,6 @@ void IBLT::_insert(int plusOrMinus, uint64_t k, const std::vector<uint8_t> v)
 
 void IBLT::insert(uint64_t k, const std::vector<uint8_t> v)
 {
-    this->serializeEntries(2);
     _insert(1, k, v);
 }
 
@@ -194,26 +235,23 @@ bool IBLT::listEntries(std::set<std::pair<uint64_t,std::vector<uint8_t> > >& pos
     return true;
 }
 
-std::string* IBLT::serializeEntries(int i) {
-    std::string* serial = new std::string[IBLT::hashTable.size()];
+std::string IBLT::serializeEntries() {
     std::vector<HashTableEntry>::iterator entry = IBLT::hashTable.begin();
-    std::string ent;
-    
+    std::string serial(std::to_string(valueSize) + "," + std::to_string(hashTable.size()));
+
     for(int i = 0; entry != IBLT::hashTable.end(); entry++, i++) {
-        ent = "[" + std::to_string(entry.base()->count) + "," + 
+        serial += "[" + std::to_string(i) + "," +
+                std::to_string(entry.base()->count) + "," +
+                std::to_string(FromVec(entry.base()->valueSum)) + "," +
                 std::to_string(entry.base()->keyCheck) + "," +
-                std::to_string(entry.base()->keySum) + "," +
-                std::to_string(entry.base()->valueCheck) + "," +
-                std::to_string(entry.base()->valueCheck) + ",]"
-                /*std::to_string(entry.base()->valueSum) + "]"*/;
-        std::cout << ent << std::endl;
-        serial[i] = ent;
-    }
+                std::to_string(entry.base()->keySum) + "]";
+    } 
+    
     return serial;
 }
 
 IBLT IBLT::operator-(const IBLT& other) const
-{
+{   
     // IBLT's must be same params/size:
     assert(valueSize == other.valueSize);
     assert(hashTable.size() == other.hashTable.size());

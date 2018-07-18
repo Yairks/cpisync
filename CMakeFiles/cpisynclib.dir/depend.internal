@@ -75,7 +75,6 @@ CMakeFiles/cpisynclib.dir/src/GenSync.cpp.o
  include/SyncMethod.h
  include/UID.h
 CMakeFiles/cpisynclib.dir/src/IBLTSync.cpp.o
- /home/regular/Documents/BU_2018/falafels/IBLT-Research/iblt.h
  /home/regular/Documents/BU_2018/falafels/cpisync/src/IBLTSync.cpp
  include/Auxiliary.h
  include/Communicant.h
@@ -131,6 +130,8 @@ CMakeFiles/cpisynclib.dir/src/iblt.cpp.o
  /home/regular/Documents/BU_2018/falafels/cpisync/src/iblt.cpp
  include/iblt.h
  include/murmurhash3.h
+ include/testFunctions.h
+ include/utilstrencodings.h
 CMakeFiles/cpisynclib.dir/src/murmurhash3.cpp.o
  /home/regular/Documents/BU_2018/falafels/cpisync/src/murmurhash3.cpp
  include/murmurhash3.h
@@ -147,6 +148,12 @@ CMakeFiles/cpisynclib.dir/src/probCPISync.cpp.o
  include/ProbCPISync.h
  include/SyncMethod.h
  include/UID.h
+CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o
+ /home/regular/Documents/BU_2018/falafels/cpisync/src/testFunctions.cpp
+ include/iblt.h
+ include/murmurhash3.h
+ include/testFunctions.h
+ include/utilstrencodings.h
 CMakeFiles/cpisynclib.dir/src/utilstrencodings.cpp.o
  /home/regular/Documents/BU_2018/falafels/cpisync/src/utilstrencodings.cpp
  include/utilstrencodings.h

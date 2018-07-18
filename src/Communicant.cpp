@@ -238,7 +238,7 @@ string Communicant::commRecv_string() {
     long sz = commRecv_long();
     string str = commRecv(sz);
 
-    Logger::gLog(Logger::COMM, "... received: string " + str);
+    //Logger::gLog(Logger::COMM, "... received: string " + str);
 
     return str;
 }

@@ -10,6 +10,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/cpisynclib.dir/src/probCPISync.cpp.o"
   "CMakeFiles/cpisynclib.dir/src/SyncMethod.cpp.o"
   "CMakeFiles/cpisynclib.dir/src/UID.cpp.o"
+  "CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o"
   "CMakeFiles/cpisynclib.dir/src/murmurhash3.cpp.o"
   "CMakeFiles/cpisynclib.dir/src/utilstrencodings.cpp.o"
   "CMakeFiles/cpisynclib.dir/src/iblt.cpp.o"

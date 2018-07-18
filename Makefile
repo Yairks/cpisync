@@ -527,6 +527,33 @@ src/probCPISync.cpp.s:
 	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/probCPISync.cpp.s
 .PHONY : src/probCPISync.cpp.s
 
+src/testFunctions.o: src/testFunctions.cpp.o
+
+.PHONY : src/testFunctions.o
+
+# target to build an object file
+src/testFunctions.cpp.o:
+	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o
+.PHONY : src/testFunctions.cpp.o
+
+src/testFunctions.i: src/testFunctions.cpp.i
+
+.PHONY : src/testFunctions.i
+
+# target to preprocess a source file
+src/testFunctions.cpp.i:
+	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.i
+.PHONY : src/testFunctions.cpp.i
+
+src/testFunctions.s: src/testFunctions.cpp.s
+
+.PHONY : src/testFunctions.s
+
+# target to generate assembly for a file
+src/testFunctions.cpp.s:
+	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.s
+.PHONY : src/testFunctions.cpp.s
+
 src/utilstrencodings.o: src/utilstrencodings.cpp.o
 
 .PHONY : src/utilstrencodings.o
@@ -661,6 +688,9 @@ help:
 	@echo "... src/probCPISync.o"
 	@echo "... src/probCPISync.i"
 	@echo "... src/probCPISync.s"
+	@echo "... src/testFunctions.o"
+	@echo "... src/testFunctions.i"
+	@echo "... src/testFunctions.s"
 	@echo "... src/utilstrencodings.o"
 	@echo "... src/utilstrencodings.i"
 	@echo "... src/utilstrencodings.s"

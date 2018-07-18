@@ -321,9 +321,33 @@ CMakeFiles/cpisynclib.dir/src/UID.cpp.o.provides: CMakeFiles/cpisynclib.dir/src/
 CMakeFiles/cpisynclib.dir/src/UID.cpp.o.provides.build: CMakeFiles/cpisynclib.dir/src/UID.cpp.o
 
 
+CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o: CMakeFiles/cpisynclib.dir/flags.make
+CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o: src/testFunctions.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o -c /home/regular/Documents/BU_2018/falafels/cpisync/src/testFunctions.cpp
+
+CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/regular/Documents/BU_2018/falafels/cpisync/src/testFunctions.cpp > CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.i
+
+CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/regular/Documents/BU_2018/falafels/cpisync/src/testFunctions.cpp -o CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.s
+
+CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o.requires:
+
+.PHONY : CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o.requires
+
+CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o.provides: CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o.requires
+	$(MAKE) -f CMakeFiles/cpisynclib.dir/build.make CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o.provides.build
+.PHONY : CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o.provides
+
+CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o.provides.build: CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o
+
+
 CMakeFiles/cpisynclib.dir/src/murmurhash3.cpp.o: CMakeFiles/cpisynclib.dir/flags.make
 CMakeFiles/cpisynclib.dir/src/murmurhash3.cpp.o: src/murmurhash3.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/cpisynclib.dir/src/murmurhash3.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/cpisynclib.dir/src/murmurhash3.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cpisynclib.dir/src/murmurhash3.cpp.o -c /home/regular/Documents/BU_2018/falafels/cpisync/src/murmurhash3.cpp
 
 CMakeFiles/cpisynclib.dir/src/murmurhash3.cpp.i: cmake_force
@@ -347,7 +371,7 @@ CMakeFiles/cpisynclib.dir/src/murmurhash3.cpp.o.provides.build: CMakeFiles/cpisy
 
 CMakeFiles/cpisynclib.dir/src/utilstrencodings.cpp.o: CMakeFiles/cpisynclib.dir/flags.make
 CMakeFiles/cpisynclib.dir/src/utilstrencodings.cpp.o: src/utilstrencodings.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/cpisynclib.dir/src/utilstrencodings.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/cpisynclib.dir/src/utilstrencodings.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cpisynclib.dir/src/utilstrencodings.cpp.o -c /home/regular/Documents/BU_2018/falafels/cpisync/src/utilstrencodings.cpp
 
 CMakeFiles/cpisynclib.dir/src/utilstrencodings.cpp.i: cmake_force
@@ -371,7 +395,7 @@ CMakeFiles/cpisynclib.dir/src/utilstrencodings.cpp.o.provides.build: CMakeFiles/
 
 CMakeFiles/cpisynclib.dir/src/iblt.cpp.o: CMakeFiles/cpisynclib.dir/flags.make
 CMakeFiles/cpisynclib.dir/src/iblt.cpp.o: src/iblt.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/cpisynclib.dir/src/iblt.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/cpisynclib.dir/src/iblt.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cpisynclib.dir/src/iblt.cpp.o -c /home/regular/Documents/BU_2018/falafels/cpisync/src/iblt.cpp
 
 CMakeFiles/cpisynclib.dir/src/iblt.cpp.i: cmake_force
@@ -395,7 +419,7 @@ CMakeFiles/cpisynclib.dir/src/iblt.cpp.o.provides.build: CMakeFiles/cpisynclib.d
 
 CMakeFiles/cpisynclib.dir/src/IBLTSync.cpp.o: CMakeFiles/cpisynclib.dir/flags.make
 CMakeFiles/cpisynclib.dir/src/IBLTSync.cpp.o: src/IBLTSync.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/cpisynclib.dir/src/IBLTSync.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/cpisynclib.dir/src/IBLTSync.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/cpisynclib.dir/src/IBLTSync.cpp.o -c /home/regular/Documents/BU_2018/falafels/cpisync/src/IBLTSync.cpp
 
 CMakeFiles/cpisynclib.dir/src/IBLTSync.cpp.i: cmake_force
@@ -430,6 +454,7 @@ cpisynclib_OBJECTS = \
 "CMakeFiles/cpisynclib.dir/src/probCPISync.cpp.o" \
 "CMakeFiles/cpisynclib.dir/src/SyncMethod.cpp.o" \
 "CMakeFiles/cpisynclib.dir/src/UID.cpp.o" \
+"CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o" \
 "CMakeFiles/cpisynclib.dir/src/murmurhash3.cpp.o" \
 "CMakeFiles/cpisynclib.dir/src/utilstrencodings.cpp.o" \
 "CMakeFiles/cpisynclib.dir/src/iblt.cpp.o" \
@@ -449,13 +474,14 @@ libcpisynclib.a: CMakeFiles/cpisynclib.dir/src/Logger.cpp.o
 libcpisynclib.a: CMakeFiles/cpisynclib.dir/src/probCPISync.cpp.o
 libcpisynclib.a: CMakeFiles/cpisynclib.dir/src/SyncMethod.cpp.o
 libcpisynclib.a: CMakeFiles/cpisynclib.dir/src/UID.cpp.o
+libcpisynclib.a: CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o
 libcpisynclib.a: CMakeFiles/cpisynclib.dir/src/murmurhash3.cpp.o
 libcpisynclib.a: CMakeFiles/cpisynclib.dir/src/utilstrencodings.cpp.o
 libcpisynclib.a: CMakeFiles/cpisynclib.dir/src/iblt.cpp.o
 libcpisynclib.a: CMakeFiles/cpisynclib.dir/src/IBLTSync.cpp.o
 libcpisynclib.a: CMakeFiles/cpisynclib.dir/build.make
 libcpisynclib.a: CMakeFiles/cpisynclib.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Linking CXX static library libcpisynclib.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/regular/Documents/BU_2018/falafels/cpisync/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Linking CXX static library libcpisynclib.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/cpisynclib.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/cpisynclib.dir/link.txt --verbose=$(VERBOSE)
 
@@ -475,6 +501,7 @@ CMakeFiles/cpisynclib.dir/requires: CMakeFiles/cpisynclib.dir/src/Logger.cpp.o.r
 CMakeFiles/cpisynclib.dir/requires: CMakeFiles/cpisynclib.dir/src/probCPISync.cpp.o.requires
 CMakeFiles/cpisynclib.dir/requires: CMakeFiles/cpisynclib.dir/src/SyncMethod.cpp.o.requires
 CMakeFiles/cpisynclib.dir/requires: CMakeFiles/cpisynclib.dir/src/UID.cpp.o.requires
+CMakeFiles/cpisynclib.dir/requires: CMakeFiles/cpisynclib.dir/src/testFunctions.cpp.o.requires
 CMakeFiles/cpisynclib.dir/requires: CMakeFiles/cpisynclib.dir/src/murmurhash3.cpp.o.requires
 CMakeFiles/cpisynclib.dir/requires: CMakeFiles/cpisynclib.dir/src/utilstrencodings.cpp.o.requires
 CMakeFiles/cpisynclib.dir/requires: CMakeFiles/cpisynclib.dir/src/iblt.cpp.o.requires

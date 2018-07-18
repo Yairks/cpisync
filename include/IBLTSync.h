@@ -14,7 +14,7 @@
 #include <string>
 #include "Auxiliary.h"
 #include "SyncMethod.h"
-#include "/home/regular/Documents/BU_2018/falafels/IBLT-Research/iblt.h"
+#include "iblt.h"
 
 class IBLTSync : public SyncMethod {
 public:    
@@ -39,8 +39,9 @@ public:
     ~IBLTSync();
 
     // SYNC
-
     /**
+     * Note: For an IBLT Sync that will be sent via Bitcoin Core, this method will do nothing.
+     * 
      * Connect as a client to a specific communicant and computes differences between the two (without actually updating them).
      * All results are *added* to the selfMinusOther and otherMinusSelf parameters (passed by reference).
      * %R:  Sync_Server must have been called at that communicant.
@@ -51,7 +52,7 @@ public:
      * @return true iff the connection and subsequent synchronization appear to be successful.
      */
     bool SyncClient(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf);
-
+    
     /**
      * Waits for a client to connect from a specific communicant and computes differences between the two (without actually updating them).
      * All results are *added* to the selfMinusOther and otherMinusSelf parameters (passed by reference).
@@ -73,7 +74,7 @@ public:
      * 
      * @return true iff the addition was successful
      */
-    bool addElem(DataObject* datum);;
+    bool addElem(DataObject* datum);
 
     /**
      * Delete an element from the data structure that will be performing the synchronization.
@@ -90,10 +91,12 @@ public:
      * @return A human-readable name for the synchronization method.
      */
     string getName();
+    
+    IBLT iblt;
 
 private:
-    IBLT iblt;
     int key;
+    size_t valueSize;
     /**
      * Copies from the IBLT program's format to the GenSync's format.
      * 

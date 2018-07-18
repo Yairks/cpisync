@@ -26,6 +26,7 @@ public:
   //constructors and desctructors
     IBLT(size_t _expectedNumEntries, size_t _ValueSize);
     IBLT(const IBLT& other);
+    IBLT(std::string serial);
     virtual ~IBLT();
 
     void insert(uint64_t k, const std::vector<uint8_t> v);
@@ -45,23 +46,34 @@ public:
     bool listEntries(std::set<std::pair<uint64_t,std::vector<uint8_t> > >& positive,
         std::set<std::pair<uint64_t,std::vector<uint8_t> > >& negative) const;
     
-    std::string* serializeEntries(int i);
+    /**
+     * Turns this IBLT into a string. Can be deserialized by creating a new IBLT
+     * object with the string constructor.
+     * 
+     * String is in hexadecimal, to condense it as much as possible
+     * 
+     * number of entries in this message: 8 bytes
+     * list of all entries: variable bytes
+     * 
+     * per entry:
+     * number of bytes in this entry:
+     * @return A string of all the condensed important information.
+     */
+    std::string serializeEntries();
     
-    void YairIsAwesome() {
-        std::cout << "Eliezer agrees" << std::endl;
-    }
-
-
     // Subtract two IBLTs
     IBLT operator-(const IBLT& other) const;
 
     // For debugging:
     std::string DumpTable() const;
+    
+    
 
 private:
     void _insert(int plusOrMinus, uint64_t k, const std::vector<uint8_t> v);
 
     size_t valueSize;
+    uint64_t vs;
 
 
     //represents each cell in the iblt
