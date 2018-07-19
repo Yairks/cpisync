@@ -110,20 +110,6 @@ private:
         std::set<std::pair<uint64_t,std::vector<uint8_t> > >& negative,
         list<DataObject*> &selfMinusOther,
         list<DataObject*> &otherMinusSelf);
-    
-    /**
-     * Copies from the GenSync's format to the IBLT program's format.
-     * 
-     * @param positive Elements that I have that the other guy doesn't
-     * @param negative Elements that the other guy has that I don't
-     * @param selfMinusOther Elements that I have that the other guy doesn't
-     * @param otherMinusSelf Elements that the other guy has that I don't
-     * @return true if the switching between succeeded
-     */
-    bool fromGenSynctoIBLT(std::set<std::pair<uint64_t,std::vector<uint8_t> > >& positive,
-        std::set<std::pair<uint64_t,std::vector<uint8_t> > >& negative,
-        list<DataObject*> &selfMinusOther,
-        list<DataObject*> &otherMinusSelf);
 }; 
 
 

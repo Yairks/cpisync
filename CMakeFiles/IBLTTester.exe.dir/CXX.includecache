@@ -7,6 +7,8 @@
 #IncludeRegexTransform: 
 
 /home/regular/Documents/BU_2018/falafels/cpisync/tests/IBLTTester.cpp
+cassert
+-
 stdlib.h
 -
 iostream

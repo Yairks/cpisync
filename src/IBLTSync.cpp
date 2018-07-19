@@ -12,7 +12,8 @@ using namespace std;
 #include "iblt.h"
 
 IBLTSync::IBLTSync(size_t _expectedNumEntries, size_t _valueSize) :
-    iblt(size_t(_expectedNumEntries), _valueSize)
+    iblt(size_t(_expectedNumEntries), _valueSize),
+        valueSize(_valueSize)
 {
     key = 0;
 }
@@ -57,28 +58,25 @@ bool IBLTSync::SyncServer(Communicant* commSync, list<DataObject*>& selfMinusOth
     IBLT diff = iblt - received;
     
     bool successful = diff.listEntries(positiveValues, negativeValues);
-    std::cout << "Size of positiveValues: " << positiveValues.size() << endl;
-    std::cout << "Size of negativeValues: " << negativeValues.size() << endl;
     
     fromIBLTtoGenSync(positiveValues, negativeValues, selfMinusOther, otherMinusSelf);
-    std::cout << "Converted them from IBLT to Data Objects" << std::endl;
     return successful;
 }
 
 bool IBLTSync::addElem(DataObject* datum) {
     std::stringstream ss;
-    ss << std::hex << datum->to_string();
+    ss << datum->to_string();
     uint64_t x;
     ss >> x;
     
-    std::vector<uint8_t> vec = ToVec(x);
-    //Make sure vector is long enough
-    /*while(iblt.valueSize > vec.size()) {
+    std::vector<uint8_t> vec = ToVec((int) x);
+    while(vec.size() < valueSize) {
         vec.push_back('0');
     }
+    //Make sure vector is long enough
     iblt.insert(x, vec);
-    */
-    return SyncMethod::delElem(datum);
+    
+    return SyncMethod::addElem(datum);
 }
 
 
@@ -93,25 +91,6 @@ bool IBLTSync::delElem(DataObject* datum) {
 
 string IBLTSync::getName() {
     return "An IBLT Sync object";
-}
-
-
-bool IBLTSync::fromGenSynctoIBLT(std::set<std::pair<uint64_t, std::vector<uint8_t> > >& positive, std::set<std::pair<uint64_t, std::vector<uint8_t> > >& negative, list<DataObject*>& selfMinusOther, list<DataObject*>& otherMinusSelf) {
-    std::set<std::pair<uint64_t, std::vector<uint8_t> > >::iterator entry = positive.begin();
-    
-    for(; entry != positive.end(); entry++) {
-        DataObject* datum = new DataObject(std::to_string(FromVec(entry->second)));
-        
-        selfMinusOther.push_back(datum);
-    }
-    
-    entry = negative.begin();
-    for(; entry != negative.end(); entry++) {
-        DataObject* datum = new DataObject(std::to_string(FromVec(entry->second)));
-        
-        otherMinusSelf.push_back(datum);
-    }
-    return true;
 }
 
 bool IBLTSync::fromIBLTtoGenSync(std::set<std::pair<uint64_t, std::vector<uint8_t> > >& positive, std::set<std::pair<uint64_t, std::vector<uint8_t> > >& negative, list<DataObject*>& selfMinusOther, list<DataObject*>& otherMinusSelf) {

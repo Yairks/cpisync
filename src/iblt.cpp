@@ -240,6 +240,10 @@ std::string IBLT::serializeEntries() {
     std::string serial(std::to_string(valueSize) + "," + std::to_string(hashTable.size()));
 
     for(int i = 0; entry != IBLT::hashTable.end(); entry++, i++) {
+        //Skip empty entries
+        if(entry.base()->count == 0)
+            continue;
+        
         serial += "[" + std::to_string(i) + "," +
                 std::to_string(entry.base()->count) + "," +
                 std::to_string(FromVec(entry.base()->valueSum)) + "," +

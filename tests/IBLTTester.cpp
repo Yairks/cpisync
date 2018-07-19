@@ -11,6 +11,7 @@
  * Created on July 10, 2018, 2:59 PM
  */
 
+#include <cassert>
 #include <stdlib.h>
 #include <iostream>
 #include <string>
@@ -22,156 +23,103 @@
 /*
  * Simple C++ Test Suite
  */
-void fillIBLT(IBLT*);
-void fillIBLT(IBLT*, int, int);
-void notRandomFill(bool first, IBLT* iblt, int insertsNum, int max);
+std::vector<int> fillIBLT(IBLT* iblt);
+std::vector<int> fillIBLT(IBLT* iblt, int insertsNum, int max);
+std::vector<int> fillIBLT(IBLTSync* ibltSync, int insertsNum, int max);
 
 void test1() {
+    std::cout << "\nTest 1 checks that serializeEntries() and the deserializing constructor are\n working properly.\n" << std::endl;
     std::srand(time(0));
     
     IBLTSync origin(30, sizeof(50));
-    fillIBLT(&origin.iblt, 30, 50);
-
-    std::cout << "Created and filled iblt \"origin\"" << std::endl;
     
+    //Fills the IBLT and stores the keys in the vector.
+    std::vector<int> fillers(fillIBLT(&origin.iblt, 30, 50));
+    
+    //Serialize then deserialize the IBLT
     std::string str = origin.iblt.serializeEntries();    
-    std::cout << "Serialized origin" << std::endl;
 
     IBLT dest(str);    
-    std::cout << "Deserialized origin into dest" << std::endl;
     
+    //Check that the new IBLT equals the old one.
+    std::vector<uint8_t> result;
+    std::vector<int>::iterator it = fillers.begin();
+    for(; it < fillers.end(); it++) {
+        if(dest.get(*it.base(), result)) {
+            assert(ToVec(*it.base()) == result);
+        }
+        
+        //Sometimes the get method fails (because of how IBLTs work).
+        else {
+            std::cout << "Unusual behavior: Could not figure out if the iblt contains an element." << std::endl;
+            std::cout << "See code of IBLT.get() to see when method can fail." << std::endl;
+        }
+    }
+    
+    //Now compare them.
     IBLT compare(origin.iblt - dest);
-    std::cout << "Compared the two iblts" << std::endl;
 
     std::set<std::pair<uint64_t,std::vector<uint8_t> > > positiveValues;
     std::set<std::pair<uint64_t,std::vector<uint8_t> > > negativeValues;
 
-    bool successful = compare.listEntries(positiveValues, negativeValues);
+    assert(compare.listEntries(positiveValues, negativeValues));
     
-    if(true) {
-        std::cout << "Successfully compared iblts. Let's list the differences (there should be none):" << std::endl;
-        
-        std::set<std::pair<uint64_t, std::vector<uint8_t> > >::iterator it;
-        for (it = positiveValues.begin(); it != positiveValues.end(); it++)
-        {
-            uint64_t key = std::get<0>(*it);
-            cout << "found: ";
-            cout << key << endl;
-            
-        }
-        
-        std::cout << "\nand now for the other differences:" << std::endl;
-        for (it = negativeValues.begin(); it != negativeValues.end(); it++)
-        {
-            uint64_t key = std::get<0>(*it);
-            cout << "found: ";
-            cout << key << endl;
-        }
-        cout << "\nThose were all the differences" << endl;
-    }
+    assert(positiveValues.size() == negativeValues.size() && negativeValues.size() == 0);
     
-    else {
-        std::cout << "Couldn't successfully decode." << endl;
-    }
+    std::cout << "\nFinished test 1 successfully. Party it up!\n" << std::endl;
 }
 
 void test2() {
-    std::cout << "IBLTTester test 2" << std::endl;
+    std::cout << "\nTest2 checks that IBLTSync's methods are functioning properly\n" << std::endl;
     
-    //Create an IBLTSync object (will receive an IBLT).
+    //Create an IBLTSync object and fill it.
     IBLTSync origin(30, sizeof(50));
-    fillIBLT(&origin.iblt, 30, 50);
-    //notRandomFill(true, &origin.iblt, 50, 50);
-    
-    std::cout << "Created and filled IBLT" << std::endl;
+    std::vector<int> fillersA(fillIBLT(&origin, 30, 50));
 
     //Create a received IBLT.
-    IBLT received(30, sizeof(50));
-    fillIBLT(&received, 30, 50);
-    //notRandomFill(false, &received, 50, 50);
-    CommString comm(received.serializeEntries());
-    std::cout << "Created and filled another IBLT and commstringed it" << std::endl;
+    IBLTSync received(30, sizeof(50));
+    std::vector<int> fillersB(fillIBLT(&received, 30, 50));
+    
+    CommString comm(received.iblt.serializeEntries());
     
     //Check their differences
     std::list<DataObject*> positives;
     std::list<DataObject*> negatives;
-    bool successful = origin.SyncServer(&comm, positives, negatives);
     
-    if(successful)
-        std::cout << "Success!" << std::endl;
-    else
-        std::cout << "failure. :(" << std::endl;
+    //Make sure the syncing went happily
+    assert(origin.SyncServer(&comm, positives, negatives));
     
-    std::cout << "Size of self minus other: " << positives.size() << std::endl;
-    std::cout << "Size of other minus self: " << negatives.size() << std::endl;
+    //They should have an equal number of differences.
+    assert(positives.size() == negatives.size());
     
-    cout << "Printing elements that second iblt had that the first didn't." << endl;
+    //Manually check that each difference is in fact a difference.
     std::list<DataObject*>::iterator entry = positives.begin();
     for(; entry != positives.end(); entry++) {
-        cout << (*entry)->to_string() << endl;
+        //Make sure it's not in fillersA but is in fillersB
+        assert(std::find(fillersB.begin(), fillersB.end(),
+                std::stoull((*entry)->to_string())) == fillersB.end());
+        
+        assert(std::find(fillersA.begin(), fillersA.end(), 
+                std::stoull((*entry)->to_string())) != fillersA.end());
     }
-    
-    cout << "Printing elements that first iblt had that the second didn't." << endl;
+
     for(entry = negatives.begin(); entry != negatives.end(); entry++) {
-        cout << (*entry)->to_string() << endl;
+        //Make sure it's not in fillersA but is in fillersB
+        assert(std::find(fillersA.begin(), fillersA.end(),
+                std::stoull((*entry)->to_string())) == fillersA.end());
+        
+        assert(std::find(fillersB.begin(), fillersB.end(), 
+                std::stoull((*entry)->to_string())) != fillersB.end());
     }
     
-    std::cout << "%TEST_FAILED% time=0 testname=test2 (IBLTTester) message=error message sample" << std::endl;
+    std::cout << "Test 2 passed. Whew." << std::endl;
 }
 
-void test3() {
-    std::cout << "\n\nBEGIN TEST 3" << std::endl;
-    
-    IBLT origin(50, sizeof(50));
-    notRandomFill(true, &origin, 50, 50);
-    std::cout << "Created and filled IBLT" << std::endl;
-    
-    //Create a received IBLT.
-    IBLT received(50, sizeof(50));
-    notRandomFill(false, &received, 50, 50);
-    
-    IBLT diff(origin - received);
-    
-    std::set<std::pair<uint64_t,std::vector<uint8_t> > > positiveValues;
-
-    std::set<std::pair<uint64_t,std::vector<uint8_t> > > negativeValues;
-
-  //lists the entries from the new iblt
-  bool successful = diff.listEntries(positiveValues, negativeValues);
-
-  //checks if listing entries was successful
-  if (successful) {
-    cout << "Successful listing of entries out of IBLT C Made from A- B" << endl;
-  }
-
-  std::set<std::pair<uint64_t, std::vector<uint8_t> > >::iterator it;
-
-  std::cout << "positive values:" << std::endl;
-  for (it = positiveValues.begin(); it != positiveValues.end(); it++)
-  {
-    uint64_t key = std::get<0>(*it);
-
-    cout << key << endl;
-  }
-  
-  std::cout << "negative values:" << std::endl;
-  for (it = negativeValues.begin(); it != negativeValues.end(); it++)
-  {
-    uint64_t key = std::get<0>(*it);
-
-    cout << key << endl;
-  }
-}
-
-void ultimateTest() {
-    
-}
-
-void fillIBLT(IBLT* iblt) {
+std::vector<int> fillIBLT(IBLT* iblt) {
     return fillIBLT(iblt, 1000, std::numeric_limits<int>::max());
 }
 
-void fillIBLT(IBLT* iblt, int insertsNum, int max) {
+std::vector<int> fillIBLT(IBLT* iblt, int insertsNum, int max) {
     uint32_t k = 1;
     std::vector<int> usedNums;
     std::vector<uint8_t> vec;
@@ -182,8 +130,6 @@ void fillIBLT(IBLT* iblt, int insertsNum, int max) {
             k = std::rand() % max;
         } while(std::find(usedNums.begin(), usedNums.end(), k) != usedNums.end());
         
-        std::cout << k << " ";
-        
         vec = ToVec((int) k);
         usedNums.push_back(k);
         
@@ -193,42 +139,39 @@ void fillIBLT(IBLT* iblt, int insertsNum, int max) {
         
         iblt->insert(k, vec);
     }
+    
+    return usedNums;
 }
 
-void notRandomFill(bool first, IBLT* iblt, int insertsNum, int max) {
-    if(first) {
-        for(int i = 0; i < insertsNum / 2; i++) {
-            iblt->insert(i, ToVec(i));
-            cout << i << " ";
-        }
+std::vector<int> fillIBLT(IBLTSync* ibltSync, int insertsNum, int max) {
+    uint32_t k = 1;
+    std::vector<int> usedNums;
+    std::vector<uint8_t> vec;
+    
+    for(int i = 0; i < insertsNum; i++) {
+        //Make sure that the key is unique.
+        do {
+            k = std::rand() % max;
+        } while(std::find(usedNums.begin(), usedNums.end(), k) != usedNums.end());
+        
+        usedNums.push_back(k);
+        
+        DataObject datum(std::to_string(k));
+        
+        ibltSync->addElem(&datum);
     }
     
-    else {
-        for(int i = 10; i < insertsNum / 2 + 10; i++) {
-            iblt->insert(i, ToVec(i));
-            std::cout << i << " ";
-        }
-        
-    }
-    std::cout << std::endl;
+    return usedNums;
 }
 
 int main(int argc, char** argv) {
-    std::cout << "%SUITE_STARTING% IBLTTester" << std::endl;
-    std::cout << "%SUITE_STARTED%" << std::endl;
-
-    std::cout << "%TEST_STARTED% test1 (IBLTTester)" << std::endl;
-    test1();
-    std::cout << "%TEST_FINISHED% time=0 test1 (IBLTTester)" << std::endl;
-
-    std::cout << "%TEST_STARTED% test2 (IBLTTester)\n" << std::endl;
-    test2();
-    std::cout << "%TEST_FINISHED% time=0 test2 (IBLTTester)" << std::endl;
-
-    std::cout << "%SUITE_FINISHED% time=0" << std::endl;
+    std::cout << "Let's run some tests:" << std::endl;
     
-    test3();
+    test1();
+    
+    test2();
+    
+    std::cout << "We did it! Yay!" << std::endl;
 
     return (EXIT_SUCCESS);
 }
-
