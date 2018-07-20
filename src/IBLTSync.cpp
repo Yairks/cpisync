@@ -19,42 +19,46 @@ IBLTSync::IBLTSync(size_t _expectedNumEntries, size_t _valueSize) :
 }
 
 bool IBLTSync::SyncClient(Communicant* commSync, list<DataObject*>& selfMinusOther, list<DataObject*>& otherMinusSelf) {
-    commSync->resetCommCounters();
+    // call parent method for bookkeeping
+    SyncMethod::SyncClient(commSync, selfMinusOther, otherMinusSelf);
     commSync->commConnect();
-    
+
+    // then what?
+
     return true;
 }
 
 bool IBLTSync::SyncServer(Communicant* commSync, list<DataObject*>& selfMinusOther, list<DataObject*>& otherMinusSelf) {
-    commSync->resetCommCounters();
+    // call parent method for bookkeeping
+    SyncMethod::SyncServer(commSync, selfMinusOther, otherMinusSelf);
     commSync->commListen();
-    
-    std::string str, read;
+
+    std::stringstream str;
+    std::string read;
     int entries = 0;
     
     bool keepReading = true;
     while(keepReading) {
         read = commSync->commRecv(1);
-        str += read;
+        str << read;
         
         //Check if we're done here
-        if(read.compare("]") == 0) {
+        if(read == "]") {
             read = commSync->commRecv(1);
             
             //If it's good, append this read thing, otherwise mark that we're done.
             keepReading = (read.compare("[") == 0);
             
-            if(keepReading) str+=read; 
+            if(keepReading) str << read;
             
             entries++;
         }
-    }
+    } // could be rewritten using Communicant methods (Communicant::commRecv_string, etc.)
     
-    IBLT received(str);
+    IBLT received(str.str());
     
-    std::set<std::pair<uint64_t,std::vector<uint8_t> > > negativeValues;
-    std::set<std::pair<uint64_t,std::vector<uint8_t> > > positiveValues;
-    
+    std::set<std::pair<uint64_t,std::vector<uint8_t> > > negativeValues, positiveValues;
+
     IBLT diff = iblt - received;
     
     bool successful = diff.listEntries(positiveValues, negativeValues);
@@ -64,53 +68,61 @@ bool IBLTSync::SyncServer(Communicant* commSync, list<DataObject*>& selfMinusOth
 }
 
 bool IBLTSync::addElem(DataObject* datum) {
+    // If the parent addElem fails, then don't continue execution
+    if(!SyncMethod::addElem(datum))
+        return false;
+
+    // Lossy... using a ZZ would be optimal since this is how DataObjects are represented
+    // Works for DataObjects representing uintegers <= uint64_t max.
     std::stringstream ss;
     ss << datum->to_string();
     uint64_t x;
     ss >> x;
-    
-    std::vector<uint8_t> vec = ToVec((int) x);
-    while(vec.size() < valueSize) {
-        vec.push_back('0');
-    }
+
+    std::vector<uint8_t> vec = ToVec(x);
+
     //Make sure vector is long enough
+    while(vec.size() < valueSize) {
+        vec.push_back(0);
+    }
+
     iblt.insert(x, vec);
-    
-    return SyncMethod::addElem(datum);
+    return true;
 }
 
 
 bool IBLTSync::delElem(DataObject* datum) {
+    // If the parent delElem fails, then don't continue execution
+    // Needs to be merged with trachten/cpisync master branch to incorporate a bugfix for SyncMethod::delElem
+    if(!SyncMethod::delElem(datum))
+        return false;
+
     std::stringstream ss;
-    ss << std::hex << datum->to_string();
+    ss << datum->to_string();
     uint64_t x;
     ss >> x;
-    iblt.erase(x, ToVec(x));
-    return SyncMethod::delElem(datum);
-}
 
-string IBLTSync::getName() {
-    return "An IBLT Sync object";
+    iblt.erase(x, ToVec(x));
+
+    return true;
 }
 
 bool IBLTSync::fromIBLTtoGenSync(std::set<std::pair<uint64_t, std::vector<uint8_t> > >& positive, std::set<std::pair<uint64_t, std::vector<uint8_t> > >& negative, list<DataObject*>& selfMinusOther, list<DataObject*>& otherMinusSelf) {
-    std::set<std::pair<uint64_t, std::vector<uint8_t> > >::iterator entry = positive.begin();
-    
-    for(; entry != positive.end(); entry++) {
-        DataObject* datum = new DataObject(std::to_string(FromVec(entry->second)));
+    // could typedef the set<pair> thing at some point to save some typing in the future
+    for(auto entry : positive) {
+        // Fix to DataObject in trachten/cpisync master should remove the need for std::to_string
+        DataObject* datum = new DataObject(std::to_string(FromVec(entry.second)));
         
         selfMinusOther.push_back(datum);
     }
-    
-    entry = negative.begin();
-    for(; entry != negative.end(); entry++) {
-        DataObject* datum = new DataObject(std::to_string(FromVec(entry->second)));
+
+    for(auto entry : negative) {
+        // Fix to DataObject in trachten/cpisync master should remove the need for std::to_string
+        DataObject* datum = new DataObject(std::to_string(FromVec(entry.second)));
         
         otherMinusSelf.push_back(datum);
     }
     return true;
 }
 
-IBLTSync::~IBLTSync() {
-
-}
+IBLTSync::~IBLTSync() = default;

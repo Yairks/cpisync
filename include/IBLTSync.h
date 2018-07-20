@@ -48,7 +48,7 @@ public:
      * 
      * @param commSync The communicant to whom to connect.
      * @param selfMinusOther A result of reconciliation.  Elements that I have that the other SyncMethod does not.
-     * @param otherMinusSlef A result of reconciliation.  Elements that the other SyncMethod has that I do not.
+     * @param otherMinusSelf A result of reconciliation.  Elements that the other SyncMethod has that I do not.
      * @return true iff the connection and subsequent synchronization appear to be successful.
      */
     bool SyncClient(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf);
@@ -59,7 +59,7 @@ public:
      *      * 
      * @param commSync The communicant to whom to connect.
      * @param selfMinusOther A result of reconciliation.  Elements that I have that the other SyncMethod does not.
-     * @param otherMinusSlef A result of reconciliation.  Elements that the other SyncMethod has that I do not.
+     * @param otherMinusSelf A result of reconciliation.  Elements that the other SyncMethod has that I do not.
      * @return true iff the connection and subsequent synchronization appear to be successful.
      */
     bool SyncServer(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf);
@@ -90,7 +90,7 @@ public:
     /**
      * @return A human-readable name for the synchronization method.
      */
-    string getName();
+    inline string getName() { return "An IBLT Sync object"; }
     
     IBLT iblt;
 
