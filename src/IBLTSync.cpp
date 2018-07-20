@@ -79,7 +79,7 @@ bool IBLTSync::addElem(DataObject* datum) {
     uint64_t x;
     ss >> x;
 
-    std::vector<uint8_t> vec = ToVec(x);
+    std::vector<uint8_t> vec = ToVec((int) x);
 
     //Make sure vector is long enough
     while(vec.size() < valueSize) {
