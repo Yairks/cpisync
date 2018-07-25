@@ -1,0 +1,5 @@
+/Users/admin/Documents/cpisync-YairSync/CMakeFiles/IBLTTester.exe.dir
+/Users/admin/Documents/cpisync-YairSync/CMakeFiles/rebuild_cache.dir
+/Users/admin/Documents/cpisync-YairSync/CMakeFiles/edit_cache.dir
+/Users/admin/Documents/cpisync-YairSync/CMakeFiles/systemTest.dir
+/Users/admin/Documents/cpisync-YairSync/CMakeFiles/cpisynclib.dir

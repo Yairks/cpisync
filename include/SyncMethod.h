@@ -4,7 +4,7 @@
 #define SYNC_METHODS_H
 
 #include "Communicant.h"
-
+#include <algorithm>
 // namespaces
 using std::vector;
 
@@ -66,13 +66,12 @@ public:
     /**
      * Delete an element from the data structure that will be performing the synchronization.
      * @param datum The element to delete.
-     * @return true iff the addition was successful
+     * @return true iff the removal was successful
      */
-    virtual bool delElem(DataObject* datum) { vector<DataObject*>::iterator ii=elements.begin();
-        for(;ii!=elements.end(); ii++)
-            if (*ii==datum)
-                elements.erase(ii);
-        return true; };
+    virtual bool delElem(DataObject* datum) { 
+        elements.erase(std::remove(elements.begin(), elements.end(), datum), elements.end());
+        return true; // true iff there were more elements before removal than after
+    };
 
     // INFORMATIONAL
     /**

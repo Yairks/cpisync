@@ -9,7 +9,7 @@ typedef unsigned char byte;
 typedef std::basic_string<unsigned char> ustring; // a string of unsigned characters
 
 // namespaces
-using namespace NTL;
+//using namespace NTL;
 using std::cout;
 using std::clog;
 using std::endl;
@@ -23,9 +23,9 @@ using std::runtime_error;
 
 // CONSTANT VALUES
 
-const ZZ ZZ_ZERO = to_ZZ("0");
-const ZZ ZZ_ONE = to_ZZ("1");
-const ZZ ZZ_TWO = to_ZZ("2");
+const NTL::ZZ ZZ_ZERO = NTL::to_ZZ("0");
+const NTL::ZZ ZZ_ONE = NTL::to_ZZ("1");
+const NTL::ZZ ZZ_TWO = NTL::to_ZZ("2");
 const string SYNC_FAILED = "ERR: SYNC FAILED"; // message that a sync attempt has failed
 // ... these constants must copy at most one byte
 const byte SYNC_FAIL_FLAG = 0; /** The sync failed. */

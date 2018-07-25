@@ -13,7 +13,7 @@
 
 // namespaces
 
-using namespace NTL;
+//using namespace NTL;
 
 /**
  * Implements a data structure for storing mathematical multi-sets of data
@@ -141,14 +141,14 @@ protected:
   long bitNum; /** Number of bits used to represent an element of the set that is being synchronized. */
   long maxDiff; /** Maximum number of differences to synchronize (for regular CPIsync) */
   int probEps; /** Negative log of the upper bound on the probability of error for the synchronization. */
-  ZZ fieldSize; /** The size of the finite field used to represent set elements. */
+  NTL::ZZ fieldSize; /** The size of the finite field used to represent set elements. */
 
-  vec_ZZ_p sampleLoc; /** Locations at which the set's characteristic polynomial is sampled. */
+  NTL::vec_ZZ_p sampleLoc; /** Locations at which the set's characteristic polynomial is sampled. */
   long currDiff; /** The number of differences currently being synchronization. (initially set by the constructor) - for iterative methods. */
   int redundant_k; /** the number of redundant samples of the characteristic polynomial to evaluate.
                          *  This relates to the probability of error for the synchronization. */
 
-  map< ZZ, DataObject * > CPI_hash; /** list of pairs, one for each element in the set (to be synchronized).
+  map< NTL::ZZ, DataObject * > CPI_hash; /** list of pairs, one for each element in the set (to be synchronized).
                                            *  The first item in the pair is a hash (a long integer) 
                                            *  of the second item, which is the set element.
                                            *  All operations are done on the hashes, and this look-up table can be used to retrieve
@@ -184,7 +184,7 @@ protected:
    * @return true iff the rational function interpolation appears to have completed properly, meaning that some
    *    function was interpolated that meets the evaluations at the sample locations given by sampleLoc
    */
-  bool ratFuncInterp(const vec_ZZ_p& evals, long mA, long mB, vec_ZZ_p& P_vec, vec_ZZ_p& Q_vec);
+  bool ratFuncInterp(const NTL::vec_ZZ_p& evals, long mA, long mB, NTL::vec_ZZ_p& P_vec, NTL::vec_ZZ_p& Q_vec);
 
   /**
    * Simultaneously finds the roots of two polynomials (that correspond to the numerator and denominator, respectively
@@ -199,7 +199,7 @@ protected:
    *        * either P_vec or Q_vec are not square free
    *        * factoring procedure failed to factor some term down to a linear factor
    */
-  bool find_roots(vec_ZZ_p& P_vec, vec_ZZ_p& Q_vec, vec_ZZ_p& numerator, vec_ZZ_p& denominator);
+  bool find_roots(NTL::vec_ZZ_p& P_vec, NTL::vec_ZZ_p& Q_vec, NTL::vec_ZZ_p& numerator, NTL::vec_ZZ_p& denominator);
 
 
   /**
@@ -214,11 +214,11 @@ protected:
    *    * inability to interpolate the reconciliation rational function
    *    * inability to factor the numerator or denominator of the interpolation rational function
    */
-  bool set_reconcile(const long otherSetSize, const vec_ZZ_p& otherEvals, vec_ZZ_p &delta_self, vec_ZZ_p &delta_other);
+  bool set_reconcile(const long otherSetSize, const NTL::vec_ZZ_p& otherEvals, NTL::vec_ZZ_p &delta_self, NTL::vec_ZZ_p &delta_other);
 
-  vec_ZZ_p CPI_evals; /** The ii-th entry of this vector is the evaluation of this data structure's characteristic
+  NTL::vec_ZZ_p CPI_evals; /** The ii-th entry of this vector is the evaluation of this data structure's characteristic
                         * polynomial at the ii-th sample point. */
-  ZZ DATA_MAX; /** Set elements must be within the range 0..data_max-1.  Sample locations are taken between data_max and ZZ_p::modulus() */
+  NTL::ZZ DATA_MAX; /** Set elements must be within the range 0..data_max-1.  Sample locations are taken between data_max and ZZ_p::modulus() */
 
     /**
      * Encode and transmit synchronization parameters (e.g. synchronization scheme, probability of error ...)
@@ -249,12 +249,12 @@ private:
    * @note If there is a collision between two elements under this hash, it is possible that the synchronization
    * will fail.  This probability is not included in the probability of error computation.
    */
-  ZZ_p hash(const DataObject* datum) const;
+  NTL::ZZ_p hash(const DataObject* datum) const;
 
   /**
    * Inverts the hash above when the noHash boolean is set
    */
-  DataObject *invHash(const ZZ_p num) const;
+  DataObject *invHash(const NTL::ZZ_p num) const;
 
   /**
    * A secondary hash used for disambiguating set elements with the same hash.
@@ -265,13 +265,13 @@ private:
    * @param num A parameter of the hash.
    * @return An arbitrary ZZ_p corresponding to num.
    */
-  ZZ_p hash2(const long num) const;
+  NTL::ZZ_p hash2(const long num) const;
 
   /**
    * Converts num to a number between 1 and DATA_MAX
    * @return 
    */
-  ZZ_p makeData(ZZ_p num) const;
+  NTL::ZZ_p makeData(NTL::ZZ_p num) const;
 
   /**
    * Sends one set element, properly unhashed, to the other side
@@ -279,20 +279,20 @@ private:
    *      procedure applies the appropriate unhashing to send the actual element (rather than its hash).
    * @throws SyncFailureException if a synchronization error is detected.
    */
-  void sendSetElem(Communicant* commSync, list<DataObject*> &selfMinusOther, ZZ_p element);
+  void sendSetElem(Communicant* commSync, list<DataObject*> &selfMinusOther, NTL::ZZ_p element);
 
   /**
    * Receives one set element, properly unhashed, from the other side
    * @param element The set element to receive.  If no hash is used, nothing must actually be received ...
    * the element is simply appended to the otherMinusSelf list.
    */
-  void recvSetElem(Communicant* commSync, list<DataObject*> &otherMinusSelf, ZZ_p element);
+  void recvSetElem(Communicant* commSync, list<DataObject*> &otherMinusSelf, NTL::ZZ_p element);
 
 
   /**
    * Helper function for Sync_Client and Sync_Server.  Sends a second round to the other
    * communicant translating reconciled hashes into actual strings.
    */
-  void makeStructures(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf, vec_ZZ_p &delta_self, vec_ZZ_p &delta_other);
+  void makeStructures(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf, NTL::vec_ZZ_p &delta_self, NTL::vec_ZZ_p &delta_other);
 };
 #endif

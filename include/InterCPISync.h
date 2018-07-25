@@ -106,9 +106,9 @@ protected:
     int probEps; /** Negative log of the upper bound on the probability of error for the synchronization. */
     long pFactor; /** The partition factor - into how many partition elements should a node be split. */
 
-    ZZ DATA_MAX; /** Set elements must be within the range 0..data_max-1.  Sample locations are taken between data_max and ZZ_p::modulus() */
+    NTL::ZZ DATA_MAX; /** Set elements must be within the range 0..data_max-1.  Sample locations are taken between data_max and ZZ_p::modulus() */
     int redundant_k; /** the number of redundant bits needed per CPISync call to get an overall probability of error at most 2^-probEps. */
-    ZZ addElemHashID; /** A hash ID shared between the non-recursive and recursive addElem methods.  It is used to place
+    NTL::ZZ addElemHashID; /** A hash ID shared between the non-recursive and recursive addElem methods.  It is used to place
                        * the new element into the appropriate path of the hash tree. */
     bool useExisting; /** Use Exiting connection for Communication */
     /**
@@ -126,7 +126,7 @@ protected:
      * @throws SyncFailureException if the parameters don't match between the synchronizing parties.
      */
     void RecvSyncParam(Communicant* commSync, bool oneWay = false);
-    void createChildren(pTree * treeNode, pTree * tempTree, const ZZ begRange, const ZZ endRange);
+    void createChildren(pTree * treeNode, pTree * tempTree, const NTL::ZZ begRange, const NTL::ZZ endRange);
 private:
     // METHODS
 
@@ -150,7 +150,7 @@ private:
      * @note Collisions of this hash will render InterCPI less efficient, but should not
      * otherwise cause the synchronization to fail.
      */
-    ZZ_p hash(DataObject* datum) const;
+    NTL::ZZ_p hash(DataObject* datum) const;
 
     // Recursive versions of public methods
     /**
@@ -163,7 +163,7 @@ private:
      */
     bool SyncClient(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf, pTree *&treeNode);
 
-    bool SyncClient(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf, pTree *treeNode,const ZZ begRange, const ZZ endRange);
+    bool SyncClient(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf, pTree *treeNode,const NTL::ZZ begRange, const NTL::ZZ endRange);
     /**
      * Recursive version of the public method of the same name.  Parameters are the same except those listed.
      * @see Sync_Server(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf)
@@ -174,7 +174,7 @@ private:
      */
     bool SyncServer(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf, pTree *&treeNode);
 
-    bool SyncServer(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf, pTree *treeNode,const ZZ begRange, const ZZ endRange);
+    bool SyncServer(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf, pTree *treeNode,const NTL::ZZ begRange, const NTL::ZZ endRange);
 
     
     /**
@@ -187,13 +187,13 @@ private:
      * @param endRange The end item of the current node's range
      * @return true iff the addition is successful
      */
-    bool addElem(DataObject* newDatum, pTree *&treeNode, pTree *parent, const ZZ &begRange, const ZZ &endRange);
+    bool addElem(DataObject* newDatum, pTree *&treeNode, pTree *parent, const NTL::ZZ &begRange, const NTL::ZZ &endRange);
 
     /**
      * Helper for addElem that creates a new pTree node and populates it with the appropriate elements of
      * the parent in the supplied range.
      */
-    bool createTreeNode(pTree * &treeNode, pTree * parent, const ZZ &begRange, const ZZ &endRange);
+    bool createTreeNode(pTree * &treeNode, pTree * parent, const NTL::ZZ &begRange, const NTL::ZZ &endRange);
     void createNewParent(pTree *&parentTree,bool server,Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf);
     bool syncRemainingServer(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf, pTree *&treeNode);
     bool syncRemainingClient(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf, pTree *&treeNode);

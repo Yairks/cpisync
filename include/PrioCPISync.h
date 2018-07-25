@@ -12,7 +12,7 @@
 #include <string>
 #include "DataObject.h"
 #include "InterCPISync.h"
-using namespace std;
+//using namespace std;
 
 class PriorityCPISync : public InterCPISync {
 

@@ -20,13 +20,13 @@ InterCPISync::InterCPISync(long m_bar, long bits, int epsilon, int partition)
 : maxDiff(m_bar), bitNum(bits), probEps(epsilon + bits), pFactor(partition) {
   Logger::gLog(Logger::METHOD,"Entering InterCPISync::InterCPISync");
   // setup ZZ_p field size
-  redundant_k = to_long(CeilToZZ(to_RR(probEps) / bitNum)); //
+  redundant_k = to_long(CeilToZZ(NTL::to_RR(probEps) / bitNum)); //
   if (redundant_k <= 0) //k at least 1
     redundant_k = 1;
 
   DATA_MAX = power(ZZ_TWO, bitNum);
-  ZZ fieldSize = NextPrime(DATA_MAX + maxDiff + redundant_k);
-  ZZ_p::init(fieldSize);
+  NTL::ZZ fieldSize = NextPrime(DATA_MAX + maxDiff + redundant_k);
+  NTL::ZZ_p::init(fieldSize);
 
   DATA_MAX = power(ZZ_TWO, bitNum); // maximum data element for the multiset
   treeNode = NULL;
@@ -80,13 +80,13 @@ bool InterCPISync::addElem(DataObject* newDatum) {
 //  return addElem(newDatum, treeNode, NULL, ZZ_ZERO, DATA_MAX); // use the recursive helper method
 }
 
-ZZ_p InterCPISync::hash(DataObject* datum) const {
-  ZZ num = datum->to_ZZ(); // convert the datum to a ZZ
+NTL::ZZ_p InterCPISync::hash(DataObject* datum) const {
+  NTL::ZZ num = datum->to_ZZ(); // convert the datum to a ZZ
 
   return to_ZZ_p(num % DATA_MAX); // reduce to bit_num bits and make into a ZZ_p
 }
 
-bool InterCPISync::createTreeNode(pTree * &treeNode, pTree * parent, const ZZ &begRange, const ZZ &endRange) {
+bool InterCPISync::createTreeNode(pTree * &treeNode, pTree * parent, const NTL::ZZ &begRange, const NTL::ZZ &endRange) {
   Logger::gLog(Logger::METHOD,"Entering InterCPISync::createTreeNode");
     treeNode = new pTree(
           new CPISync_ExistingConnection(maxDiff, bitNum, probEps, redundant_k),
@@ -99,7 +99,7 @@ bool InterCPISync::createTreeNode(pTree * &treeNode, pTree * parent, const ZZ &b
     CPISync *par = parent->getDatum(); // the parent node
     vector<DataObject *>::const_iterator elem = par->beginElements();
     for (; elem != par->endElements(); elem++) {
-      ZZ elemZZ = rep(hash(*elem));
+      NTL::ZZ elemZZ = rep(hash(*elem));
       if (elemZZ >= begRange && elemZZ < endRange) // element is in the range
         if (!curr->addElem(*elem))
           return false;
@@ -108,7 +108,7 @@ bool InterCPISync::createTreeNode(pTree * &treeNode, pTree * parent, const ZZ &b
   return true;
 }
 
-bool InterCPISync::addElem(DataObject* newDatum, pTree * &treeNode, pTree * parent, const ZZ &begRange, const ZZ &endRange) {
+bool InterCPISync::addElem(DataObject* newDatum, pTree * &treeNode, pTree * parent, const NTL::ZZ &begRange, const NTL::ZZ &endRange) {
   Logger::gLog(Logger::METHOD,"Entering InterCPISync::addElem");
     CPISync *curr;
 
@@ -132,7 +132,7 @@ bool InterCPISync::addElem(DataObject* newDatum, pTree * &treeNode, pTree * pare
   // do we need to add to its children as well?
   if (curr->getNumElem() > 0 && endRange - begRange > 1) { // keep dividing until we have no elements or we reach a cell with only one value in its range
     // find the correct child
-    ZZ step = (endRange - begRange) / pFactor;
+    NTL::ZZ step = (endRange - begRange) / pFactor;
 
     if (step == 0) { // minimum step size is 1 - this will leave some partitions unused
       step=1;
@@ -141,8 +141,8 @@ bool InterCPISync::addElem(DataObject* newDatum, pTree * &treeNode, pTree * pare
     if (childPos >= pFactor)
       childPos = pFactor - 1; // lump all final elements into the last child
 
-    ZZ newBegin = begRange + childPos * step; // beginning point of the range of the appropriate child
-    ZZ newEnd = (childPos == pFactor - 1) ?
+    NTL::ZZ newBegin = begRange + childPos * step; // beginning point of the range of the appropriate child
+    NTL::ZZ newEnd = (childPos == pFactor - 1) ?
             endRange : // last elements lumped into the last child
             min(newBegin + step, endRange); // don't overrun the end range of the parent node
 
@@ -364,7 +364,7 @@ bool InterCPISync::SyncServer(Communicant* commSync, list<DataObject*> &selfMinu
     return true; // should always return true
   }
 }
-bool InterCPISync::SyncServer(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf, pTree *parentNode,const ZZ begRange, const ZZ endRange)
+bool InterCPISync::SyncServer(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf, pTree *parentNode,const NTL::ZZ begRange, const NTL::ZZ endRange)
 {
         //Establish initial Handshakes - Check If I have nothing or If Client has nothing
 	int response;
@@ -395,7 +395,7 @@ bool InterCPISync::SyncServer(Communicant* commSync, list<DataObject*> &selfMinu
 			createChildren(parentNode, tempTree, begRange, endRange);//Create child Nodes;
 			if(parentNode != treeNode) delete parentNode;				     //Delete the previous parent node
 			parentNode = tempTree;				    //Update the current parent node(parent node only used for referencing the child nodes)
-			ZZ step = (endRange - begRange)/pFactor;
+			NTL::ZZ step = (endRange - begRange)/pFactor;
 			//if(step ==0) step = 1;
 			for(int ii=0;ii<pFactor-1;ii++)
 			{
@@ -410,10 +410,10 @@ bool InterCPISync::SyncServer(Communicant* commSync, list<DataObject*> &selfMinu
 		return true;
 	}
 } 
-void InterCPISync::createChildren(pTree * parentNode, pTree * tempTree, const ZZ begRange, const ZZ endRange)
+void InterCPISync::createChildren(pTree * parentNode, pTree * tempTree, const NTL::ZZ begRange, const NTL::ZZ endRange)
 {
 	
-	ZZ step = (endRange - begRange)/pFactor;//Get the step size of the node to establish bin sizes
+	NTL::ZZ step = (endRange - begRange)/pFactor;//Get the step size of the node to establish bin sizes
 	if(step ==0) step = 1;                  //Set minimum step size to 1 to avoid divide errors
 	int pos;
 	CPISync * nodes[pFactor];
@@ -426,7 +426,7 @@ void InterCPISync::createChildren(pTree * parentNode, pTree * tempTree, const ZZ
 		CPISync * parent = parentNode->getDatum();//Get the parent node
 		vector<DataObject *>::const_iterator elem = parent->beginElements();
 		for(;elem!=parent->endElements();elem++){    //Iterate through all parent information
-			ZZ elemZZ = rep(hash(*elem));
+			NTL::ZZ elemZZ = rep(hash(*elem));
                         pos = pFactor-1;
                         for(int jj=0;jj<pFactor-1;jj++)
                         {
@@ -448,7 +448,7 @@ void InterCPISync::createChildren(pTree * parentNode, pTree * tempTree, const ZZ
 		}
 	}
 }
-bool InterCPISync::SyncClient(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf, pTree *parentNode,const ZZ begRange, const ZZ endRange) 
+bool InterCPISync::SyncClient(Communicant* commSync, list<DataObject*> &selfMinusOther, list<DataObject*> &otherMinusSelf, pTree *parentNode,const NTL::ZZ begRange, const NTL::ZZ endRange) 
 {
 	try{
                 //Initial Handshakes - Check if I have nothing or server has nothing
@@ -480,7 +480,7 @@ bool InterCPISync::SyncClient(Communicant* commSync, list<DataObject*> &selfMinu
 				createChildren(parentNode, tempTree, begRange, endRange);//Create child Nodes;
 				if(parentNode != treeNode) delete parentNode;	    //Delete the previous parent node
 				parentNode = tempTree;				    //Update the current parent node(temp parent only children are used)
-				ZZ step = (endRange - begRange)/pFactor;
+				NTL::ZZ step = (endRange - begRange)/pFactor;
 				//if(step ==0) step = 1;
 				for(int ii=0;ii<pFactor-1;ii++)
 				{

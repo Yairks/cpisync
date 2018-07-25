@@ -61,23 +61,23 @@ void Communicant::addRecvBytes(long numBytes) {
 }
 
 bool Communicant::establishModRecv(bool oneWay /* = false */) {
-    ZZ otherModulus = commRecv_ZZ();
+    NTL::ZZ otherModulus = commRecv_ZZ();
 
-    if (otherModulus != ZZ_p::modulus()) {
-        Logger::gLog(Logger::COMM, "ZZ_p moduli do not match: " + toStr(ZZ_p::modulus) + " (mine) vs " + toStr(otherModulus) + " (other).");
+    if (otherModulus != NTL::ZZ_p::modulus()) {
+        Logger::gLog(Logger::COMM, "ZZ_p moduli do not match: " + toStr(NTL::ZZ_p::modulus) + " (mine) vs " + toStr(otherModulus) + " (other).");
         if (!oneWay) // one way reconciliation does not send any data
             commSend(SYNC_FAIL_FLAG);
         return false;
     }
-    MOD_SIZE = NumBytes(ZZ_p::modulus()); // record the modulus size
+    MOD_SIZE = NumBytes(NTL::ZZ_p::modulus()); // record the modulus size
     if (!oneWay)
         commSend(SYNC_OK_FLAG);
     return true;
 }
 
 bool Communicant::establishModSend(bool oneWay /* = false */) {
-    commSend(ZZ_p::modulus());
-    MOD_SIZE = NumBytes(ZZ_p::modulus());
+    commSend(NTL::ZZ_p::modulus());
+    MOD_SIZE = NumBytes(NTL::ZZ_p::modulus());
     if (oneWay)
         return true;  // i.e. don't want for a response
     else
@@ -136,7 +136,7 @@ void Communicant::commSend(double num) {
 
     Logger::gLog(Logger::COMM, "... attempting to send: double " + toStr(num));
 
-    RR num_RR;
+    NTL::RR num_RR;
     num_RR = num;
     commSend(num_RR.mantissa());
     commSend(-num_RR.exponent()); // exponent should always be negative or 0
@@ -145,7 +145,7 @@ void Communicant::commSend(double num) {
 void Communicant::commSend(const long num) {
 
     unsigned char toSend[XMIT_LONG];
-    BytesFromZZ(toSend, to_ZZ(num), XMIT_LONG);
+    BytesFromZZ(toSend, NTL::to_ZZ(num), XMIT_LONG);
     Logger::gLog(Logger::COMM, "... attempting to send: long " + toStr(num));
     commSend(ustring(toSend, XMIT_LONG), XMIT_LONG);
 }
@@ -159,12 +159,12 @@ void Communicant::commSend(const byte bt) {
 void Communicant::commSend(const int num) {
 
     unsigned char toSend[XMIT_INT];
-    BytesFromZZ(toSend, to_ZZ(num), XMIT_INT);
+    BytesFromZZ(toSend, NTL::to_ZZ(num), XMIT_INT);
     Logger::gLog(Logger::COMM, "... attempting to send: int " + toStr(num));
     commSend(ustring(toSend, XMIT_INT), XMIT_INT);
 }
 
-void Communicant::commSend(const ZZ_p& num) {
+void Communicant::commSend(const NTL::ZZ_p& num) {
 
     Logger::gLog(Logger::COMM, "... attempting to send: ZZ_p " + toStr(num));
 
@@ -175,27 +175,27 @@ void Communicant::commSend(const ZZ_p& num) {
     commSend(ustring(toSend, MOD_SIZE), MOD_SIZE);
 }
 
-void Communicant::commSend(const vec_ZZ_p& vec) {
+void Communicant::commSend(const NTL::vec_ZZ_p& vec) {
     Logger::gLog(Logger::COMM, "... attempting to send: vec_ZZ_p " + toStr(vec));
 
     // pack the vec_ZZ_p into a big ZZ and send it along    
-    ZZ result;
+    NTL::ZZ result;
     result = 0;
 
     for (int ii = vec.length() - 1; ii >= 0; ii--) // append in reverse order to make decoding easier
-        result = (result * (ZZ_p::modulus()+1)) + rep(vec[ii])+1; // added 1 to avoid insignificant 0's in the lead of the vector
+        result = (result * (NTL::ZZ_p::modulus()+1)) + rep(vec[ii])+1; // added 1 to avoid insignificant 0's in the lead of the vector
     commSend(result);
 }
 
-vec_ZZ_p Communicant::commRecv_vec_ZZ_p() {
+NTL::vec_ZZ_p Communicant::commRecv_vec_ZZ_p() {
     // unpack the received ZZ into a vec_ZZ_p
-    ZZ received = commRecv_ZZ();
-    vec_ZZ_p result;
+    NTL::ZZ received = commRecv_ZZ();
+    NTL::vec_ZZ_p result;
 
      
     while (received != 0) {
-        ZZ divisor, remainder;
-        DivRem(divisor, remainder, received, ZZ_p::modulus()+1);
+        NTL::ZZ divisor, remainder;
+        DivRem(divisor, remainder, received, NTL::ZZ_p::modulus()+1);
 
         append(result, to_ZZ_p(remainder-1)); // subtract back the 1 that was added when sent
         received = divisor;
@@ -208,7 +208,7 @@ vec_ZZ_p Communicant::commRecv_vec_ZZ_p() {
 
 
 
-void Communicant::commSend(const ZZ& num, int size) {
+void Communicant::commSend(const NTL::ZZ& num, int size) {
     Logger::gLog(Logger::COMM, "... attempting to send: ZZ " + toStr(num));
 
     int num_size = (size == NOT_SET ? NumBytes(num) : size);
@@ -238,7 +238,7 @@ string Communicant::commRecv_string() {
     long sz = commRecv_long();
     string str = commRecv(sz);
 
-    Logger::gLog(Logger::COMM, "... received: string " + str);
+    //Logger::gLog(Logger::COMM, "... received: string " + str);
 
     return str;
 }
@@ -264,7 +264,7 @@ DataObject* Communicant::commRecv_DataObject_Priority() {
     string prio = str.substr(0, str.find(','));
     str = str.substr(str.find(',') + 1);
     DataObject * res = new DataObject(str);
-    res->setPriority(strTo<ZZ > (prio));
+    res->setPriority(strTo<NTL::ZZ > (prio));
     Logger::gLog(Logger::COMM, "... received: DataObject " + res->to_string());
     return res;
 }
@@ -286,9 +286,9 @@ list<DataObject*> Communicant::commRecv_DoList() {
 }
 
 double Communicant::commRecv_double() {
-    ZZ mantissa = commRecv_ZZ();
+    NTL::ZZ mantissa = commRecv_ZZ();
     long exponent = -commRecv_long();
-    RR result_RR = MakeRR(mantissa, exponent);
+    NTL::RR result_RR = MakeRR(mantissa, exponent);
     Logger::gLog(Logger::COMM, "... received double " + toStr(result_RR));
 
     return to_double(result_RR);
@@ -296,7 +296,7 @@ double Communicant::commRecv_double() {
 
 long Communicant::commRecv_long() {
     ustring received = commRecv_ustring(XMIT_LONG);
-    ZZ num = ZZFromBytes(received.data(), XMIT_LONG);
+    NTL::ZZ num = NTL::ZZFromBytes(received.data(), XMIT_LONG);
     Logger::gLog(Logger::COMM, "... received long " + toStr(num));
 
     return to_long(num);
@@ -304,7 +304,7 @@ long Communicant::commRecv_long() {
 
 int Communicant::commRecv_int() {
     ustring received = commRecv_ustring(XMIT_INT);
-    ZZ num = ZZFromBytes(received.data(), XMIT_INT);
+    NTL::ZZ num = NTL::ZZFromBytes(received.data(), XMIT_INT);
     Logger::gLog(Logger::COMM, "... received int " + toStr(num));
 
     return to_int(num);
@@ -317,17 +317,17 @@ byte Communicant::commRecv_byte() {
     return received[0];
 }
 
-ZZ_p Communicant::commRecv_ZZ_p() {
+NTL::ZZ_p Communicant::commRecv_ZZ_p() {
     // the size is fixed by the connection initialization phase
     ustring received = commRecv_ustring(MOD_SIZE);
-    ZZ_p result = to_ZZ_p(ZZFromBytes(received.data(), MOD_SIZE));
+    NTL::ZZ_p result = NTL::to_ZZ_p(NTL::ZZFromBytes(received.data(), MOD_SIZE));
 
     Logger::gLog(Logger::COMM, "... received ZZ_p " + toStr(result));
 
     return result;
 }
 
-ZZ Communicant::commRecv_ZZ(int size) {
+NTL::ZZ Communicant::commRecv_ZZ(int size) {
     int num_size;
     ustring received;
     if (size == 0)
@@ -338,7 +338,7 @@ ZZ Communicant::commRecv_ZZ(int size) {
     // second receive the actual ZZ
     received = commRecv_ustring(num_size);
 
-    ZZ result = ZZFromBytes(received.data(), num_size);
+    NTL::ZZ result = NTL::ZZFromBytes(received.data(), num_size);
     Logger::gLog(Logger::COMM, "... received ZZ " + toStr(result));
 
     return result;

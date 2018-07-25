@@ -35,7 +35,7 @@ public:
      * Constructs a data object that contains the given byte vector (not a copy!).
      * @param data An vector of bytes containing the data of the object.
      */
-    DataObject(const ZZ &datum);
+    DataObject(const NTL::ZZ &datum);
 
     /**
      * Constructs a data object that contains the given string (in an encoded format).
@@ -50,7 +50,9 @@ public:
      * @param item The item to place in the DataObject.
      */
     template<typename T>
-    DataObject(const T item);
+    DataObject(const T item) {
+        myBuffer = pack(std::to_string(item));
+    }
     
     // INFORMATION METHODS
 
@@ -60,7 +62,7 @@ public:
     /**
      * @return A ZZ encoding of the string
      */
-    ZZ to_ZZ() const;
+    NTL::ZZ to_ZZ() const;
     
     /**
      * @return The string version of a copy of the contents this data object.
@@ -95,13 +97,13 @@ public:
                            * arbitrarily-sized integers.  Otherwise, DataObject string inputs
                            * are interpreted as byte sequences.
                            */
-    void setPriority(ZZ pri);
-    ZZ getPriority();
+    void setPriority(NTL::ZZ pri);
+    NTL::ZZ getPriority();
     void setTimeStamp(clock_t ts);
     clock_t getTimeStamp();
 protected:
-    ZZ myBuffer; /** The buffer for the data object container itself. */
-    ZZ priority;
+    NTL::ZZ myBuffer; /** The buffer for the data object container itself. */
+    NTL::ZZ priority;
     clock_t timestamp;
     
 private:
@@ -110,13 +112,13 @@ private:
      * @param theStr The string to pack
      * @return a ZZ representing the string
      */
-    static ZZ pack(const string theStr);
+    static NTL::ZZ pack(const string theStr);
     
     /**
      * Unpacks a ZZ into a string
      * @param num
      * @return 
      */
-    static string unpack(const ZZ num);
+    static string unpack(const NTL::ZZ num);
 };
 #endif

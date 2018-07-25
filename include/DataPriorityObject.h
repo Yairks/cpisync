@@ -12,23 +12,23 @@
 #define	DATAPRIORITYOBJECT_H
 #include "NTL/mat_ZZ_p.h"
 
-using namespace NTL;
+//using namespace NTL;
 
 class DataPriorityObject : public DataObject {
 public:
 
-    DataPriorityObject(ZZ pri, clock_t ts) : DataObject() {
+    DataPriorityObject(NTL::ZZ pri, clock_t ts) : DataObject() {
         priority = pri;
         timestamp=ts;
     }
     // MORE CONSTRUCTORS NEEDED
 
-    ZZ getPriority();
+    NTL::ZZ getPriority();
 
-    void setPriority(ZZ priority);
+    void setPriority(NTL::ZZ priority);
 
 private:
-    ZZ priority;
+    NTL::ZZ priority;
     clock_t timestamp;
 };
 

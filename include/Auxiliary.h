@@ -27,7 +27,7 @@
 #include "Logger.h"
 
 // some standard names
-using namespace NTL;
+//using namespace NTL;
 using std::cout;
 using std::clog;
 using std::endl;
@@ -408,7 +408,7 @@ inline string base64_encode(const string bytes, unsigned int in_len) {
 /**
  * @return The minimum of two NTL ZZ objects
  */
-inline ZZ min(const ZZ& aa, const ZZ& bb) {
+inline NTL::ZZ min(const NTL::ZZ& aa, const NTL::ZZ& bb) {
     if (compare(aa,bb)==1) // (aa>?bb)
         return aa;
     else

@@ -22,11 +22,6 @@ DataObject::DataObject(const string str) : UID() {
     myBuffer = RepIsInt?strTo<ZZ>(str):pack(str);
 }
 
-template<typename T>
-DataObject::DataObject(T item) : UID() {
-    myBuffer = pack(toStr<T> (item));
-}
-
 ZZ DataObject::pack(const string theStr) {
     return ZZFromBytes(reinterpret_cast<const unsigned char*>(theStr.data()), theStr.length());   
 } 

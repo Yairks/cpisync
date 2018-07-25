@@ -13,7 +13,7 @@
 #define	UID_H
 #include "NTL/mat_ZZ_p.h"
 
-using namespace NTL;
+//using namespace NTL;
 
 class UID {
 public:

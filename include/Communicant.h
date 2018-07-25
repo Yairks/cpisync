@@ -14,7 +14,7 @@
 #include "ConstantsAndTypes.h"
 
 // namespace imports
-using namespace NTL;
+//using namespace NTL;
 using std::list;
 
 // forward declarations
@@ -147,7 +147,7 @@ public:
      * computed and sent first.
      * @see commSend(const char *str) for more details
      */
-    void commSend(const ZZ& num, int size=NOT_SET);
+    void commSend(const NTL::ZZ& num, int size=NOT_SET);
 
     // Specialized send functions for specific data types
     /**
@@ -158,7 +158,7 @@ public:
       * @see commSend(const char *str) for more details
      * @note Does not work for negative numbers.
      */
-    void commSend(const ZZ_p& num);
+    void commSend(const NTL::ZZ_p& num);
 
     /**
      * Sends a vec_ZZ_p.
@@ -166,7 +166,7 @@ public:
      * @param vec A vector of non-negative ZZ_p's
      * @see commSend(const char *str) for more details.
      *         */
-    void commSend(const vec_ZZ_p& vec);
+    void commSend(const NTL::vec_ZZ_p& vec);
    
         /**
      * Receives up to MAX_BUF_SIZE characters from the socket.
@@ -217,13 +217,13 @@ public:
     /**
      *  Specialized receive functions for specific data types.
      */
-    ZZ commRecv_ZZ(int size=0); /** If size==0 (default) , the ZZ's size is first received and decoded, followed by the ZZ. */
+    NTL::ZZ commRecv_ZZ(int size=0); /** If size==0 (default) , the ZZ's size is first received and decoded, followed by the ZZ. */
     /**
      * Specialized receive functions for specific data types.
      * @require must have called EstablishMod before any of these functions will work.
       */
-    ZZ_p commRecv_ZZ_p();
-    vec_ZZ_p commRecv_vec_ZZ_p(); /** @require must have called EstablishModSend/EstablishModRecv before any of these functions will work. */
+    NTL::ZZ_p commRecv_ZZ_p();
+    NTL::vec_ZZ_p commRecv_vec_ZZ_p(); /** @require must have called EstablishModSend/EstablishModRecv before any of these functions will work. */
     long commRecv_long();
     int commRecv_int();
     double commRecv_double();
